@@ -1,5 +1,29 @@
 #!/usr/bin/env bash
 
+# macOS /bin/bash 3.2 + set -u treats "${name[@]}" on a zero-length array as unbound.
+array_len() {
+    eval "printf '%s' \"\${#$1[@]}\""
+}
+
+array_copy() {
+    local _dst="$1" _src="$2"
+    if [[ $(array_len "${_src}") -gt 0 ]]; then
+        eval "${_dst}=(\"\${${_src}[@]}\")"
+    else
+        eval "${_dst}=()"
+    fi
+}
+
+run_with_array() {
+    local array_name="$1"
+    shift
+    if [[ $(array_len "${array_name}") -gt 0 ]]; then
+        eval "\"\$@\" \"\${${array_name}[@]}\""
+    else
+        "$@"
+    fi
+}
+
 resolve_uv_optional() {
     if [[ -n "${UV_BIN:-}" ]]; then
         return 0

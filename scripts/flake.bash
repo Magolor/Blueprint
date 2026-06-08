@@ -104,7 +104,7 @@ filter_existing_paths() {
             out+=("${path}")
         fi
     done
-    PATHS=("${out[@]}")
+    array_copy PATHS out
     if [[ "${#PATHS[@]}" -eq 0 ]]; then
         echo "[flake] no target paths found"
         exit 0

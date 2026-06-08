@@ -139,7 +139,7 @@ if [[ "${CHECK}" -eq 1 ]]; then
     UV_BIN="${UV_BIN}" run_uv_python scripts/sync-env.py --check
     "${UV_BIN}" lock --check
     check_poetry_lock
-    bash scripts/sync-readme.bash --check "${README_ARGS[@]}"
+    run_with_array README_ARGS bash scripts/sync-readme.bash --check
     echo "[sync-env] generated files are current"
     exit 0
 fi
@@ -151,4 +151,4 @@ if [[ "${SYNC}" -eq 1 ]]; then
     "${UV_BIN}" sync "${UV_SYNC_ARGS[@]}"
     install_heavenbase
 fi
-bash scripts/sync-readme.bash "${README_ARGS[@]}"
+run_with_array README_ARGS bash scripts/sync-readme.bash

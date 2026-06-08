@@ -52,7 +52,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ "${PARALLEL}" -eq 1 ]]; then
-    PYTEST_ARGS=(-n auto "${PYTEST_ARGS[@]}")
+    if [[ $(array_len PYTEST_ARGS) -gt 0 ]]; then
+        PYTEST_ARGS=(-n auto "${PYTEST_ARGS[@]}")
+    else
+        PYTEST_ARGS=(-n auto)
+    fi
 fi
 
 if [[ "${#PYTEST_ARGS[@]}" -eq 0 ]]; then
