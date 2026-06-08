@@ -1,0 +1,74 @@
+[project]
+name = "blueprint"
+dynamic = ["version", "dependencies", "optional-dependencies"]
+authors = [{ name = "Magolor", email = "magolorcz@gmail.com" }]
+description = "Blueprint: a uv-first Python starter project."
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.10,<3.14"
+keywords = ["blueprint", "starter", "template", "uv", "python"]
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/Magolor/Blueprint"
+Repository = "https://github.com/Magolor/Blueprint"
+"Bug Tracker" = "https://github.com/Magolor/Blueprint/issues"
+
+[project.scripts]
+bp = "blueprint.cli:main"
+
+[project.gui-scripts]
+blueprint-gui = "blueprint.gui:main"
+
+[build-system]
+requires = ["setuptools>=80.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+blueprint = ["resources/**/*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "blueprint.version.__version__" }
+dependencies = { file = ["requirements.txt"] }
+optional-dependencies.dev = { file = ["requirements-dev.txt"] }
+
+# [tool.poetry].version is synced from src/blueprint/version.py by scripts/sync-env.py.
+[tool.poetry]
+version = "0.1.0.5"
+package-mode = true
+
+[tool.black]
+line-length = 160
+target-version = ["py310"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra --strict-markers --disable-warnings"
+testpaths = ["tests"]
+pythonpath = ["src"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow running tests",
+]
+asyncio_mode = "auto"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]

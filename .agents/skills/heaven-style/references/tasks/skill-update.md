@@ -1,0 +1,74 @@
+---
+id: skill-update
+task_kind: skill-update
+status: active
+enabled: true
+order: 40
+keywords: [update heaven-style, maintain skill, refresh skill, update rules, update tasks, skill version]
+triggers: [skill-update, update heaven-style, stabilize heaven-style, TAL-215, TAL-231]
+description: Use when maintaining heaven-style rules, tasks, workflows, scripts, indexes, versions, or failure patterns.
+related_rules: [overview, util, config, docs, review, environment, format, test, clean]
+---
+
+# Skill Update Task
+
+## Goal
+
+Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem, recurring agent failures, and local history patterns without making normal coding slower.
+
+## Architecture
+
+- `SKILL.md` is the fast path. A small coding or review task should succeed from it plus one directly matched task/failure/rule file.
+- `references/tasks/` contains stable active workflows only: `code`, `code-review`, `doc-sync`, `doc-trans`, `code-explain`, `manager`, and `skill-update`.
+- `references/rules/` contains detailed criteria and focused examples for large refactors, public APIs, shared utilities, storage/query behavior, and tradeoffs.
+- `references/workflows/developer.md` is the expanded planning/refactor route.
+- `references/workflows/editor.md` is the skill-maintenance route.
+- `references/failures/` contains recurring blocker playbooks and subagent delegation prompts.
+- `scripts/sync.py` refreshes `assets/heavenbase-reference`.
+- `scripts/index.py` regenerates `references/index.yaml` from frontmatter, scripts, assets, and skill metadata.
+- `scripts/install.py` is the one-shot updater: run sync, then index.
+- `scripts/scan.py` checks skill Python scripts for banned stdlib utility imports.
+- `scripts/install.py` installs the versioned global copy at `~/.agents/skills/heaven-style-<version>/` and can mirror in-repo checkouts with `--mirror`.
+
+## Repo sync
+
+- Edit heaven-style in **Blueprint** only. Blueprint `.agents/skills/heaven-style/` is canonical.
+- After rule/task/script/index changes, run `python .agents/skills/heaven-style/scripts/install.py` from Blueprint for the global install.
+- Mirror HeavenBase with `python .agents/skills/heaven-style/scripts/install.py --mirror ../HeavenBase/HeavenBase/.agents/skills/heaven-style --skip-global`.
+- Do not edit the HeavenBase in-repo copy directly unless applying an emergency hotfix; backport the same change to Blueprint immediately.
+
+## Update Workflow
+
+1. Read this file, `SKILL.md`, `references/workflows/editor.md`, `references/index.yaml`, and the changed script/task/rule/failure surfaces.
+2. Read current HeavenBase evidence before changing rules: `AGENTS.md`, `pyproject.toml`, `src/heavenbase/version.py`, `src/heavenbase/utils/`, config/LLM/DB/MCP/backends/workspace/query/catalog modules, tests, examples, and docs that describe those surfaces.
+3. Compare sibling docs and traces when relevant: `HeavenBase-docs`, Mintlify guide files, Cursor/Codex/Copilot/OpenCode histories, and prior review artifacts. Extract repeated requirements, not one-off preferences.
+4. Update `SKILL.md` only for daily notices, task routing, and default criteria needed for fast coding. Move detailed or situational guidance into task/rule/failure files.
+5. Add or revise a task only when the workflow is stable, repeated, and cannot fit an existing task. Keep tasks non-overlapping.
+6. Add or revise failure playbooks when the same blocker pattern appears repeatedly and needs a safe recovery path or subagent handoff.
+7. Keep examples grounded in current HeavenBase APIs; for predecessor names, see [compat.md](../rules/code/compat.md).
+8. Keep skill version aligned with `heavenbase.version.__version__` using `MAJOR.MINOR.PATCH.N[devK]`; keep the PATCH train at `0.1.0` and bump `N` (and optional `devK`) for skill-only edits.
+9. Run `python scripts/install.py` from the Blueprint skill root to refresh the versioned global install and `assets/heavenbase-reference/`. When the skill is embedded in HeavenBase itself, `install.py` skips reference sync automatically; use `~/.agents/skills/heaven-style-<version>/` for the reference clone. `install.py` must always leave the index current.
+10. Run validation and report changed surfaces, evidence sources, version changes, commands, and any waivers.
+
+## Version Criteria
+
+- Schema: `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.0.5`).
+- `MAJOR.MINOR.PATCH` is the release train (`0.1.0` for Heaven-lineage packages and heaven-style).
+- `N` is the very small frequent-updates fourth segment.
+- Optional `devK` (`dev0`, `dev1`, …) marks in-development snapshots; omit for stabilized releases.
+- Skill frontmatter `version` and `src/heavenbase/version.py` must match on HeavenBase-aligned releases.
+- Blueprint and HeavenBase-docs follow the same schema and stay aligned with HeavenBase when version bumps are intentional.
+
+## Verification
+
+From `.agents/skills/heaven-style/` or the repo root with the correct path:
+
+```bash
+python scripts/install.py
+python scripts/index.py --check
+python scripts/scan.py scripts
+python -m py_compile .agents/skills/heaven-style/scripts/index.py .agents/skills/heaven-style/scripts/install.py .agents/skills/heaven-style/scripts/sync.py .agents/skills/heaven-style/scripts/scan.py
+rtk bash scripts/flake.bash --ci --paths .agents/skills/heaven-style/scripts
+```
+
+Also run repo lint/test wrappers through `rtk` + `uv` when script behavior or HeavenBase version code changes; see [../rules/project/environment.md](../rules/project/environment.md).
