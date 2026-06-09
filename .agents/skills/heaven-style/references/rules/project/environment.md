@@ -13,7 +13,7 @@ description: Use when running shell commands, choosing Python/uv executables, ad
 
 ## Core rule
 
-Read repo `AGENTS.md` first. Heaven-lineage repos are `uv`-first: run work through repo Bash wrappers that source `scripts/_env.bash`. When the session provides `rtk`, prefix the **entire** agent shell command with it—not only Bash wrappers, but also direct `uv`, `python`, and other tool invocations. Do not bypass wrappers with bare `python`, `pytest`, `black`, `flake8`, or ad-hoc `pip install` when the repo declares `scripts/*.bash`.
+Read repo `AGENTS.md` first. Heaven-lineage repos are `uv`-first: run work through repo Bash wrappers that source `scripts/_env.bash`. When the session provides `rtk`, prefix the **entire** agent shell command with it. For Python in uv-first repos, that normally means repo wrappers or `rtk uv run python`, not `rtk python`; bare PATH Python can resolve to broken system or Conda shims. Do not bypass wrappers with bare `python`, `pytest`, `black`, `flake8`, or ad-hoc `pip install` when the repo declares `scripts/*.bash`.
 
 Dependency source of truth: **`requirements*.txt`**, with `pyproject.toml` referencing those files. Install priority when setup is unavoidable outside wrappers: **uv → pip (`requirements*.txt`) → pyproject (`pip install -e ".[dev]"`) → conda (`environment-*.yml`) → poetry (`poetry.lock`)**.
 
@@ -28,6 +28,7 @@ Dependency source of truth: **`requirements*.txt`**, with `pyproject.toml` refer
 
 - Read `AGENTS.md` for repo-specific wrapper names, extras, markers, demo paths, and release policy.
 - Prefix the full agent shell command with `rtk` when available (`rtk bash ...`, `rtk uv ...`, `rtk uv run python ...`).
+- For ad-hoc repo Python probes, use `rtk uv run python ...` or a Bash wrapper helper. Use `rtk python ...` only when deliberately testing PATH/system Python behavior.
 - Prefer repo wrappers in this order when they exist (wrapper name comes from repo `AGENTS.md`; Blueprint and HeavenBase use `scripts/sync-env.bash`):
   1. `rtk bash scripts/sync-env.bash`
   2. `rtk bash scripts/flake.bash --ci` or `-a`
@@ -40,7 +41,7 @@ Dependency source of truth: **`requirements*.txt`**, with `pyproject.toml` refer
 
 ## Avoid
 
-- Bare `pytest`, `black`, `flake8`, `python -m pytest`, or `pip install -e .` when repo wrappers exist.
+- Bare `pytest`, `black`, `flake8`, `python -m pytest`, `rtk python ...`, or `pip install -e .` when repo wrappers or `uv run` are the intended repo environment.
 - Conda activation or hand-maintained `requirements*.txt` as the primary setup path in `uv`-first repos.
 - Hard-coded `python`/`uv` lookup ladders copied into every Bash script.
 - Assuming `rtk` replaces repo wrappers; `rtk` wraps the outer command, it does not replace `bash scripts/test.bash`.
@@ -69,7 +70,7 @@ New repo wrappers should set `ROOT`, `cd` to it, `source "${ROOT}/scripts/_env.b
 
 ## Exceptions
 
-- **Skill maintenance:** scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` from the skill root (`install.py`, `index.py`, `scan.py`, `sync.py`).
+- **Skill maintenance:** scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` from a known-good shell; prefer `rtk uv run python` in agent sessions.
 - **CI:** GitHub Actions may call `uv sync` and `bash scripts/...` directly without `rtk`.
 - **Non-uv legacy repos:** follow that repo's `AGENTS.md`; do not force `uv` where the repo is not `uv`-first.
 

@@ -33,8 +33,8 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 ## Repo sync
 
 - Edit heaven-style in **Blueprint** only. Blueprint `.agents/skills/heaven-style/` is canonical.
-- After rule/task/script/index changes, run `python .agents/skills/heaven-style/scripts/install.py` from Blueprint for the global install.
-- Mirror HeavenBase with `python .agents/skills/heaven-style/scripts/install.py --mirror ../HeavenBase/HeavenBase/.agents/skills/heaven-style --skip-global`.
+- After rule/task/script/index changes, run `rtk uv run python .agents/skills/heaven-style/scripts/install.py` from Blueprint for the global install.
+- Mirror HeavenBase with `rtk uv run python .agents/skills/heaven-style/scripts/install.py --mirror ../HeavenBase/HeavenBase/.agents/skills/heaven-style --skip-global`.
 - Do not edit the HeavenBase in-repo copy directly unless applying an emergency hotfix; backport the same change to Blueprint immediately.
 
 ## Update Workflow
@@ -47,12 +47,12 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 6. Add or revise failure playbooks when the same blocker pattern appears repeatedly and needs a safe recovery path or subagent handoff.
 7. Keep examples grounded in current HeavenBase APIs; for predecessor names, see [compat.md](../rules/code/compat.md).
 8. Keep skill version aligned with `heavenbase.version.__version__` using `MAJOR.MINOR.PATCH.N[devK]`; keep the PATCH train at `0.1.0` and bump `N` (and optional `devK`) for skill-only edits.
-9. Run `python scripts/install.py` from the Blueprint skill root to refresh the versioned global install and `assets/heavenbase-reference/`. When the skill is embedded in HeavenBase itself, `install.py` skips reference sync automatically; use `~/.agents/skills/heaven-style-<version>/` for the reference clone. `install.py` must always leave the index current.
+9. Run `rtk uv run python scripts/install.py` from the Blueprint skill root to refresh the versioned global install and `assets/heavenbase-reference/`. When the skill is embedded in HeavenBase itself, `install.py` skips reference sync automatically; use `~/.agents/skills/heaven-style-<version>/` for the reference clone. `install.py` must always leave the index current.
 10. Run validation and report changed surfaces, evidence sources, version changes, commands, and any waivers.
 
 ## Version Criteria
 
-- Schema: `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.0.5`).
+- Schema: `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.0.6`).
 - `MAJOR.MINOR.PATCH` is the release train (`0.1.0` for Heaven-lineage packages and heaven-style).
 - `N` is the very small frequent-updates fourth segment.
 - Optional `devK` (`dev0`, `dev1`, …) marks in-development snapshots; omit for stabilized releases.
@@ -61,13 +61,13 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 
 ## Verification
 
-From `.agents/skills/heaven-style/` or the repo root with the correct path:
+From the Blueprint repo root:
 
 ```bash
-python scripts/install.py
-python scripts/index.py --check
-python scripts/scan.py scripts
-python -m py_compile .agents/skills/heaven-style/scripts/index.py .agents/skills/heaven-style/scripts/install.py .agents/skills/heaven-style/scripts/sync.py .agents/skills/heaven-style/scripts/scan.py
+rtk uv run python .agents/skills/heaven-style/scripts/install.py
+rtk uv run python .agents/skills/heaven-style/scripts/index.py --check
+rtk uv run python .agents/skills/heaven-style/scripts/scan.py .agents/skills/heaven-style/scripts
+rtk uv run python -m py_compile .agents/skills/heaven-style/scripts/index.py .agents/skills/heaven-style/scripts/install.py .agents/skills/heaven-style/scripts/sync.py .agents/skills/heaven-style/scripts/scan.py
 rtk bash scripts/flake.bash --ci --paths .agents/skills/heaven-style/scripts
 ```
 

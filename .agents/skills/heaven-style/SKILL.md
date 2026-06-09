@@ -2,7 +2,7 @@
 name: heaven-style
 description: Heaven-style code and engineering guide for Python-first repos in the HeavenBase lineage. Use when writing, reviewing, refactoring, or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared infrastructure code; enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure, modern type annotations, canonical OOP vocabulary, short names, raise_mismatch, SQL/resource discipline, code-review artifacts, and repo lint/test gates.
 metadata:
-  version: 0.1.0.5
+  version: 0.1.0.6
 ---
 
 # Heaven Style
@@ -57,7 +57,7 @@ Keep task playbooks inside this skill by default. Separate wrapper skills such a
 - For providers/backends/handlers, register capabilities instead of editing central planners or routing tables.
 - For docs, verify facts against code, write in friendly professional prose, use realistic code demos, and run Mintlify checks when the docs repo supports them.
 - For reviews, assume parallel human/agent work may be happening. Re-read the current diff before judging or fixing, and never revert changes you did not make without explicit approval.
-- Versioning uses `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.0.5`). Keep the PATCH train at `0.1.0`; bump `N` for skill-only edits and optional `devK` for in-development snapshots. Align skill `metadata.version` with `heavenbase.version.__version__` on HeavenBase releases.
+- Versioning uses `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.0.6`). Keep the PATCH train at `0.1.0`; bump `N` for skill-only edits and optional `devK` for in-development snapshots. Align skill `metadata.version` with `heavenbase.version.__version__` on HeavenBase releases.
 - Predecessor names (`pyheaven`, `heaven`, `AgentHeaven`) are legacy; see [references/rules/code/compat.md](references/rules/code/compat.md).
 
 ## Rule Map
@@ -85,7 +85,7 @@ Load [references/workflows/developer.md](references/workflows/developer.md) for 
 
 ## Verification
 
-Follow [references/rules/project/environment.md](references/rules/project/environment.md). Prefix **every** agent shell command with `rtk` when the session provides it—including `bash`, `uv`, and `python` invocations.
+Follow [references/rules/project/environment.md](references/rules/project/environment.md). Prefix **every** agent shell command with `rtk` when the session provides it. For repo Python work, prefer repo wrappers or `rtk uv run python`; reserve `rtk python` for deliberate PATH/system-Python diagnostics.
 
 An empty `tests/` directory is valid for template repos such as Blueprint; `rtk bash scripts/test.bash` should report no tests found and exit successfully.
 
@@ -95,7 +95,7 @@ rtk bash scripts/flake.bash --ci
 rtk bash scripts/test.bash
 ```
 
-When `uv` is unavailable in the skill-maintenance context, bare `python .agents/skills/heaven-style/scripts/scan.py <paths>` from the repo root is acceptable.
+When `uv` is unavailable in a known-good skill-maintenance shell, bare `python .agents/skills/heaven-style/scripts/scan.py <paths>` from the repo root is acceptable.
 
 ## Review Route
 

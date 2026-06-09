@@ -66,7 +66,7 @@ compile_near(backend="qdrant", ...)
 - After adding a provider/backend/handler, update capability docs and add a focused demo or smoke test that proves the route works.
 - Optional adapters such as MCP and CLI late-import from convenience APIs only.
 
-For HeavenBase-shaped repos, read the active repo's `AGENTS.md` first. When working inside the HeavenBase repository, use the versioned global install at `~/.agents/skills/heaven-style-<version>/assets/heavenbase-reference/` instead of cloning into the in-repo skill. Otherwise, if `assets/heavenbase-reference/` exists locally, use it; if absent, run `python scripts/install.py` from the skill root before depending on reference-clone files.
+For HeavenBase-shaped repos, read the active repo's `AGENTS.md` first. When working inside the HeavenBase repository, use the versioned global install at `~/.agents/skills/heaven-style-<version>/assets/heavenbase-reference/` instead of cloning into the in-repo skill. Otherwise, if `assets/heavenbase-reference/` exists locally, use it; if absent, run `rtk uv run python scripts/install.py` from the skill root before depending on reference-clone files.
 
 ## Related rules
 

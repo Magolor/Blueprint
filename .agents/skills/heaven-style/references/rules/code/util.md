@@ -136,4 +136,4 @@ digest = sha256hash(payload)
 
 Also apply [config.md](config.md) for config/resource paths, [types.md](types.md) for annotation style, and [clean.md](clean.md) for helper promotion decisions.
 
-Verify with `python scripts/scan.py <paths>` from the skill root.
+Verify with `rtk uv run python scripts/scan.py <paths>` from the skill root in agent sessions, or bare `python` only from a known-good shell.
