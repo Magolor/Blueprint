@@ -25,7 +25,8 @@ Use this surface only when maintaining the `heaven-style` skill itself: editing 
    - `references/tasks/manager.md` for GitHub/Linear status and orchestration workflow details.
    - `references/tasks/skill-update.md` for skill architecture, script contracts, and version alignment.
    - `references/failures/` for recurring blocker triage and subagent delegation playbooks.
-   - `references/workflows/developer.md` for large refactors, architecture planning, public API design, and full-rule reading.
+   - `references/workflows/architect.md` for doc organization, module designs, refactor plans, goals updates, API standard tables, and pre-implementation execution plans.
+   - `references/workflows/developer.md` for large refactors, public API design, and full-rule reading during implementation.
    - `references/workflows/editor.md` for skill maintenance.
    - `references/rules/` for rule-selection, code/project rules, and focused good/anti examples.
 2. Keep `references/tasks/` minimal. Default active tasks are `code.md`, `code-review.md`, `doc-sync.md`, `doc-trans.md`, `code-explain.md`, `manager.md`, and `skill-update.md`; add another task only for a stable, repeated workflow that cannot fit them.

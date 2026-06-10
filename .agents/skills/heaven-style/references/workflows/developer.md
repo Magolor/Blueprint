@@ -11,7 +11,9 @@ description: Use when planning broad work, refactoring shared surfaces, designin
 
 ## When to use
 
-Use this surface for advanced planning, large refactors, architecture decisions, public API design, rule tradeoffs, or any task where `SKILL.md` plus one task playbook is not enough. Typical triggers: cross-module refactors, shared utility changes, new backends/providers, storage/query behavior, Linear milestones with many slices, coding-standard changes, or disputes between rules.
+Use this surface for advanced planning while **implementing** large refactors, architecture decisions, public API design, rule tradeoffs, or any coding task where `SKILL.md` plus one task playbook is not enough. Typical triggers: cross-module refactors, shared utility changes, new backends/providers, storage/query behavior, Linear milestones with many slices, coding-standard changes, or disputes between rules.
+
+For **design-only** work — doc organization, module designs, refactor plans, goals updates, API standard tables, or step-by-step execution plans before code — use [architect.md](architect.md) instead; return here once implementation starts.
 
 ## Decision workflow
 

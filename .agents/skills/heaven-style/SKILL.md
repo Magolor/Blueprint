@@ -78,7 +78,7 @@ Use [references/rules/overview.md](references/rules/overview.md) to choose files
 - Code rules: `util`, `config`, `types`, `oop`, `model`, `name`, `py`, `clean`, `error`, `sql`, `compat`.
 - Project rules: `environment`, `format`, `test`, `docs`, `review`, `extension`.
 
-Load [references/workflows/developer.md](references/workflows/developer.md) for large refactors, architecture planning, public API design, shared utility work, or rule tradeoffs. Load [references/workflows/editor.md](references/workflows/editor.md) only when maintaining this skill.
+Load [references/workflows/architect.md](references/workflows/architect.md) for doc organization, module designs, refactor plans, goals updates, API standard tables, and step-by-step execution plans before implementation. Load [references/workflows/developer.md](references/workflows/developer.md) for large refactors, public API design, shared utility work, or rule tradeoffs while coding. Load [references/workflows/editor.md](references/workflows/editor.md) only when maintaining this skill.
 
 ## Common Gotos
 
@@ -90,6 +90,7 @@ Load [references/workflows/developer.md](references/workflows/developer.md) for 
 - Docs/Mintlify/sibling-doc sync: [references/tasks/doc-sync.md](references/tasks/doc-sync.md).
 - Chinese doc translation: [references/tasks/doc-trans.md](references/tasks/doc-trans.md).
 - Architecture/module explanation: [references/tasks/code-explain.md](references/tasks/code-explain.md).
+- Architecture design, refactor plans, goals, and execution plans: [references/workflows/architect.md](references/workflows/architect.md).
 - HeavenBase architecture work: read `docs/resources/architecture/mental-model.md` in the HeavenBase repo before changing cross-module interfaces.
 - Project status and orchestration: [references/tasks/manager.md](references/tasks/manager.md).
 - Skill maintenance and version alignment: [references/tasks/skill-update.md](references/tasks/skill-update.md).

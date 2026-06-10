@@ -21,7 +21,8 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 - `SKILL.md` is the fast path. A small coding or review task should succeed from it plus one directly matched task/failure/rule file.
 - `references/tasks/` contains stable active workflows only: `code`, `code-review`, `doc-sync`, `doc-trans`, `code-explain`, `manager`, and `skill-update`.
 - `references/rules/` contains detailed criteria and focused examples for large refactors, public APIs, shared utilities, storage/query behavior, and tradeoffs.
-- `references/workflows/developer.md` is the expanded planning/refactor route.
+- `references/workflows/architect.md` is the design-only route: docs organization, module designs, refactor plans, goals updates, API standard tables, and step-by-step execution plans.
+- `references/workflows/developer.md` is the expanded planning/refactor route during implementation.
 - `references/workflows/editor.md` is the skill-maintenance route.
 - `references/failures/` contains recurring blocker playbooks and subagent delegation prompts.
 - `scripts/sync.py` refreshes `assets/heavenbase-reference`.

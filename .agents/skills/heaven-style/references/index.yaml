@@ -6,7 +6,7 @@ description: Heaven-style code and engineering guide for Python-first repos in t
     enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure,
     modern type annotations, canonical OOP vocabulary, short names, raise_mismatch,
     SQL/resource discipline, code-review artifacts, and repo lint/test gates.
-generated_at: '2026-06-10T02:39:35Z'
+generated_at: '2026-06-10T02:56:59Z'
 generator: scripts/index.py
 references:
     rules:
@@ -330,6 +330,27 @@ references:
             findings, review artifacts, follow-up, or explicit waivers.
         path: references/rules/project/review.md
     workflows:
+    -   id: workflow-architect
+        title: Architect workflow
+        enabled: true
+        audience: architect
+        keywords:
+        - architecture plan
+        - module design
+        - refactor plan
+        - goals roadmap
+        - api standard table
+        - docs cleanup
+        - organize docs
+        - short-term goals
+        - mid-term goals
+        - long-term goals
+        - implementation plan
+        - design doc
+        description: Use when organizing docs, designing new modules, drafting refactor
+            plans, updating goals, or producing step-by-step execution plans without
+            implementing code.
+        path: references/workflows/architect.md
     -   id: workflow-developer
         title: Developer workflow
         enabled: true
