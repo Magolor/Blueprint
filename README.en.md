@@ -61,7 +61,7 @@ bash scripts/sync-env.bash
 | `demos/` | Empty demo root for future project-specific demos. |
 | `demos/assets/` | Committed demo fixtures. |
 | `demos/.temp/` | Ignored demo runtime data. |
-| `.agents/skills/heaven-style/` | Repo-local Heaven-style agent skill copied from HeavenBase. |
+| `.agents/skills/heaven-style/` | Canonical Heaven-style agent skill; Blueprint is the source of truth. |
 | `.github/workflows/` | GitHub Actions CI. |
 | `.githooks/` | Git hooks for README sync and local formatting gates. |
 | `scripts/` | Copyable uv-backed repo wrappers. |

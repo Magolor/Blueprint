@@ -54,3 +54,4 @@ Use `references/failures/` when command failures block progress:
 1. `failure-env` - Python, `uv`, shell, PATH, or wrong environment failures.
 2. `failure-network-proxy` - CLI/API network failures, VPN/proxy ambiguity, or provider connectivity.
 3. `failure-auth-secrets` - MCP/provider auth expiry, missing API keys, Linear/Tavily/LLM token failures, or direct API fallback.
+4. `failure-linear-pressure` - Linear project issue limits, noisy progress comments, or stale Done/Duplicated/Outdated issue cleanup.

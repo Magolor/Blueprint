@@ -21,7 +21,7 @@ Answer code and architecture questions as if the reader is new to the repo. Make
 1. Identify the audience: user, developer, maintainer, reviewer, or mixed.
 2. Identify the target: whole repo, architecture slice, module, feature, data flow, bug, diff, commit range, branch, or Linear issue.
 3. Read `AGENTS.md`, relevant docs, nearby source, tests, generated artifacts, and examples in the relevant rules before explaining behavior.
-4. For HeavenBase architecture, prefer current docs such as `docs/02-concepts-and-classes.md`, `docs/03-data-flows.md`, `docs/10-user-routing-and-explain.md`, and `docs/CAPABILITIES.md` when present, then verify against source.
+4. For HeavenBase architecture, prefer current docs such as `docs/resources/architecture/mental-model.md`, `docs/resources/architecture/concepts-and-classes.md`, `docs/resources/architecture/data-flows.md`, `docs/resources/architecture/routing-and-explain.md`, and `docs/resources/reports/capabilities.md` when present, then verify against source.
 5. Verify behavior against current HeavenBase source and docs; for legacy names, see [compat.md](../rules/code/compat.md).
 
 ## Explanation Structure

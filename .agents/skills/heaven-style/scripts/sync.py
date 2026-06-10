@@ -37,7 +37,8 @@ def main() -> int:
         url = local
     if exists_dir(pj(target, ".git")):
         run(["git", "fetch", "--depth", str(args.depth), url], cwd=target)
-        run(["git", "checkout", "--detach", "FETCH_HEAD"], cwd=target)
+        # Force: the reference clone is disposable and autocrlf noise must not block refresh.
+        run(["git", "checkout", "--force", "--detach", "FETCH_HEAD"], cwd=target)
     else:
         touch_dir(get_file_dir(target))
         run(["git", "clone", "--depth", str(args.depth), url, target])

@@ -31,9 +31,9 @@ Use this surface only when maintaining the `heaven-style` skill itself: editing 
 2. Keep `references/tasks/` minimal. Default active tasks are `code.md`, `code-review.md`, `doc-sync.md`, `doc-trans.md`, `code-explain.md`, `manager.md`, and `skill-update.md`; add another task only for a stable, repeated workflow that cannot fit them.
 3. Use trigger-oriented YAML frontmatter. Use `description` and `keywords` for discovery; the Markdown body is normative.
 4. Keep examples inside their owning rule and list cross-checks in `Related rules`.
-5. Run `rtk uv run python scripts/install.py` from the Blueprint skill root after reference or script changes to refresh the versioned global install at `~/.agents/skills/heaven-style-<version>/`. Skill-maintenance scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` only from a known-good shell; prefer `rtk uv run python` in agent sessions. Target-repo work must still use `AGENTS.md` wrappers, `uv`, and `rtk` when available. When maintaining the in-repo HeavenBase copy, use `rtk uv run python scripts/install.py --skip-sync` (or rely on the embedded auto-skip) and refresh the global install for reference assets.
+5. Run `rtk uv run python scripts/install.py` from the Blueprint skill root after reference or script changes to refresh the versioned global install at `~/.agents/skills/heaven-style-<version>/`. Skill-maintenance scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` only from a known-good shell; prefer `rtk uv run python` in agent sessions. Target-repo work must still use `AGENTS.md` wrappers, `uv`, and `rtk` when available. When maintaining an embedded in-repo copy, use `rtk uv run python scripts/install.py --skip-sync` (or rely on the embedded auto-skip) and refresh the global install for reference assets.
 6. Run `rtk uv run python scripts/index.py --check` after install to confirm generated metadata is current.
-7. From the Blueprint skill root, run `rtk uv run python scripts/install.py --mirror ../HeavenBase/HeavenBase/.agents/skills/heaven-style --skip-global` so HeavenBase receives the mirrored in-repo skill copy.
+7. HeavenBase does not track an in-repo skill copy; it consumes the versioned global install. Use `rtk uv run python scripts/install.py --mirror <path> --skip-global` only for repos that intentionally embed a copy.
 
 ## Commands
 
@@ -52,7 +52,7 @@ From the Blueprint repo root after skill edits:
 
 ```bash
 rtk uv run python .agents/skills/heaven-style/scripts/install.py
-rtk uv run python .agents/skills/heaven-style/scripts/install.py --mirror ../HeavenBase/HeavenBase/.agents/skills/heaven-style --skip-global
+rtk uv run python .agents/skills/heaven-style/scripts/install.py --mirror <embedded-skill-path> --skip-global
 ```
 
 ## Self-compliance
@@ -66,7 +66,7 @@ The skill must follow its own code-quality rules:
 - `index.yaml` is generated, not hand-edited.
 - Task playbooks are few, active, and non-overlapping.
 - Failure playbooks are operational, narrow, and safe around secrets and local machine state.
-- Skill frontmatter `version` matches `src/heavenbase/version.py` for HeavenBase-aligned releases (`MAJOR.MINOR.PATCH.N[devK]`, PATCH train `0.1.0`).
+- Skill version follows `MAJOR.MINOR.PATCH.N[devK]` on the current heaven-style train (`0.1.1`); frontmatter `version` matches `src/heavenbase/version.py` on HeavenBase-aligned releases.
 
 ## Install behavior
 

@@ -41,7 +41,7 @@ Ship a small or medium code change in Heaven style without loading the full rule
 - Cleanliness: remove ad-hoc code, dead code, stale TODOs, debug prints, compatibility leftovers, and unused artifacts.
 - Docstrings: every user-facing public API needs type hints and Google-style docstrings with `Args`, `Returns`, and `Raises` or warning notes/examples when useful.
 - Robustness: validate unsupported values, use contextual exceptions, avoid swallowed errors, and cover corner cases.
-- Legacy migration: when replacing a predecessor package, follow [compat.md](../code/compat.md) and preserve supported behavior only through the new cleaner API.
+- Legacy migration: when replacing a predecessor package, follow [compat.md](../rules/code/compat.md) and preserve supported behavior only through the new cleaner API.
 - Sync: docs, examples, generated files, architecture notes, sibling docs repos, and Linear issue state must match the implementation when relevant.
 
 ## Completion Gate

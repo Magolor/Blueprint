@@ -26,16 +26,15 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 - `references/failures/` contains recurring blocker playbooks and subagent delegation prompts.
 - `scripts/sync.py` refreshes `assets/heavenbase-reference`.
 - `scripts/index.py` regenerates `references/index.yaml` from frontmatter, scripts, assets, and skill metadata.
-- `scripts/install.py` is the one-shot updater: run sync, then index.
+- `scripts/install.py` is the one-shot updater: run sync, then index, then install the versioned global copy at `~/.agents/skills/heaven-style-<version>/`; `--mirror` copies into repos that intentionally embed the skill.
 - `scripts/scan.py` checks skill Python scripts for banned stdlib utility imports.
-- `scripts/install.py` installs the versioned global copy at `~/.agents/skills/heaven-style-<version>/` and can mirror in-repo checkouts with `--mirror`.
 
 ## Repo sync
 
 - Edit heaven-style in **Blueprint** only. Blueprint `.agents/skills/heaven-style/` is canonical.
 - After rule/task/script/index changes, run `rtk uv run python .agents/skills/heaven-style/scripts/install.py` from Blueprint for the global install.
-- Mirror HeavenBase with `rtk uv run python .agents/skills/heaven-style/scripts/install.py --mirror ../HeavenBase/HeavenBase/.agents/skills/heaven-style --skip-global`.
-- Do not edit the HeavenBase in-repo copy directly unless applying an emergency hotfix; backport the same change to Blueprint immediately.
+- HeavenBase does not track an in-repo skill copy; it uses the versioned global install. Use `--mirror <path>` only for repos that intentionally embed a copy.
+- Do not edit any embedded in-repo copy directly unless applying an emergency hotfix; backport the same change to Blueprint immediately.
 
 ## Update Workflow
 
@@ -46,17 +45,17 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 5. Add or revise a task only when the workflow is stable, repeated, and cannot fit an existing task. Keep tasks non-overlapping.
 6. Add or revise failure playbooks when the same blocker pattern appears repeatedly and needs a safe recovery path or subagent handoff.
 7. Keep examples grounded in current HeavenBase APIs; for predecessor names, see [compat.md](../rules/code/compat.md).
-8. Keep skill version aligned with `heavenbase.version.__version__` using `MAJOR.MINOR.PATCH.N[devK]`; keep the PATCH train at `0.1.0` and bump `N` (and optional `devK`) for skill-only edits.
+8. Keep the skill version on `MAJOR.MINOR.PATCH.N[devK]`; the current heaven-style train is `0.1.1`. Bump `N` (and optional `devK`) for skill-only edits; realign with `heavenbase.version.__version__` on HeavenBase-aligned releases.
 9. Run `rtk uv run python scripts/install.py` from the Blueprint skill root to refresh the versioned global install and `assets/heavenbase-reference/`. When the skill is embedded in HeavenBase itself, `install.py` skips reference sync automatically; use `~/.agents/skills/heaven-style-<version>/` for the reference clone. `install.py` must always leave the index current.
 10. Run validation and report changed surfaces, evidence sources, version changes, commands, and any waivers.
 
 ## Version Criteria
 
-- Schema: `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.0.6`).
-- `MAJOR.MINOR.PATCH` is the release train (`0.1.0` for Heaven-lineage packages and heaven-style).
+- Schema: `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.1.0`).
+- `MAJOR.MINOR.PATCH` is the release train; heaven-style is on `0.1.1`, HeavenBase packages remain on `0.1.0` until their next aligned release.
 - `N` is the very small frequent-updates fourth segment.
 - Optional `devK` (`dev0`, `dev1`, …) marks in-development snapshots; omit for stabilized releases.
-- Skill frontmatter `version` and `src/heavenbase/version.py` must match on HeavenBase-aligned releases.
+- The skill may lead HeavenBase between releases; skill frontmatter `version` and `src/heavenbase/version.py` must match on HeavenBase-aligned releases.
 - Blueprint and HeavenBase-docs follow the same schema and stay aligned with HeavenBase when version bumps are intentional.
 
 ## Verification

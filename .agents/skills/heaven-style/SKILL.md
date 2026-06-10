@@ -2,7 +2,7 @@
 name: heaven-style
 description: Heaven-style code and engineering guide for Python-first repos in the HeavenBase lineage. Use when writing, reviewing, refactoring, or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared infrastructure code; enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure, modern type annotations, canonical OOP vocabulary, short names, raise_mismatch, SQL/resource discipline, code-review artifacts, and repo lint/test gates.
 metadata:
-  version: 0.1.0.6
+  version: 0.1.1.0
 ---
 
 # Heaven Style
@@ -14,6 +14,17 @@ Use Heaven Style when coding, reviewing, refactoring, or aligning docs/tests in 
 HeavenBase is the shared infrastructure foundation: prefer `heavenbase` for public examples, `heavenbase.utils` for utilities/logging/serialization/shell/path helpers, and `CM_HVNB` for shared infrastructure config.
 
 Repo-specific `AGENTS.md` wins for environment, command wrappers, test model policy, demo paths, and release discipline. For shell commands, load [references/rules/project/environment.md](references/rules/project/environment.md).
+
+## Design Philosophy
+
+These principles outrank local repo conventions when they conflict:
+
+- **Minimal mental model.** Few core classes, one obvious way per task, no hidden magic or clever metaprogramming. An average engineer or agent should reconstruct the architecture from one page.
+- **Registries over branches.** New backends, providers, handlers, types, and strategies plug in through registration APIs; never extend by editing central planners, routing tables, or `if provider ==` chains.
+- **Shared infrastructure first.** `heavenbase.utils` replaces stdlib for covered concerns; `CM_HVNB` owns every tunable. Missing broadly useful helpers go into the shared layer, not local wrappers.
+- **Break and fix, no shims.** Renames and redesigns update all call sites in the same change; permanent compatibility layers and parallel `v1/v2` APIs are banned unless explicitly waived.
+- **Compact, explicit Python.** Guard clauses, comprehensions, canonical OOP verbs, short hot-path names, contextual errors via `raise_mismatch`; loud failures over silent fallbacks.
+- **Docs are part of the code.** Architecture pages, generated artifacts, and examples must match the implementation; a durable mental-model doc beats rediscovering design in chat history.
 
 ## Task Surface
 
@@ -57,7 +68,7 @@ Keep task playbooks inside this skill by default. Separate wrapper skills such a
 - For providers/backends/handlers, register capabilities instead of editing central planners or routing tables.
 - For docs, verify facts against code, write in friendly professional prose, use realistic code demos, and run Mintlify checks when the docs repo supports them.
 - For reviews, assume parallel human/agent work may be happening. Re-read the current diff before judging or fixing, and never revert changes you did not make without explicit approval.
-- Versioning uses `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.0.6`). Keep the PATCH train at `0.1.0`; bump `N` for skill-only edits and optional `devK` for in-development snapshots. Align skill `metadata.version` with `heavenbase.version.__version__` on HeavenBase releases.
+- Versioning uses `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.1.0`). The current heaven-style train is `0.1.1`; bump `N` for skill-only edits and optional `devK` for in-development snapshots. The skill may lead HeavenBase between releases; align skill `metadata.version` with `heavenbase.version.__version__` on HeavenBase-aligned releases.
 - Predecessor names (`pyheaven`, `heaven`, `AgentHeaven`) are legacy; see [references/rules/code/compat.md](references/rules/code/compat.md).
 
 ## Rule Map
@@ -79,6 +90,7 @@ Load [references/workflows/developer.md](references/workflows/developer.md) for 
 - Docs/Mintlify/sibling-doc sync: [references/tasks/doc-sync.md](references/tasks/doc-sync.md).
 - Chinese doc translation: [references/tasks/doc-trans.md](references/tasks/doc-trans.md).
 - Architecture/module explanation: [references/tasks/code-explain.md](references/tasks/code-explain.md).
+- HeavenBase architecture work: read `docs/resources/architecture/mental-model.md` in the HeavenBase repo before changing cross-module interfaces.
 - Project status and orchestration: [references/tasks/manager.md](references/tasks/manager.md).
 - Skill maintenance and version alignment: [references/tasks/skill-update.md](references/tasks/skill-update.md).
 - Environment, proxy, auth, or Linear pressure failures: [references/failures/env.md](references/failures/env.md), [references/failures/network-proxy.md](references/failures/network-proxy.md), [references/failures/auth-secrets.md](references/failures/auth-secrets.md), [references/failures/linear-pressure.md](references/failures/linear-pressure.md).
