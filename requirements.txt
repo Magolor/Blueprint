@@ -1,2 +1,2 @@
 # Source of truth for runtime dependencies. Edit here, then run bash scripts/sync-env.bash.
-heavenbase==0.1.0.5
+heavenbase==0.1.1.0

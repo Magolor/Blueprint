@@ -28,7 +28,7 @@ uv run blueprint-gui --help
 
 CLI 使用 HeavenBase 工具类处理项目配置和路径解析。
 
-HeavenBase 被声明为普通运行时依赖，并从 PyPI 解析（`heavenbase==0.1.0.5`）。本地 HeavenBase 开发可以运行 `scripts/sync-env.bash --heavenbase-source`，从 `HEAVENBASE_SOURCE`、`../HeavenBase/HeavenBase` 或 `HEAVENBASE_REPO_URL` 安装可编辑源码覆盖。
+HeavenBase 被声明为普通运行时依赖，并从 PyPI 解析（`heavenbase==0.1.1.0`）。本地 HeavenBase 开发可以运行 `scripts/sync-env.bash --heavenbase-source`，从 `HEAVENBASE_SOURCE`、`../HeavenBase/HeavenBase` 或 `HEAVENBASE_REPO_URL` 安装可编辑源码覆盖。
 
 ## 模板重命名
 

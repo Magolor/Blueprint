@@ -52,7 +52,7 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 ## Version Criteria
 
 - Schema: `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.1.0`).
-- `MAJOR.MINOR.PATCH` is the release train; heaven-style is on `0.1.1`, HeavenBase packages remain on `0.1.0` until their next aligned release.
+- `MAJOR.MINOR.PATCH` is the release train; heaven-style and HeavenBase share the `0.1.1` train on aligned releases.
 - `N` is the very small frequent-updates fourth segment.
 - Optional `devK` (`dev0`, `dev1`, …) marks in-development snapshots; omit for stabilized releases.
 - The skill may lead HeavenBase between releases; skill frontmatter `version` and `src/heavenbase/version.py` must match on HeavenBase-aligned releases.

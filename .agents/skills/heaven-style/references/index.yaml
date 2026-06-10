@@ -6,7 +6,7 @@ description: Heaven-style code and engineering guide for Python-first repos in t
     enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure,
     modern type annotations, canonical OOP vocabulary, short names, raise_mismatch,
     SQL/resource discipline, code-review artifacts, and repo lint/test gates.
-generated_at: '2026-06-10T01:46:05Z'
+generated_at: '2026-06-10T02:39:35Z'
 generator: scripts/index.py
 references:
     rules:
@@ -677,7 +677,7 @@ scripts:
 assets:
 -   path: assets/heavenbase-reference
     kind: dir
-    git_head: 5ab3a2ca19a3172411339ee2350d269cc947386d
+    git_head: 2c917555d787657d722fd4774b27243d07377632
 -   path: assets/default-glossary.md
     kind: file
 -   path: assets/REFERENCE.md

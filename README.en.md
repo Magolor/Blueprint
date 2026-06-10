@@ -29,7 +29,7 @@ uv run blueprint-gui --help
 
 The CLI uses HeavenBase utility classes for project configuration and path resolution.
 
-HeavenBase is declared as a normal runtime dependency and resolves from PyPI (`heavenbase==0.1.0.5`). For local HeavenBase development, use `scripts/sync-env.bash --heavenbase-source` to install an editable source override from `HEAVENBASE_SOURCE`, `../HeavenBase/HeavenBase`, or `HEAVENBASE_REPO_URL`.
+HeavenBase is declared as a normal runtime dependency and resolves from PyPI (`heavenbase==0.1.1.0`). For local HeavenBase development, use `scripts/sync-env.bash --heavenbase-source` to install an editable source override from `HEAVENBASE_SOURCE`, `../HeavenBase/HeavenBase`, or `HEAVENBASE_REPO_URL`.
 
 ## Rename the Template
 
