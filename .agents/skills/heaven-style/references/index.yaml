@@ -1,12 +1,12 @@
 skill: heaven-style
-version: 0.1.1.0
+version: 0.1.1.1
 description: Heaven-style code and engineering guide for Python-first repos in the
     HeavenBase lineage. Use when writing, reviewing, refactoring, or aligning tests/docs
     for downstream packages, HeavenBase maintenance, or shared infrastructure code;
     enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure,
     modern type annotations, canonical OOP vocabulary, short names, raise_mismatch,
     SQL/resource discipline, code-review artifacts, and repo lint/test gates.
-generated_at: '2026-06-10T02:56:59Z'
+generated_at: '2026-06-12T06:49:29Z'
 generator: scripts/index.py
 references:
     rules:
@@ -117,8 +117,11 @@ references:
         - user model
         - interface design
         - abstraction
+        - constructor flags
+        - OOP front door
         description: Use when adding public classes or functions, designing a user-facing
-            surface, choosing method versus free function, or proposing a DSL.
+            surface, choosing method versus free function, adding constructor flags,
+            or proposing a DSL.
         path: references/rules/code/model.md
     -   id: name
         title: Names
@@ -698,7 +701,7 @@ scripts:
 assets:
 -   path: assets/heavenbase-reference
     kind: dir
-    git_head: 2c917555d787657d722fd4774b27243d07377632
+    git_head: 5acc99fc2b9c8a3c7307f4adc7ef3e9d8945c206
 -   path: assets/default-glossary.md
     kind: file
 -   path: assets/REFERENCE.md

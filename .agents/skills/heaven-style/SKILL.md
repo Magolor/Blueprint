@@ -2,7 +2,7 @@
 name: heaven-style
 description: Heaven-style code and engineering guide for Python-first repos in the HeavenBase lineage. Use when writing, reviewing, refactoring, or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared infrastructure code; enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure, modern type annotations, canonical OOP vocabulary, short names, raise_mismatch, SQL/resource discipline, code-review artifacts, and repo lint/test gates.
 metadata:
-  version: 0.1.1.0
+  version: 0.1.1.1
 ---
 
 # Heaven Style
@@ -19,7 +19,7 @@ Repo-specific `AGENTS.md` wins for environment, command wrappers, test model pol
 
 These principles outrank local repo conventions when they conflict:
 
-- **Minimal mental model.** Few core classes, one obvious way per task, no hidden magic or clever metaprogramming. An average engineer or agent should reconstruct the architecture from one page.
+- **Minimal mental model.** Expose the shortest OOP-style front door: classmethods create or load objects, instance methods perform lifecycle actions, and common flows read as `obj = Class(...); obj.verb()`. Avoid constructor side-effect flags, nested free-function pipelines, hidden magic, and clever metaprogramming. An average engineer or agent should reconstruct the architecture from one page.
 - **Registries over branches.** New backends, providers, handlers, types, and strategies plug in through registration APIs; never extend by editing central planners, routing tables, or `if provider ==` chains.
 - **Shared infrastructure first.** `heavenbase.utils` replaces stdlib for covered concerns; `CM_HVNB` owns every tunable. Missing broadly useful helpers go into the shared layer, not local wrappers.
 - **Break and fix, no shims.** Renames and redesigns update all call sites in the same change; permanent compatibility layers and parallel `v1/v2` APIs are banned unless explicitly waived.
@@ -54,7 +54,7 @@ Keep task playbooks inside this skill by default. Separate wrapper skills such a
 - **Code quality:** use `heavenbase as hb` in public examples, import utility helpers from `heavenbase.utils`, route shared infrastructure config through `CM_HVNB`, and follow local repo style.
 - **Modularity:** keep OOP boundaries clean; extend backends/providers/handlers through registry APIs; avoid planner or business-logic shortcuts.
 - **Brevity:** prefer compact readable Python, guard clauses, comprehensions, and direct data flow; remove boilerplate, duplicate logic, and unnecessary wrappers.
-- **Ease of use:** keep the user/developer mental model obvious; avoid parallel APIs, extra flags, unnecessary classes, or alternate-name-heavy methods.
+- **Ease of use:** keep the user/developer mental model obvious; prefer owning-object methods over free-function front doors, and avoid parallel APIs, constructor side-effect flags, unnecessary classes, or alternate-name-heavy methods.
 - **Cleanliness:** no ad-hoc hacks, debug prints, dead code, stale placeholders, deprecated aliases, or backward-compatibility shims unless explicitly waived.
 - **Docstrings:** public user-facing APIs need type hints and Google-style docstrings with `Args`, `Returns`, and relevant `Raises`, warnings, or examples.
 - **Robustness:** validate unsupported values with contextual errors, use `raise_mismatch` where the repo provides it, avoid swallowed exceptions, and cover edge/error paths.
@@ -64,11 +64,11 @@ Keep task playbooks inside this skill by default. Separate wrapper skills such a
 
 - Use `heavenbase.utils` for covered paths, files, serialization, shell, hash, logging, IDs, and common helpers. If the utility is missing and broadly useful, add it there instead of creating local wrappers.
 - Use `CM_HVNB` for HeavenBase-owned defaults: models, providers, gateways, dimensions, batch sizes, timeouts, paths, prompt text, backend presets, and benchmark knobs.
-- Keep public APIs small: `heavenbase as hb` in examples, canonical OOP verbs, type hints, Google-style docstrings, and one obvious way to do each task.
+- Keep public APIs small: `heavenbase as hb` in examples, shortest OOP-style flows, canonical OOP verbs, type hints, Google-style docstrings, and one obvious way to do each task.
 - For providers/backends/handlers, register capabilities instead of editing central planners or routing tables.
 - For docs, verify facts against code, write in friendly professional prose, use realistic code demos, and run Mintlify checks when the docs repo supports them.
 - For reviews, assume parallel human/agent work may be happening. Re-read the current diff before judging or fixing, and never revert changes you did not make without explicit approval.
-- Versioning uses `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.1.0`). The current heaven-style train is `0.1.1`; bump `N` for skill-only edits and optional `devK` for in-development snapshots. The skill may lead HeavenBase between releases; align skill `metadata.version` with `heavenbase.version.__version__` on HeavenBase-aligned releases.
+- Versioning uses `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.1.1`). The current heaven-style train is `0.1.1`; bump `N` for skill-only edits and optional `devK` for in-development snapshots. The skill may lead HeavenBase between releases; align skill `metadata.version` with `heavenbase.version.__version__` on HeavenBase-aligned releases.
 - Predecessor names (`pyheaven`, `heaven`, `AgentHeaven`) are legacy; see [references/rules/code/compat.md](references/rules/code/compat.md).
 
 ## Rule Map
