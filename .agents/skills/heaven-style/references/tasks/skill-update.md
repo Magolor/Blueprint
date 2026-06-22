@@ -19,9 +19,10 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 ## Architecture
 
 - `SKILL.md` is the fast path. A small coding or review task should succeed from it plus one directly matched task/failure/rule file.
-- `references/tasks/` contains stable active workflows only: `code`, `code-review`, `doc-sync`, `doc-trans`, `code-explain`, `manager`, and `skill-update`.
+- `references/tasks/` contains stable active workflows only: `code`, `code-review`, `doc-sync`, `doc-trans`, `code-explain`, `arch-design`, `manager`, and `skill-update`.
+- `references/tasks/arch-design.md` is the task entry point for architecture design and periodic architecture review.
 - `references/rules/` contains detailed criteria and focused examples for large refactors, public APIs, shared utilities, storage/query behavior, and tradeoffs.
-- `references/workflows/architect.md` is the design-only route: docs organization, module designs, refactor plans, goals updates, API standard tables, and step-by-step execution plans.
+- `references/workflows/architect.md` is the design-only workflow route: docs organization, module designs, architecture reviews, refactor plans, goals updates, API standard tables, and step-by-step execution plans.
 - `references/workflows/developer.md` is the expanded planning/refactor route during implementation.
 - `references/workflows/editor.md` is the skill-maintenance route.
 - `references/failures/` contains recurring blocker playbooks and subagent delegation prompts.
@@ -52,7 +53,7 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 
 ## Version Criteria
 
-- Schema: `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.1.1`).
+- Schema: `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.1.2`).
 - `MAJOR.MINOR.PATCH` is the release train; heaven-style and HeavenBase share the `0.1.1` train on aligned releases.
 - `N` is the very small frequent-updates fourth segment.
 - Optional `devK` (`dev0`, `dev1`, …) marks in-development snapshots; omit for stabilized releases.

@@ -3,8 +3,8 @@ id: workflow-architect
 title: Architect workflow
 enabled: true
 audience: architect
-keywords: [architecture plan, module design, refactor plan, goals roadmap, api standard table, docs cleanup, organize docs, short-term goals, mid-term goals, long-term goals, implementation plan, design doc]
-description: Use when organizing docs, designing new modules, drafting refactor plans, updating goals, or producing step-by-step execution plans without implementing code.
+keywords: [architecture plan, architecture review, periodic architecture review, agile design, design smells, dependency review, module design, refactor plan, goals roadmap, api standard table, docs cleanup, organize docs, short-term goals, mid-term goals, long-term goals, implementation plan, design doc]
+description: Use when organizing docs, designing or reviewing architecture, drafting refactor plans, updating goals, or producing step-by-step execution plans without implementing code.
 ---
 
 # Architect Workflow
@@ -15,6 +15,7 @@ Use this surface when the deliverable is **design and documentation**, not code.
 
 - Organize, deduplicate, or retire stale docs before a major effort.
 - Design a new module or extension boundary before anyone writes implementation code.
+- Review architecture health periodically or before a major release, refactor, provider/backend expansion, or repeated defect pattern.
 - Draft a multi-slice refactor plan with registry seams, migration steps, and verification gates.
 - Update short-, mid-, or long-term goals to match current code and roadmap reality.
 - Produce an API standard table or cross-module interface contract for review.
@@ -28,7 +29,7 @@ Use this surface when the deliverable is **design and documentation**, not code.
 - Tracking GitHub/Linear status or orchestrating agents → [../tasks/manager.md](../tasks/manager.md).
 - Resolving rule tradeoffs while coding a large change → [developer.md](developer.md) (implementation route).
 
-The architect workflow may **read** any module or feature as evidence, but it must not anchor on one file or ticket. Start from repo mental model, goals, status, and cross-cutting constraints, then narrow to affected surfaces.
+The architect workflow may **read** any module or feature as evidence, but it must not anchor on one file or ticket. Start from repo mental model, goals, status, cross-cutting constraints, and current change pressure, then narrow to affected surfaces.
 
 ## Design philosophy gate
 
@@ -51,6 +52,49 @@ Load rule files when the design touches their surface:
 - Storage/query behavior: `sql`, `error`
 
 For HeavenBase-lineage repos, read `docs/resources/architecture/mental-model.md` (or the project equivalent) before proposing cross-module interfaces.
+
+## Agile architecture gate
+
+Architecture is a continuous design activity, not a one-time document phase. Use agile principles to keep design tied to working software and real feedback:
+
+| Agile principle | Architect check |
+|-----------------|-----------------|
+| Requirements change | Is the design aimed at the next verified change pressure rather than speculative future variants? |
+| Working software | Are shipped behavior, tests, examples, and issue acceptance criteria treated as stronger evidence than stale diagrams? |
+| Technical excellence | Do tests, CI, and refactoring capacity make the proposed change safe to execute? |
+| Simple design | Does the design solve the current problem without needless patterns, layers, flags, or parallel APIs? |
+| Continuous design | Does each slice include a feedback point where design can be revised from implementation evidence? |
+| Collaboration | Are user, issue, roadmap, or maintainer concerns named instead of hidden behind generic architecture claims? |
+| Useful documentation | Do diagrams and tables clarify decisions without becoming a substitute for code truth? |
+
+Use SOLID, package principles, and patterns as diagnostic tools, not slogans:
+
+- SRP and Common Closure: group responsibilities by reason to change.
+- OCP and Heaven-style registries: extend behavior through registration APIs instead of reopening stable planners.
+- LSP and ISP: keep public contracts substitutable and clients dependent only on methods they use.
+- DIP, Stable Dependencies, and Stable Abstractions: high-level policy depends on abstractions; low-level details depend inward.
+- ADP, REP, and Common Reuse: avoid dependency cycles, release reused units coherently, and avoid forcing consumers to depend on unrelated classes.
+
+## Smell and dependency review
+
+Run this review for new designs, refactor plans, and periodic architecture checks:
+
+| Smell | Architect check |
+|-------|-----------------|
+| Rigidity | Does a small change force unrelated edits across layers? |
+| Fragility | Do changes break unexpected behavior with no obvious dependency path? |
+| Immobility | Are useful concepts too coupled to framework, storage, CLI, or provider details to reuse? |
+| Viscosity | Is the easy change path the wrong architectural path? |
+| Needless complexity | Are abstractions solving imagined requirements instead of current evidence? |
+| Needless repetition | Is one rule, schema, default, or route duplicated across surfaces? |
+| Opacity | Can an average maintainer reconstruct the system from names, docs, and tests? |
+
+Also check package and dependency direction:
+
+- Core business rules and high-level policies must not depend on databases, provider SDKs, UI/CLI adapters, generated artifacts, or external APIs.
+- Volatile details depend on stable abstractions; stable modules expose abstractions when many callers depend on them.
+- Dependency cycles are architecture findings. Break them in a slice plan or document an explicit waiver.
+- Modules that change together belong together; modules reused together need coherent docs, tests, and release boundaries.
 
 ## Discovery workflow
 
@@ -94,6 +138,22 @@ Produce a short **current-state brief** (half page max):
 
 Do not start detailed design until mismatches are listed. If scope is ambiguous, ask one focused question before proceeding.
 
+## Periodic architecture review
+
+Use a periodic review when the project has a cadence, reaches a release boundary, accumulates repeated defects, expands a provider/backend family, or shows architecture drift in docs, tests, or implementation.
+
+1. **Scope** - name the package, module family, feature slice, release train, or whole-repo boundary under review.
+2. **Comparison point** - cite the last review, last release, baseline branch, roadmap item, or current state if no previous review exists.
+3. **Evidence** - inspect architecture docs, current goals, latest progress, public exports, dependency entry points, registry seams, tests, examples, open issues, and recent PRs/commits when available.
+4. **Change pressure** - list what actually changed: user requests, new backends/providers, schema/storage behavior, defects, onboarding pain, or repeated code-review findings.
+5. **Smell matrix** - score rigidity, fragility, immobility, viscosity, needless complexity, needless repetition, and opacity with concrete file/doc/test evidence.
+6. **Dependency matrix** - identify inward dependencies, cycles, unstable dependencies, detail leakage into policy, and extension seams that require central edits.
+7. **Fitness checks** - name the tests, examples, CI checks, docs checks, or probes that prove the architecture remains changeable.
+8. **Actions** - classify recommendations as **now**, **next**, **defer**, or **waive**. Avoid broad rewrites unless the evidence shows repeated change cost.
+9. **Next trigger** - record the next review trigger or cadence only when the project actually uses one.
+
+Deliverable: an **architecture review** with scope, evidence, findings, prioritized actions, verification expectations, and docs/issue updates. Store durable reviews under a project-approved path such as `docs/resources/architecture/`, `docs/progress/YYYY-MM-DD/`, or the owning issue when a tracker is the source of truth.
+
 ## Doc organization and cleanup
 
 When the task includes docs hygiene:
@@ -124,6 +184,8 @@ For a new module or extension, produce a design doc with this structure:
 10. **Docs touch list** — mental-model, reference pages, goals, progress note, Mintlify pages.
 11. **Slices** — ordered implementation slices with acceptance criteria and verification commands.
 12. **Risks and waivers** — anything that needs explicit human approval.
+
+Add an **Agile feedback gates** section before handoff: tests, demos, review checkpoints, or issue acceptance checks that let the design adapt after each implementation slice.
 
 ### API standard table template
 
@@ -234,6 +296,7 @@ An architect deliverable is ready when:
 
 - [ ] Current-state brief matches code and docs evidence cited.
 - [ ] Design philosophy gate passed or waivers explicit.
+- [ ] Agile architecture gate and smell/dependency review passed or waivers explicit.
 - [ ] API standard table covers every new public symbol.
 - [ ] Slices are small enough for one PR or one focused agent session each.
 - [ ] Every slice has verification commands, not vague "run tests".
@@ -252,9 +315,12 @@ End architect runs with:
 4. **Recommended next step** — usually `code` slice 1, `doc-sync`, or human review.
 5. **Open questions** — blockers only.
 
+Also include an agile review summary: change pressure, smell/dependency findings, and feedback gates.
+
 ## Related surfaces
 
 - Implementation: [../tasks/code.md](../tasks/code.md)
+- Architecture design/review task: [../tasks/arch-design.md](../tasks/arch-design.md)
 - Full-rule coding/refactor route: [developer.md](developer.md)
 - Explanation for newcomers: [../tasks/code-explain.md](../tasks/code-explain.md)
 - Docs sync after shipping: [../tasks/doc-sync.md](../tasks/doc-sync.md)

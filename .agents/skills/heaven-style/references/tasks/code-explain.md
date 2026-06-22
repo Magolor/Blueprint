@@ -23,6 +23,7 @@ Answer code and architecture questions as if the reader is new to the repo. Make
 3. Read `AGENTS.md`, relevant docs, nearby source, tests, generated artifacts, and examples in the relevant rules before explaining behavior.
 4. For HeavenBase architecture, prefer current docs such as `docs/resources/architecture/mental-model.md`, `docs/resources/architecture/concepts-and-classes.md`, `docs/resources/architecture/data-flows.md`, `docs/resources/architecture/routing-and-explain.md`, and `docs/resources/reports/capabilities.md` when present, then verify against source.
 5. Verify behavior against current HeavenBase source and docs; for legacy names, see [compat.md](../rules/code/compat.md).
+6. If the user wants a new design, architecture health review, periodic review, or refactor plan rather than an explanation, route to [arch-design.md](arch-design.md).
 
 ## Explanation Structure
 

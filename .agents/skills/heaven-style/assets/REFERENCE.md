@@ -20,4 +20,4 @@ python scripts/index.py
 
 The clone is gitignored. `python scripts/install.py` refreshes an existing clone or creates it when absent, then regenerates the index.
 
-When `heaven-style` is embedded in the HeavenBase repository itself, do **not** host this clone in-repo (it loops with skill maintenance). Use the versioned global install at `~/.agents/skills/heaven-style-<version>/` (for example `heaven-style-0.1.1.1`) instead; install it from Blueprint with `rtk uv run python .agents/skills/heaven-style/scripts/install.py`. `install.py` skips reference sync automatically in the embedded layout.
+When `heaven-style` is embedded in the HeavenBase repository itself, do **not** host this clone in-repo (it loops with skill maintenance). Use the versioned global install at `~/.agents/skills/heaven-style-<version>/` (for example `heaven-style-0.1.1.2`) instead; install it from Blueprint with `rtk uv run python .agents/skills/heaven-style/scripts/install.py`. `install.py` skips reference sync automatically in the embedded layout.

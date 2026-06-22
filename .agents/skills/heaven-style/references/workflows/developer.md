@@ -13,7 +13,7 @@ description: Use when planning broad work, refactoring shared surfaces, designin
 
 Use this surface for advanced planning while **implementing** large refactors, architecture decisions, public API design, rule tradeoffs, or any coding task where `SKILL.md` plus one task playbook is not enough. Typical triggers: cross-module refactors, shared utility changes, new backends/providers, storage/query behavior, Linear milestones with many slices, coding-standard changes, or disputes between rules.
 
-For **design-only** work — doc organization, module designs, refactor plans, goals updates, API standard tables, or step-by-step execution plans before code — use [architect.md](architect.md) instead; return here once implementation starts.
+For **design-only** work — doc organization, module designs, architecture reviews, refactor plans, goals updates, API standard tables, or step-by-step execution plans before code — use [../tasks/arch-design.md](../tasks/arch-design.md), which routes to [architect.md](architect.md); return here once implementation starts.
 
 ## Decision workflow
 
@@ -52,6 +52,7 @@ Load task playbooks when their triggers match:
 - [../tasks/doc-sync.md](../tasks/doc-sync.md) for English Mintlify docs, navigation, or sibling docs sync.
 - [../tasks/doc-trans.md](../tasks/doc-trans.md) for line-aligned Chinese (`zh/`) MDX translation.
 - [../tasks/code-explain.md](../tasks/code-explain.md) for newcomer-oriented architecture, dataflow, module, feature, or diff explanations.
+- [../tasks/arch-design.md](../tasks/arch-design.md) for architecture design, periodic architecture review, dependency health, module boundaries, and pre-implementation plans.
 - [../tasks/manager.md](../tasks/manager.md) for GitHub/Linear status tracking, stale-work triage, and multi-task orchestration.
 - [../tasks/skill-update.md](../tasks/skill-update.md) for maintaining this skill, script contracts, and version alignment.
 

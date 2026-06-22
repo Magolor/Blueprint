@@ -1,8 +1,8 @@
 ---
 name: heaven-style
-description: Heaven-style code and engineering guide for Python-first repos in the HeavenBase lineage. Use when writing, reviewing, refactoring, or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared infrastructure code; enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure, modern type annotations, canonical OOP vocabulary, short names, raise_mismatch, SQL/resource discipline, code-review artifacts, and repo lint/test gates.
+description: Heaven-style code and architecture guide for Python-first repos in the HeavenBase lineage. Use when writing, reviewing, designing architecture, refactoring, or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared infrastructure code; enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure, modern type annotations, canonical OOP vocabulary, short names, raise_mismatch, SQL/resource discipline, architecture-review artifacts, code-review artifacts, and repo lint/test gates.
 metadata:
-  version: 0.1.1.1
+  version: 0.1.1.2
 ---
 
 # Heaven Style
@@ -33,6 +33,7 @@ These principles outrank local repo conventions when they conflict:
 - [references/tasks/doc-sync.md](references/tasks/doc-sync.md): sync English HeavenBase docs, Mintlify pages, navigation, and sibling docs repos.
 - [references/tasks/doc-trans.md](references/tasks/doc-trans.md): line-aligned Chinese (`zh/`) MDX translation when explicitly requested.
 - [references/tasks/code-explain.md](references/tasks/code-explain.md): explain architecture, data flow, modules, feature behavior, or code-change comparisons for newcomers.
+- [references/tasks/arch-design.md](references/tasks/arch-design.md): architecture design, periodic architecture review, module boundaries, dependency health, and agile design plans.
 - [references/tasks/manager.md](references/tasks/manager.md): track GitHub and Linear status, stale work, recent work, and next-step orchestration.
 - [references/tasks/skill-update.md](references/tasks/skill-update.md): update this skill from HeavenBase codebase changes, scripts, local history, and docs traces.
 
@@ -68,7 +69,7 @@ Keep task playbooks inside this skill by default. Separate wrapper skills such a
 - For providers/backends/handlers, register capabilities instead of editing central planners or routing tables.
 - For docs, verify facts against code, write in friendly professional prose, use realistic code demos, and run Mintlify checks when the docs repo supports them.
 - For reviews, assume parallel human/agent work may be happening. Re-read the current diff before judging or fixing, and never revert changes you did not make without explicit approval.
-- Versioning uses `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.1.1`). The current heaven-style train is `0.1.1`; bump `N` for skill-only edits and optional `devK` for in-development snapshots. The skill may lead HeavenBase between releases; align skill `metadata.version` with `heavenbase.version.__version__` on HeavenBase-aligned releases.
+- Versioning uses `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.1.2`). The current heaven-style train is `0.1.1`; bump `N` for skill-only edits and optional `devK` for in-development snapshots. The skill may lead HeavenBase between releases; align skill `metadata.version` with `heavenbase.version.__version__` on HeavenBase-aligned releases.
 - Predecessor names (`pyheaven`, `heaven`, `AgentHeaven`) are legacy; see [references/rules/code/compat.md](references/rules/code/compat.md).
 
 ## Rule Map
@@ -78,7 +79,7 @@ Use [references/rules/overview.md](references/rules/overview.md) to choose files
 - Code rules: `util`, `config`, `types`, `oop`, `model`, `name`, `py`, `clean`, `error`, `sql`, `compat`.
 - Project rules: `environment`, `format`, `test`, `docs`, `review`, `extension`.
 
-Load [references/workflows/architect.md](references/workflows/architect.md) for doc organization, module designs, refactor plans, goals updates, API standard tables, and step-by-step execution plans before implementation. Load [references/workflows/developer.md](references/workflows/developer.md) for large refactors, public API design, shared utility work, or rule tradeoffs while coding. Load [references/workflows/editor.md](references/workflows/editor.md) only when maintaining this skill.
+Load [references/tasks/arch-design.md](references/tasks/arch-design.md) for architecture design, periodic architecture review, module boundaries, refactor plans, goals updates, API standard tables, and step-by-step execution plans before implementation; it routes to [references/workflows/architect.md](references/workflows/architect.md). Load [references/workflows/developer.md](references/workflows/developer.md) for large refactors, public API design, shared utility work, or rule tradeoffs while coding. Load [references/workflows/editor.md](references/workflows/editor.md) only when maintaining this skill.
 
 ## Common Gotos
 
@@ -90,7 +91,7 @@ Load [references/workflows/architect.md](references/workflows/architect.md) for 
 - Docs/Mintlify/sibling-doc sync: [references/tasks/doc-sync.md](references/tasks/doc-sync.md).
 - Chinese doc translation: [references/tasks/doc-trans.md](references/tasks/doc-trans.md).
 - Architecture/module explanation: [references/tasks/code-explain.md](references/tasks/code-explain.md).
-- Architecture design, refactor plans, goals, and execution plans: [references/workflows/architect.md](references/workflows/architect.md).
+- Architecture design, periodic review, refactor plans, goals, and execution plans: [references/tasks/arch-design.md](references/tasks/arch-design.md).
 - HeavenBase architecture work: read `docs/resources/architecture/mental-model.md` in the HeavenBase repo before changing cross-module interfaces.
 - Project status and orchestration: [references/tasks/manager.md](references/tasks/manager.md).
 - Skill maintenance and version alignment: [references/tasks/skill-update.md](references/tasks/skill-update.md).

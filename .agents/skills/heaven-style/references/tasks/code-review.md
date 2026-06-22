@@ -49,6 +49,8 @@ Use findings-first review. Each finding should include:
 
 If there are no findings, say so directly and list any residual review gaps such as tests not run or unavailable context.
 
+For architecture health reviews not anchored to a concrete diff, branch, PR, or module change, route to [arch-design.md](arch-design.md).
+
 ## Review Artifact
 
 Save a durable report to `docs/reviews/<YYYY-MM-DD>-<scope>-heaven-style-review.md` when the user asks for a saved review, the task is a Linear/PR gate, or follow-up work needs an auditable artifact. For quick or explicitly read-only reviews, return the findings inline instead. When saving, include:
