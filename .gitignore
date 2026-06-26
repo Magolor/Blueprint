@@ -64,7 +64,7 @@ log.txt
 # Agent and editor runtime files
 QWEN.md
 GEMINI.md
-CLAUDE.md
+CLAUDE.local.md
 .claude/
 .windsurf/
 .opencode/
