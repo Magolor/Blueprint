@@ -66,7 +66,9 @@ For new Bash wrappers, source `scripts/_env.bash` and use its helpers instead of
 
 - Repo-local skills live under `.agents/skills`; do not create `.github/skills`.
 - Keep `.agents/` trackable; `.gitignore` must not ignore repo-local skills.
-- The default repo-local skill is `.agents/skills/heaven-style`; Blueprint is the canonical source. After skill edits, run `python .agents/skills/heaven-style/scripts/install.py` for the versioned global install at `~/.agents/skills/heaven-style-<version>/`, and `python .agents/skills/heaven-style/scripts/install.py --mirror ../HeavenBase/HeavenBase/.agents/skills/heaven-style --skip-global` to refresh the HeavenBase in-repo copy.
+- The default repo-local skill is `.agents/skills/heaven-style`; Blueprint is the canonical source. After skill edits, run `rtk uv run python .agents/skills/heaven-style/scripts/install.py` for the standard global install at `~/.agents/skills/heaven-style`.
+- For broad local harness support, run `rtk uv run python .agents/skills/heaven-style/scripts/install.py --all-harnesses`; this installs the common Agent Skill plus a Claude Code plugin bridge without writing `~/.claude/skills/heaven-style`, which can duplicate discovery in Cursor, OpenCode, and Kilo.
+- Do not create `.codex/skills`, `.github/skills`, `.cursor/`, `.opencode/`, `.kilo/skills`, or `~/.claude/skills/heaven-style` copies for the default heaven-style install.
 - GitHub-specific files live under `.github`.
 - Git hooks live under `.githooks`; the pre-commit hook runs `scripts/sync-env.bash --no-heavenbase`, stages generated README/env files, then runs `scripts/flake.bash --all`.
 - PyPI publishing is gated to the `release` branch through `.github/workflows/release.yml`; `scripts/release.bash` fast-forwards `release` from clean `master`.

@@ -2,7 +2,7 @@
 name: heaven-style
 description: Heaven-style code and architecture guide for Python-first repos in the HeavenBase lineage. Use when writing, reviewing, designing architecture, refactoring, or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared infrastructure code; enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure, modern type annotations, canonical OOP vocabulary, short names, raise_mismatch, SQL/resource discipline, architecture-review artifacts, code-review artifacts, and repo lint/test gates.
 metadata:
-  version: 0.1.1.3
+  version: 0.1.1.4
 ---
 
 # Heaven Style

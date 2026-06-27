@@ -97,6 +97,20 @@ bash scripts/sync-env.bash --check --readme-resource-target heavenbase
 
 Repo-local skills live under `.agents/skills`; `.gitignore` explicitly keeps `.agents/` trackable.
 
+Blueprint's canonical `heaven-style` skill installs globally at `~/.agents/skills/heaven-style`:
+
+```bash
+uv run python .agents/skills/heaven-style/scripts/install.py
+```
+
+For local cross-harness support, install the common Agent Skill plus the Claude Code plugin bridge:
+
+```bash
+uv run python .agents/skills/heaven-style/scripts/install.py --all-harnesses
+```
+
+Do not copy the skill into `.codex/skills`, `.github/skills`, `.cursor/`, `.opencode/`, `.kilo/skills`, or `~/.claude/skills/heaven-style`. Claude Code support is provided by the generated local plugin so Cursor, OpenCode, and Kilo do not discover duplicate plain skills from Claude-compatible folders.
+
 ## Release Policy
 
 Blueprint includes a PyPI trusted-publishing workflow at `.github/workflows/release.yml`. It only runs on pushes to the `release` branch when the head commit message contains `[release]`.
