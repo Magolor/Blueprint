@@ -2,7 +2,7 @@
 name: heaven-style
 description: Heaven-style code and architecture guide for Python-first repos in the HeavenBase lineage. Use when writing, reviewing, designing architecture, refactoring, or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared infrastructure code; enforce HeavenBase utilities over stdlib, CM_HVNB config for shared infrastructure, modern type annotations, canonical OOP vocabulary, short names, raise_mismatch, SQL/resource discipline, architecture-review artifacts, code-review artifacts, and repo lint/test gates.
 metadata:
-  version: 0.1.1.4
+  version: 0.1.1.5
 ---
 
 # Heaven Style
@@ -32,6 +32,7 @@ These principles outrank local repo conventions when they conflict:
 - [references/tasks/code-review.md](references/tasks/code-review.md): diff, PR, branch, module, recent changes, or Linear-issue review.
 - [references/tasks/doc-sync.md](references/tasks/doc-sync.md): sync English HeavenBase docs, Mintlify pages, navigation, and sibling docs repos.
 - [references/tasks/doc-trans.md](references/tasks/doc-trans.md): line-aligned Chinese (`zh/`) MDX translation when explicitly requested.
+- [references/tasks/test-compress.md](references/tasks/test-compress.md): audit and compress pytest suites by pruning low-value tests, preserving behavioral contracts, and tagging fast/full coverage.
 - [references/tasks/code-explain.md](references/tasks/code-explain.md): explain architecture, data flow, modules, feature behavior, or code-change comparisons for newcomers.
 - [references/tasks/arch-design.md](references/tasks/arch-design.md): architecture design, periodic architecture review, module boundaries, dependency health, and agile design plans.
 - [references/tasks/manager.md](references/tasks/manager.md): track GitHub and Linear status, stale work, recent work, and next-step orchestration.
@@ -113,4 +114,4 @@ When `uv` is unavailable in a known-good skill-maintenance shell, bare `python .
 
 ## Review Route
 
-For review requests, load [references/tasks/code-review.md](references/tasks/code-review.md). Reviews are findings-first and severity-marked; save `docs/reviews/` artifacts only for durable Linear/PR gates or when the user asks, and normally wait for human annotation before fixes unless the user asks to proceed.
+For review requests, load [references/tasks/code-review.md](references/tasks/code-review.md). Reviews are findings-first and severity-marked; save `docs/reports/reviews/` artifacts only for durable Linear/PR gates or when the user asks, and normally wait for human annotation before fixes unless the user asks to proceed.

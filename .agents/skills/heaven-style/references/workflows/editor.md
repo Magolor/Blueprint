@@ -21,6 +21,7 @@ Use this surface only when maintaining the `heaven-style` skill itself: editing 
    - `references/tasks/code-review.md` for review workflow, artifact, and Linear follow-up details.
    - `references/tasks/doc-sync.md` for docs/Mintlify/sibling-doc workflow details.
    - `references/tasks/doc-trans.md` for line-aligned Chinese MDX translation workflow details.
+   - `references/tasks/test-compress.md` for pytest suite compression, marker policy, and low-value test pruning.
    - `references/tasks/code-explain.md` for newcomer-oriented explanation workflow details.
    - `references/tasks/arch-design.md` for architecture design and periodic architecture review workflow details.
    - `references/tasks/manager.md` for GitHub/Linear status and orchestration workflow details.
@@ -30,7 +31,7 @@ Use this surface only when maintaining the `heaven-style` skill itself: editing 
    - `references/workflows/developer.md` for large refactors, public API design, and full-rule reading during implementation.
    - `references/workflows/editor.md` for skill maintenance.
    - `references/rules/` for rule-selection, code/project rules, and focused good/anti examples.
-2. Keep `references/tasks/` minimal. Default active tasks are `code.md`, `code-review.md`, `doc-sync.md`, `doc-trans.md`, `code-explain.md`, `arch-design.md`, `manager.md`, and `skill-update.md`; add another task only for a stable, repeated workflow that cannot fit them.
+2. Keep `references/tasks/` minimal. Default active tasks are `code.md`, `code-review.md`, `doc-sync.md`, `doc-trans.md`, `test-compress.md`, `code-explain.md`, `arch-design.md`, `manager.md`, and `skill-update.md`; add another task only for a stable, repeated workflow that cannot fit them.
 3. Use trigger-oriented YAML frontmatter. Use `description` and `keywords` for discovery; the Markdown body is normative.
 4. Keep examples inside their owning rule and list cross-checks in `Related rules`.
 5. Run `rtk uv run python scripts/install.py` from the Blueprint skill root after reference or script changes to refresh the standard global install at `~/.agents/skills/heaven-style`. Use `rtk uv run python scripts/install.py --all-harnesses` when local Claude Code support should be refreshed too; it installs a Claude plugin bridge and does not write `~/.claude/skills/heaven-style`. Skill-maintenance scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` only from a known-good shell; prefer `rtk uv run python` in agent sessions. Target-repo work must still use `AGENTS.md` wrappers, `uv`, and `rtk` when available. When maintaining an embedded in-repo copy, use `rtk uv run python scripts/install.py --skip-sync` (or rely on the embedded auto-skip) and refresh the global install for reference assets.

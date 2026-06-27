@@ -28,19 +28,26 @@ Install priority: **uv -> pip (requirements) -> pyproject -> conda -> poetry**.
 - Treat the `heavenbase` requirement in `requirements.txt` as a normal PyPI runtime dependency.
 - Use `scripts/sync-env.bash --heavenbase-source` only as a temporary local source override for HeavenBase development; it may fail when the sibling checkout, network, proxy, or Git credentials are unavailable.
 - Keep the package version in `src/blueprint/version.py`; `pyproject.toml` reads it dynamically.
-- **Versioning:** `MAJOR.MINOR.PATCH.N[devK]` (currently `0.1.1.3`), aligned with HeavenBase when version bumps are intentional. Optional `devK` marks in-development snapshots.
+- **Versioning:** `MAJOR.MINOR.PATCH.N[devK]` (currently `0.1.1.5`), aligned with HeavenBase when version bumps are intentional. Optional `devK` marks in-development snapshots.
 - Keep `README.en.md` as the canonical English README source. `README.md` is generated from it.
 - For package-resource README copies, use `scripts/sync-readme.bash --resource-target <import_name>` or `scripts/sync-env.bash --readme-resource-target <import_name>`.
 - Maintain translated docs such as `README.zh.md` through `.agents/skills/heaven-style/references/tasks/doc-trans.md`, not during ordinary English doc sync. Use `.agents/skills/heaven-style/references/tasks/doc-sync.md` for canonical English docs.
 
 ## Docs
 
-- `docs/README.md` is the project docs menu and authority map.
-- `docs/goals/` holds long-, mid-, and short-term goals.
-- `docs/resources/` holds stable external/internal references and domain background.
-- `docs/progress/` holds progress notes by day: `docs/progress/YYYY-MM-DD/README.md` is the daily summary, with detailed notes beside it when needed.
-- Before docs-sensitive work, check or ask which docs sources matter: current goals, latest progress, feature requests or issue tracker, stable resources, canonical README/docs source, and translation status.
-- Do not create generic `docs/workflows/` or `docs/plans/` in the template. Add them only when a concrete project needs them.
+- Start docs-sensitive work at `docs/README.md`; it is the docs menu, authority map, and artifact-routing guide.
+- `docs/goals/` holds long-, mid-, and short-term goals. Keep it outcome-oriented, not a task log.
+- `docs/plans/` holds active or completed multi-slice plans with checklist progress, verification gates, and closeout state.
+- `docs/resources/` holds stable external/internal references, architecture background, specifications, and durable source-of-truth notes.
+- `docs/reports/` holds auditable review, refactor, and survey reports. Use `docs/reports/reviews/`, `docs/reports/refactors/`, and `docs/reports/surveys/` for the common report families.
+- `docs/progress/` holds append-only progress notes by day: `docs/progress/YYYY-MM-DD/README.md` is the daily summary, with focused notes beside it only when they preserve decisions, evidence, or handoff context.
+- Before major feature, refactor, review, survey, release, or docs-sync work, read the current goals, latest progress day, relevant active plans/reports, stable resources, issue-tracker context, canonical English docs source, generated-doc ownership, and translation status.
+- Create or update a plan when work spans multiple sessions or PRs, changes architecture/public behavior, needs ordered acceptance criteria, or may be resumed by another agent. Do not create a plan for one-pass fixes.
+- Append a daily progress entry for every major feature, refactor, release, docs sweep, decision, blocker, or handoff. Link the plan/report/issue, record decisions and verification, and name the next step.
+- Save a report when findings need an audit trail, drive a decision, gate a PR/Linear issue, or summarize substantial review/refactor/survey work. Keep quick read-only findings inline when no durable artifact is needed.
+- Promote stable conclusions from progress notes, plans, and reports into `docs/resources/` or `docs/goals/`; do not leave long-term truth buried in dated notes.
+- Close docs-impacting work by updating plan/report status, adding the daily progress entry, syncing generated README/docs artifacts, and calling out stale translations instead of updating them ad hoc.
+- Do not create broad new docs folders outside the approved taxonomy unless the project has a concrete owner, lifecycle, and entry in `docs/README.md`.
 
 ## Linear
 
@@ -59,6 +66,8 @@ rtk bash scripts/test.bash
 rtk uv build
 rtk bash scripts/release.bash
 ```
+
+Keep pytest suites limited and marker-tagged. Use targeted paths or fast tests for daily agent feature sessions, for example `rtk bash scripts/test.bash -m "fast and not full" -q`; reserve full tests for large PR merge gates and releases, for example `rtk bash scripts/test.bash -m full` or the full wrapper when project policy requires it. Prefer `fast`/`full` plus clear categories such as `unit`, `integration`, or `slow` over untagged catch-all coverage.
 
 For new Bash wrappers, source `scripts/_env.bash` and use its helpers instead of calling `python` directly. The shared Python lookup is: active virtualenv, repo `.venv`, `uv run python` or `uv.exe run python`, then system Python as a last fallback. Hooks may set `REPO_PYTHON_PREFERENCE`, `BLUEPRINT_PYTHON_PREFERENCE`, or `HEAVENBASE_PYTHON_PREFERENCE` to `uv-first` when they need to prefer `uv run python`. Coding-agent shell policy also lives in `.agents/skills/heaven-style/references/rules/project/environment.md`.
 

@@ -47,7 +47,7 @@ optional-dependencies.dev = { file = ["requirements-dev.txt"] }
 
 # [tool.poetry].version is synced from src/blueprint/version.py by scripts/sync-env.py.
 [tool.poetry]
-version = "0.1.1.3"
+version = "0.1.1.5"
 package-mode = true
 
 [tool.black]
@@ -63,6 +63,8 @@ python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 markers = [
+    "fast: Fast deterministic tests for daily agent and developer runs",
+    "full: Full validation tests reserved for large PR merge and release gates",
     "unit: Unit tests",
     "integration: Integration tests",
     "slow: Slow running tests",

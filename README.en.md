@@ -56,7 +56,9 @@ bash scripts/sync-env.bash
 | `src/blueprint/utils/` | Shared utility code. |
 | `docs/README.md` | Project docs menu and authority map. |
 | `docs/goals/` | Long-, mid-, and short-term project goals. |
+| `docs/plans/` | Multi-slice plans with checklist progress and verification gates. |
 | `docs/resources/` | Stable project references and background. |
+| `docs/reports/` | Durable review, refactor, and survey reports. |
 | `docs/progress/` | Daily progress folders with summaries and optional notes. |
 | `BLUEPRINT.md` | Blueprint-only template notes that are separate from downstream project docs. |
 | `Dockerfile` | Runtime container adapter built from `requirements.txt`. |
@@ -140,5 +142,7 @@ bash scripts/release.bash
 The script creates or reuses a `[release]` commit on `master`, pushes `master`, fast-forwards `release` from `master`, and pushes `release` to trigger the publish workflow.
 
 ## Documentation Policy
+
+Agents should start with `docs/README.md` before docs-sensitive work. Use `docs/plans/` for multi-slice work, `docs/reports/` for durable review/refactor/survey evidence, `docs/resources/` for stable source-of-truth material, and `docs/progress/YYYY-MM-DD/README.md` for append-only daily handoff notes.
 
 English doc sync updates canonical English docs and generated docs through `.agents/skills/heaven-style/references/tasks/doc-sync.md`. Chinese or other translations should be refreshed separately through `.agents/skills/heaven-style/references/tasks/doc-trans.md` after English changes are complete.

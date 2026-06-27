@@ -152,7 +152,7 @@ Use a periodic review when the project has a cadence, reaches a release boundary
 8. **Actions** - classify recommendations as **now**, **next**, **defer**, or **waive**. Avoid broad rewrites unless the evidence shows repeated change cost.
 9. **Next trigger** - record the next review trigger or cadence only when the project actually uses one.
 
-Deliverable: an **architecture review** with scope, evidence, findings, prioritized actions, verification expectations, and docs/issue updates. Store durable reviews under a project-approved path such as `docs/resources/architecture/`, `docs/progress/YYYY-MM-DD/`, or the owning issue when a tracker is the source of truth.
+Deliverable: an **architecture review** with scope, evidence, findings, prioritized actions, verification expectations, and docs/issue updates. Store durable reviews under a project-approved path such as `docs/reports/reviews/`, `docs/resources/architecture/`, `docs/progress/YYYY-MM-DD/`, or the owning issue when a tracker is the source of truth.
 
 ## Doc organization and cleanup
 
@@ -273,6 +273,7 @@ The final architect artifact for major work is an **execution plan** readable by
 
 Store durable plans under a project-approved path:
 
+- `docs/plans/<YYYY-MM-DD>-<topic>.md` for active multi-slice execution plans in repos that maintain plan artifacts.
 - `docs/resources/architecture/<topic>.md` for architecture designs.
 - `docs/goals/` updates for horizon changes.
 - `docs/progress/YYYY-MM-DD/<topic>.md` for time-bound execution plans tied to a milestone.

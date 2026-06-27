@@ -1,5 +1,5 @@
 skill: heaven-style
-version: 0.1.1.4
+version: 0.1.1.5
 description: Heaven-style code and architecture guide for Python-first repos in the
     HeavenBase lineage. Use when writing, reviewing, designing architecture, refactoring,
     or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared
@@ -7,7 +7,7 @@ description: Heaven-style code and architecture guide for Python-first repos in 
     for shared infrastructure, modern type annotations, canonical OOP vocabulary,
     short names, raise_mismatch, SQL/resource discipline, architecture-review artifacts,
     code-review artifacts, and repo lint/test gates.
-generated_at: '2026-06-26T10:00:01Z'
+generated_at: '2026-06-27T09:19:21Z'
 generator: scripts/index.py
 references:
     rules:
@@ -272,6 +272,9 @@ references:
         keywords:
         - pytest
         - unit test
+        - fast test
+        - full test
+        - test marker
         - runnable example
         - demo script
         - coverage
@@ -535,6 +538,43 @@ references:
         - docs
         - test
         path: references/tasks/doc-trans.md
+    -   id: test-compress
+        task_kind: test-compress
+        status: active
+        enabled: true
+        order: 34
+        keywords:
+        - test compression
+        - compress tests
+        - prune tests
+        - pytest cleanup
+        - legacy tests
+        - fast tests
+        - full tests
+        - test markers
+        - suite cleanup
+        triggers:
+        - test-compress
+        - compress tests
+        - prune tests
+        - cleanup tests
+        - reduce tests
+        - slim tests
+        - test suite cleanup
+        description: Use when auditing and slimming a pytest suite by removing oddly
+            specific, legacy, low-value, brittle, or redundant tests while preserving
+            meaningful behavior coverage.
+        related_rules:
+        - overview
+        - test
+        - clean
+        - model
+        - compat
+        - environment
+        - format
+        - docs
+        - review
+        path: references/tasks/test-compress.md
     -   id: code-explain
         task_kind: code-explain
         status: active

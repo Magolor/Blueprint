@@ -19,7 +19,7 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 ## Architecture
 
 - `SKILL.md` is the fast path. A small coding or review task should succeed from it plus one directly matched task/failure/rule file.
-- `references/tasks/` contains stable active workflows only: `code`, `code-review`, `doc-sync`, `doc-trans`, `code-explain`, `arch-design`, `manager`, and `skill-update`.
+- `references/tasks/` contains stable active workflows only: `code`, `code-review`, `doc-sync`, `doc-trans`, `test-compress`, `code-explain`, `arch-design`, `manager`, and `skill-update`.
 - `references/tasks/arch-design.md` is the task entry point for architecture design and periodic architecture review.
 - `references/rules/` contains detailed criteria and focused examples for large refactors, public APIs, shared utilities, storage/query behavior, and tradeoffs.
 - `references/workflows/architect.md` is the design-only workflow route: docs organization, module designs, architecture reviews, refactor plans, goals updates, API standard tables, and step-by-step execution plans.

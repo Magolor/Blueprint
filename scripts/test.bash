@@ -21,6 +21,8 @@ Options:
 
 Examples:
   rtk bash scripts/test.bash
+  rtk bash scripts/test.bash -m "fast and not full" -q
+  rtk bash scripts/test.bash -m full
   rtk bash scripts/test.bash --parallel
   rtk bash scripts/test.bash tests/test_scripts.py -q
 EOF

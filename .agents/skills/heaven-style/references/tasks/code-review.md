@@ -53,7 +53,7 @@ For architecture health reviews not anchored to a concrete diff, branch, PR, or 
 
 ## Review Artifact
 
-Save a durable report to `docs/reviews/<YYYY-MM-DD>-<scope>-heaven-style-review.md` when the user asks for a saved review, the task is a Linear/PR gate, or follow-up work needs an auditable artifact. For quick or explicitly read-only reviews, return the findings inline instead. When saving, include:
+Save a durable report to `docs/reports/reviews/<YYYY-MM-DD>-<scope>-heaven-style-review.md` when the user asks for a saved review, the task is a Linear/PR gate, or follow-up work needs an auditable artifact. For quick or explicitly read-only reviews, return the findings inline instead. When saving, include:
 
 - Scope and comparison base.
 - Commands and evidence inspected.
