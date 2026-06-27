@@ -12,6 +12,7 @@ bash scripts/sync-env.bash --check
 bash scripts/flake.bash --ci
 bash scripts/test.bash
 uv build
+docker build -t blueprint .
 ```
 
 ## CLI
@@ -57,6 +58,9 @@ bash scripts/sync-env.bash
 | `docs/goals/` | Long-, mid-, and short-term project goals. |
 | `docs/resources/` | Stable project references and background. |
 | `docs/progress/` | Daily progress folders with summaries and optional notes. |
+| `BLUEPRINT.md` | Blueprint-only template notes that are separate from downstream project docs. |
+| `Dockerfile` | Runtime container adapter built from `requirements.txt`. |
+| `.dockerignore` | Docker build-context exclusions. |
 | `tests/` | Empty test root for future project-specific tests. |
 | `demos/` | Empty demo root for future project-specific demos. |
 | `demos/assets/` | Committed demo fixtures. |
@@ -68,7 +72,7 @@ bash scripts/sync-env.bash
 
 ## Environment Policy
 
-Edit `requirements.txt` and `requirements-dev.txt` first. `pyproject.toml` reads them through setuptools dynamic metadata; `bash scripts/sync-env.bash` refreshes `uv.lock`, `poetry.lock`, and `environment-dev.yml`.
+Edit `requirements.txt` and `requirements-dev.txt` first. `pyproject.toml` reads them through setuptools dynamic metadata; `bash scripts/sync-env.bash` refreshes `uv.lock`, `poetry.lock`, and `environment-dev.yml`, then validates the Docker adapter.
 
 Use this install priority order:
 
@@ -77,8 +81,18 @@ Use this install priority order:
 3. **pyproject** - `pip install -e ".[dev]"` when only package metadata is available.
 4. **conda** - generated `environment-dev.yml` with `-e ".[dev]"` only.
 5. **poetry** - optional; `poetry install` after `poetry.lock` is refreshed by `bash scripts/sync-env.bash`.
+6. **Docker** - `Dockerfile` installs `requirements.txt` first, then installs the project with dependency resolution disabled.
 
 CI should use `bash scripts/sync-env.bash --check --no-heavenbase` as the generated-file drift gate.
+
+Build and smoke-test the runtime image with:
+
+```bash
+docker build -t blueprint .
+docker run --rm blueprint --version
+```
+
+The Dockerfile is an adapter around the same requirements source, not a separate dependency declaration. See `BLUEPRINT.md` for the template-level dependency-model rationale.
 
 `scripts/sync-env.bash --heavenbase-source` is a temporary source override for local HeavenBase development. It can fail when the sibling checkout is missing, GitHub or the configured remote is private, SSH/HTTPS credentials are unavailable, a proxy/VPN blocks Git, or the remote branch cannot fast-forward. Normal template users should rely on the PyPI dependency instead.
 

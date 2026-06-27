@@ -21,10 +21,10 @@ Synchronize lockfiles and generated compatibility files from requirements*.txt.
 
 Edit requirements.txt and requirements-dev.txt first. pyproject.toml reads them
 through setuptools dynamic metadata; this script refreshes uv.lock, poetry.lock,
-and environment-dev.yml.
+environment-dev.yml, and validates Docker compatibility files.
 
 Options:
-  --check       Verify uv.lock, poetry.lock, and generated files are current.
+  --check       Verify uv.lock, poetry.lock, generated files, and Docker files are current.
   --no-sync     Update lock/generated files without running uv sync.
   --heavenbase-source
                 Install a temporary editable HeavenBase source override after uv sync.
