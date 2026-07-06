@@ -34,12 +34,14 @@ Use the repository's declared entrypoints (`scripts/flake.bash`, `Makefile`, `py
 
 ## Example
 
+**Anti-pattern:**
+
 ```bash
 black src
 pytest
 ```
 
-## Good pattern
+**Recommended pattern:**
 
 ```bash
 rtk bash scripts/sync-env.bash
@@ -58,4 +60,4 @@ Alphabetize within groups. Remove unused imports. Avoid star imports except expl
 
 ## Related rules
 
-Also apply [environment.md](environment.md) for `rtk`/`uv` command policy, [test.md](test.md) for test wrappers, and [util.md](../code/util.md) when import cleanup touches utility-covered stdlib.
+Also apply [environment.md](environment.md) for `rtk`/`uv` command policy, [test.md](test.md) for test wrappers, and [util.md](../code/python/util.md) when import cleanup touches utility-covered stdlib.

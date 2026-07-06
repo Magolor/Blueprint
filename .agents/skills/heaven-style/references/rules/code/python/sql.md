@@ -38,16 +38,22 @@ Whenever possible, use the HeavenBase-provided `Database` class instead of the r
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 def load_user(db, user_id: str):
     return db.execute(f"select * from users where id = '{user_id}'")
 ```
+
+**Recommended pattern:**
 
 ```python
 def load_user(db: Database, user_id: str) -> User:
     stmt = select(User).where(User.id == user_id)
     return db.execute(stmt).scalar_one()
 ```
+
+Never use SQL strings whenever there's ORM alternative.
 
 ## Raw SQL exception
 

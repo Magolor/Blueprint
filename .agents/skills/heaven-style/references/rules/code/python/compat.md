@@ -37,11 +37,30 @@ Prefer one live API version. Rename freely and update call sites in the same cha
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 def old_api(value: str) -> str:
     warnings.warn("old_api is deprecated; use new_api", DeprecationWarning)
     return new_api(value)
+
+def new_api(value: str) -> str:
+    ...
+
+def migrate_old_api_to_new_api():
+    ...
 ```
+
+**Recommended pattern:**
+
+```python
+def api(value: str) -> str:
+    ...
+```
+
+Unless explicitly instructed, never consider migration from an older codebase or data source in coding, refactoring, and reviews. Only keep the cleanest, latest api without even notifying the user of the existence of the old api.
+
+This applies when the package is under development, waive for a stable version project or when user explicitly request for compatibility.
 
 ## Legacy lineage
 
@@ -53,15 +72,6 @@ When migrating or reviewing older docs, issues, imports, or sibling repos:
 - Verify feature parity through the new cleaner API.
 - Remove old dependency/import paths in the same change unless explicitly waived.
 
-## Good pattern
-
-```python
-def new_api(value: str) -> str:
-    ...
-```
-
-- Waiver only when the user explicitly requests a documented compatibility layer.
-
 ## Related rules
 
-Also apply [model.md](model.md) for one clear API, [name.md](name.md) for renamed symbols, [config.md](config.md) for schema changes, and [docs](../project/docs.md) for migration notes.
+Also apply [model.md](model.md) for one clear API, [name.md](name.md) for renamed symbols, [config.md](config.md) for schema changes, and [docs](../../project/docs.md) for migration notes.

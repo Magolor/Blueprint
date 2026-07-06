@@ -50,10 +50,14 @@ Use the config manager that owns the behavior. HeavenBase is shared infrastructu
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 def embed(text: str, model: str = "deepseek-v4-flash", batch_size: int = 32) -> list[float]:
     ...
 ```
+
+**Recommended pattern:**
 
 ```python
 from heavenbase.utils import CM_HVNB
@@ -86,13 +90,17 @@ Temporarily keep `Union[...]` instead of `|` only when Python 3.9 compatibility 
 
 ## Path and resource example
 
+**Anti-pattern:**
+
 ```python
 path = CM_HVNB.pj("cache/items.json")
 prompt = open("src/heavenbase/resources/prompts/embed.txt").read()
 ```
 
+**Recommended pattern:**
+
 ```python
-from heavenbase.utils import load_txt
+from heavenbase.utils import CM_HVNB, load_txt
 
 path = CM_HVNB.pj("cache", "items.json", abs=True)
 prompt = load_txt(CM_HVNB.pj("&", "prompts", "embed.txt"))
@@ -102,8 +110,20 @@ prompt = load_txt(CM_HVNB.pj("&", "prompts", "embed.txt"))
 
 ## Provider default example
 
+**Anti-pattern:**
+
 ```python
 import heavenbase as hb
+
+def embed(text: str) -> list[float]:
+    return hb.LLM(preset="openai_embed").embed(text)
+```
+
+**Recommended pattern:**
+
+```python
+import heavenbase as hb
+from heavenbase.utils import CM_HVNB
 
 def embed(text: str, preset: str | None = None) -> list[float]:
     preset = preset or str(CM_HVNB.get("heavenbase.llm.embedding.preset", default="openai_embed"))
@@ -112,8 +132,19 @@ def embed(text: str, preset: str | None = None) -> list[float]:
 
 ## Sentinel example
 
+**Anti-pattern:**
+
+```python
+def fetch(url: str, tag: str | None = None) -> bytes:
+    tag = tag or "default"
+    ...
+```
+
+**Recommended pattern:**
+
 ```python
 from typing import Union
+from heavenbase.utils import CM_HVNB
 
 def fetch(url: str, tag: Union[str, None, Ellipsis] = ...) -> bytes:
     if tag is ...:
@@ -123,4 +154,4 @@ def fetch(url: str, tag: Union[str, None, Ellipsis] = ...) -> bytes:
 
 ## Related rules
 
-Also apply [util.md](util.md) for path/file helpers, [types.md](types.md) for `Union` compatibility, [name.md](name.md) for config key naming, and [format.md](../project/format.md) for wrapper commands.
+Also apply [util.md](util.md) for path/file helpers, [types.md](types.md) for `Union` compatibility, [name.md](name.md) for config key naming, and [format.md](../../project/format.md) for wrapper commands.

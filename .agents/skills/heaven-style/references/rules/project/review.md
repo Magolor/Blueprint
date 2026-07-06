@@ -42,9 +42,9 @@ Reviews are findings-first, severity-marked, and grounded in file/line evidence 
 - **Brevity:** minimal readable implementation; no avoidable boilerplate, duplicated branches, over-abstracted helpers, or unnecessary files.
 - **Ease of use:** straightforward mental model for users and developers; no parallel APIs, confusing flags, or alternate-name-heavy surfaces.
 - **Cleanliness:** no ad-hoc hacks, backward-compat leftovers, dead code, debug prints, stale placeholders, or unused artifacts.
-- **Docstrings:** user-facing APIs have detailed Google-style docstrings with `Args`, `Returns`, and relevant `Raises`, warnings, or examples.
+- **Docstrings:** publicly exposed functions, methods, and major feature APIs have full type hints plus detailed Google-style docstrings with `Args`, `Returns` or `Yields`, and relevant `Raises`, warnings, notes, examples, or literal-option references.
 - **Robustness:** invalid input, security issues, corner cases, swallowed errors, resource leaks, races, and unsafe fallbacks are handled.
-- **Migration alignment:** predecessor functionality remains available through the new cleaner API; see [../code/compat.md](../code/compat.md).
+- **Migration alignment:** predecessor functionality remains available through the new cleaner API; see [../code/python/compat.md](../code/python/compat.md).
 - **Sync:** tests, docs, HeavenBase docs, architecture markdown, generated artifacts, examples in the relevant rules, and Linear issue state match the code.
 
 ## Severity

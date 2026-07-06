@@ -7,6 +7,21 @@ Static bundles and **read-only reference trees** for agents (not loaded unless n
 Bundled en–zh terminology table for doc-sync and doc-trans.
 Project glossary files take precedence (`_docs-guide/terminology.md`, `reference/glossary.mdx`); when those are absent, use this fallback.
 
+## MacOS-env.md
+
+Shared macOS setup-maintenance playbook for package-manager ownership, update commands, Docker database caution, and host-environment guardrails.
+
+## instance/
+
+Non-secret local machine notes for agent sessions. Start with [instance/Magolor-M5.md](instance/Magolor-M5.md) on Magolor's M5 Mac.
+
+Refresh generated facts from the skill root:
+
+```bash
+python scripts/machine.py --output assets/instance/Magolor-M5.md
+python scripts/index.py
+```
+
 ## heavenbase-reference/
 
 Shallow git clone of the HeavenBase repository for ground-truth patterns (`AGENTS.md`, `src/`, `demos/`, `scripts/`).

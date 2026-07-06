@@ -19,7 +19,7 @@ Each rule uses this body shape where practical:
 2. `Apply when` - situations that should load the rule.
 3. `Do` - preferred behavior.
 4. `Avoid` - banned or discouraged behavior.
-5. `Example` - focused anti-pattern and good-pattern pairs when useful.
+5. `Example` - focused `Anti-pattern:` and `Recommended pattern:` pairs when useful.
 6. `Related rules` - cross-rule checks.
 
 ## Code-quality rules
@@ -27,14 +27,17 @@ Each rule uses this body shape where practical:
 1. `util` - load for imports, file I/O, JSON/YAML/pickle/text, shell, logging, hashing, temp paths, or deterministic IDs.
 2. `config` - load for tunables, defaults, prompts, templates, resources, paths, model/provider/backend parameters, or disputed literals.
 3. `types` - load for public APIs, `typing` imports, Python-version compatibility, dict/list annotations, or schema-shaped data.
-4. `oop` - load for public method names, entity/store/client APIs, CRUD, KV, batch, engine lifecycle, specs/configs/plans, or preset/provider/backend models.
-5. `model` - load for public API surface design, new classes/functions, user mental models, or DSL/interface choices.
-6. `name` - load for naming reviews, new public symbols, abbreviations, module names, or glossary changes.
-7. `py` - load for Python control-flow shape, comprehensions, guard clauses, and fallback semantics.
-8. `clean` - load when adding helper functions, wrappers, adapters, temporary transforms, or abstraction boundaries.
-9. `error` - load for validation, unsupported choices, exception boundaries, logging, or swallowed errors.
-10. `sql` - load for database access, raw SQL, migrations, DDL, ORM use, and bind parameters.
-11. `compat` - load for renames, deprecations, migration shims, `v1/v2` splits, or config schema changes.
+4. `docstring` - load for publicly exposed functions, major feature APIs, Google-style `Args`/`Returns`/`Yields`, examples, warnings, or Markdown in docstrings.
+5. `oop` - load for public method names, entity/store/client APIs, CRUD, KV, batch, engine lifecycle, specs/configs/plans, or preset/provider/backend models.
+6. `model` - load for public API surface design, new classes/functions, user mental models, or DSL/interface choices.
+7. `solid` - load for SOLID checks: SRP, OCP, LSP, ISP, DIP, class boundaries, extension points, inheritance contracts, role-specific interfaces, registries, or provider/strategy dependencies.
+8. `name` - load for naming reviews, new public symbols, abbreviations, module names, or glossary changes.
+9. `files` - load for Python file organization, package folders, internal modules, public exports, lazy export stubs, adapter/provider layout, or feature-local boundaries.
+10. `py` - load for Python control-flow shape, comprehensions, guard clauses, and fallback semantics.
+11. `clean` - load when adding helper functions, wrappers, adapters, temporary transforms, or abstraction boundaries.
+12. `error` - load for validation, unsupported choices, exception boundaries, logging, or swallowed errors.
+13. `sql` - load for database access, raw SQL, migrations, DDL, ORM use, and bind parameters.
+14. `compat` - load for renames, deprecations, migration shims, `v1/v2` splits, or config schema changes.
 
 ## Project rules
 

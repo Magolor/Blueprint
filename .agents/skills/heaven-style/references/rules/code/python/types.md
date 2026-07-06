@@ -37,6 +37,8 @@ Use current Python annotation style for new code unless the target repo pins an 
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 from typing import Dict, List, Optional
 
@@ -44,10 +46,14 @@ def rows_by_id(rows: List[Dict[str, str]], name: Optional[str] = None) -> Dict[s
     ...
 ```
 
+**Recommended pattern:**
+
 ```python
 def rows_by_id(rows: list[dict[str, str]], name: str | None = None) -> dict[str, str]:
     ...
 ```
+
+Prefer built-in collection generics over `Dict`, `List`, `Tuple`, and `Set` in Python 3.9+. Use `|` instead of `Optional` or `Union` in Python 3.10+ for type hints.
 
 ## Python 3.9 compatibility
 
@@ -71,4 +77,4 @@ Still prefer built-in collections (`dict`, `list`, `tuple`, `set`) over `Dict`, 
 
 ## Related rules
 
-Also apply [model.md](model.md) for public data surfaces, [oop.md](oop.md) for method contracts, and [config.md](config.md) for sentinel/default patterns.
+Also apply [docstring.md](docstring.md) for public API documentation, [model.md](model.md) for public data surfaces, [oop.md](oop.md) for method contracts, and [config.md](config.md) for sentinel/default patterns.

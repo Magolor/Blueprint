@@ -39,12 +39,16 @@ For tiny helper functions that only hide a one-line transform, also apply [clean
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 out = []
 for item in items:
     if item.get("active"):
         out.append(item["name"].lower())
 ```
+
+**Recommended pattern:**
 
 ```python
 out = [item["name"].lower() for item in items if item.get("active", False)]

@@ -162,6 +162,8 @@ For databases, a preset is a named database/provider config. A provider describe
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 class Row:
     def as_dict(self):
@@ -170,6 +172,8 @@ class Row:
     def fetch(self, key):
         return self._data[key]
 ```
+
+**Recommended pattern:**
 
 ```python
 from typing import Any
@@ -194,4 +198,4 @@ class Row:
 
 ## Related rules
 
-Also apply [model.md](model.md) for public surface size, [name.md](name.md) for symbol naming, [types.md](types.md) for annotations, and [config.md](config.md) for provider/preset defaults.
+Also apply [model.md](model.md) for public surface size, [name.md](name.md) for symbol naming, [types.md](types.md) for annotations, [docstring.md](docstring.md) for public API documentation, and [config.md](config.md) for provider/preset defaults.

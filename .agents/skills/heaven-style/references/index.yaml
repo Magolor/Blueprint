@@ -1,13 +1,14 @@
 skill: heaven-style
-version: 0.1.1.5
+version: 0.1.1.6
 description: Heaven-style code and architecture guide for Python-first repos in the
     HeavenBase lineage. Use when writing, reviewing, designing architecture, refactoring,
     or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared
     infrastructure code; enforce HeavenBase utilities over stdlib, CM_HVNB config
-    for shared infrastructure, modern type annotations, canonical OOP vocabulary,
-    short names, raise_mismatch, SQL/resource discipline, architecture-review artifacts,
-    code-review artifacts, and repo lint/test gates.
-generated_at: '2026-06-27T09:19:21Z'
+    for shared infrastructure, modern type annotations, comprehensive Google-style
+    public API docstrings, canonical OOP vocabulary, short names, raise_mismatch,
+    SQL/resource discipline, architecture-review artifacts, code-review artifacts,
+    and repo lint/test gates.
+generated_at: '2026-07-06T08:39:40Z'
 generator: scripts/index.py
 references:
     rules:
@@ -45,7 +46,7 @@ references:
         - open
         description: Use when code touches paths, files, serialization, shell commands,
             hashing, logging, temp files, IDs, or stdlib utility imports.
-        path: references/rules/code/util.md
+        path: references/rules/code/python/util.md
     -   id: config
         title: Config and resources
         enabled: true
@@ -64,7 +65,7 @@ references:
         - batch size
         description: Use when code introduces defaults, tunables, prompt or resource
             paths, model/backend settings, or disputed literals.
-        path: references/rules/code/config.md
+        path: references/rules/code/python/config.md
     -   id: types
         title: Type annotations
         enabled: true
@@ -82,7 +83,27 @@ references:
         - Self
         description: Use when adding or reviewing type annotations, public signatures,
             Python-version compatibility, or schema-shaped data.
-        path: references/rules/code/types.md
+        path: references/rules/code/python/types.md
+    -   id: docstring
+        title: Docstrings
+        enabled: true
+        blocking: true
+        order: 27
+        category: code-quality
+        keywords:
+        - docstring
+        - Google-style
+        - Args
+        - Returns
+        - Yields
+        - Raises
+        - markdown
+        - public API
+        - documentation
+        description: Use when adding or reviewing public API docstrings, major feature
+            APIs, generator docs, return docs, examples, warnings, or Markdown markup
+            inside Python docstrings.
+        path: references/rules/code/python/docstring.md
     -   id: oop
         title: OOP vocabulary
         enabled: true
@@ -103,7 +124,7 @@ references:
         - backend
         description: Use when designing public objects, stores, clients, CRUD/KV APIs,
             batch APIs, engines, specs, configs, plans, or presets.
-        path: references/rules/code/oop.md
+        path: references/rules/code/python/oop.md
     -   id: model
         title: Mental model
         enabled: true
@@ -123,7 +144,34 @@ references:
         description: Use when adding public classes or functions, designing a user-facing
             surface, choosing method versus free function, adding constructor flags,
             or proposing a DSL.
-        path: references/rules/code/model.md
+        path: references/rules/code/python/model.md
+    -   id: solid
+        title: SOLID boundaries
+        enabled: true
+        blocking: true
+        order: 37
+        category: code-quality
+        keywords:
+        - SOLID
+        - SRP
+        - OCP
+        - LSP
+        - ISP
+        - DIP
+        - single responsibility
+        - open closed
+        - Liskov
+        - interface segregation
+        - dependency inversion
+        - backend
+        - provider
+        - strategy
+        - registry
+        - architecture
+        description: Use when designing or reviewing SOLID boundaries, class boundaries,
+            extension points, inheritance contracts, adapter interfaces, registries,
+            or strategy/provider dependencies.
+        path: references/rules/code/python/solid.md
     -   id: name
         title: Names
         enabled: true
@@ -140,7 +188,39 @@ references:
         - variable name
         description: Use when adding or reviewing modules, public symbols, abbreviations,
             predicates, variable names, or glossary terms.
-        path: references/rules/code/name.md
+        path: references/rules/code/python/name.md
+    -   id: files
+        title: File organization
+        enabled: true
+        blocking: true
+        order: 45
+        category: code-quality
+        keywords:
+        - file organization
+        - module layout
+        - package layout
+        - folder
+        - private module
+        - internal file
+        - utils.py
+        - _utils.py
+        - __init__
+        - __init__.pyi
+        - py.typed
+        - pyi
+        - __all__
+        - __getattr__
+        - lazy exports
+        - exports
+        - adapter files
+        - provider files
+        - feature folder
+        - file naming
+        description: Use when adding or reviewing Python files, package folders, public
+            exports, lazy exports, local helper modules, internal helper modules,
+            typing stubs, implementation families, adapters, providers, or feature-local
+            module boundaries.
+        path: references/rules/code/python/files.md
     -   id: py
         title: Python shape
         enabled: true
@@ -157,7 +237,7 @@ references:
         - early return
         description: Use when code shape is verbose, deeply nested, unclear, or depends
             on fallback/control-flow semantics.
-        path: references/rules/code/py.md
+        path: references/rules/code/python/py.md
     -   id: clean
         title: Helper cleanliness
         enabled: true
@@ -173,7 +253,7 @@ references:
         - abstraction
         description: Use when adding helper functions, wrappers, temporary transforms,
             adapters, or deciding inline logic versus shared utilities.
-        path: references/rules/code/clean.md
+        path: references/rules/code/python/clean.md
     -   id: error
         title: Errors
         enabled: true
@@ -190,7 +270,7 @@ references:
         - swallowed error
         description: Use when validating supported values, handling exceptions, logging
             failures, catching broadly, or returning fallbacks.
-        path: references/rules/code/error.md
+        path: references/rules/code/python/error.md
     -   id: sql
         title: SQL
         enabled: true
@@ -207,7 +287,7 @@ references:
         - raw sql
         description: Use when code touches database queries, raw SQL, migrations,
             DDL, binds, SQLAlchemy, ORM, or SQL resources.
-        path: references/rules/code/sql.md
+        path: references/rules/code/python/sql.md
     -   id: compat
         title: Compatibility shims
         enabled: true
@@ -224,7 +304,7 @@ references:
         - migration
         description: Use when renaming APIs, changing config schemas, adding aliases,
             preserving old behavior, or proposing migration/deprecation shims.
-        path: references/rules/code/compat.md
+        path: references/rules/code/python/compat.md
     -   id: environment
         title: Agent environment and commands
         enabled: true
@@ -346,6 +426,12 @@ references:
         - architecture review
         - periodic architecture review
         - agile design
+        - SOLID
+        - SRP
+        - OCP
+        - LSP
+        - ISP
+        - DIP
         - design smells
         - dependency review
         - module design
@@ -424,9 +510,12 @@ references:
         - util
         - config
         - types
+        - docstring
         - oop
         - model
+        - solid
         - name
+        - files
         - py
         - clean
         - error
@@ -466,9 +555,12 @@ references:
         - util
         - config
         - types
+        - docstring
         - oop
         - model
+        - solid
         - name
+        - files
         - py
         - clean
         - error
@@ -602,9 +694,47 @@ references:
         - docs
         - model
         - oop
+        - files
         - extension
         - clean
         path: references/tasks/code-explain.md
+    -   id: env
+        task_kind: env
+        status: active
+        enabled: true
+        order: 36
+        keywords:
+        - maintain env
+        - update env
+        - repair env
+        - system env
+        - machine maintenance
+        - setup maintenance
+        - Homebrew
+        - Brewfile
+        - uv
+        - conda
+        - mise
+        - rustup
+        - docker
+        triggers:
+        - env
+        - update env
+        - maintain environment
+        - repair environment
+        - system maintenance
+        - machine maintenance
+        - refresh machine tools
+        - setup maintenance
+        description: Use when maintaining a developer machine environment, updating
+            setup plans, performing scoped machine maintenance, or preparing safe
+            local environment commands.
+        related_rules:
+        - overview
+        - environment
+        - docs
+        - review
+        path: references/tasks/env.md
     -   id: arch-design
         task_kind: arch-design
         status: active
@@ -619,6 +749,11 @@ references:
         - dependency review
         - agile design
         - SOLID
+        - SRP
+        - OCP
+        - LSP
+        - ISP
+        - DIP
         - design smells
         - design doc
         triggers:
@@ -640,6 +775,10 @@ references:
         - review
         - model
         - oop
+        - solid
+        - types
+        - docstring
+        - files
         - clean
         - extension
         - compat
@@ -676,6 +815,7 @@ references:
         - format
         - test
         - clean
+        - solid
         path: references/tasks/skill-update.md
     -   id: manager
         task_kind: manager
@@ -778,6 +918,9 @@ scripts:
     name: install
     description: Install heaven-style globally, mirror optional checkouts, and refresh
         assets.
+-   path: scripts/machine.py
+    name: machine
+    description: Generate sanitized local-machine instance notes.
 -   path: scripts/scan.py
     name: scan
     description: Scan Python files for stdlib imports banned by heaven-style util
@@ -786,10 +929,13 @@ scripts:
     name: sync
     description: Clone or refresh the HeavenBase reference tree under assets/.
 assets:
--   path: assets/heavenbase-reference
+-   path: assets/instance
     kind: dir
-    git_head: e0d6ccffe5f8dd2bfc9aaf9c129bb2aa44eb63bb
+-   path: assets/instance/Magolor-M5.md
+    kind: file
 -   path: assets/default-glossary.md
+    kind: file
+-   path: assets/MacOS-env.md
     kind: file
 -   path: assets/REFERENCE.md
     kind: file

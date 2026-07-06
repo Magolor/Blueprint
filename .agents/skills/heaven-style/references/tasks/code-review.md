@@ -7,7 +7,7 @@ order: 20
 keywords: [review code, review pr, review branch, review recent changes, style review, quality review, linear review]
 triggers: [review, code review, check this pr, review TAL, review branch, review changes]
 description: Use when reviewing code changes, modules, branches, PRs, recent diffs, or Linear-linked review work.
-related_rules: [overview, review, util, config, types, oop, model, name, py, clean, error, sql, compat, environment, format, test, docs, extension]
+related_rules: [overview, review, util, config, types, docstring, oop, model, solid, name, files, py, clean, error, sql, compat, environment, format, test, docs, extension]
 ---
 
 # Code Review Task
@@ -31,9 +31,9 @@ Systematically review code changes, recent changes, a module, a branch, or a Lin
 - Brevity: code should be as small as the behavior allows; flag boilerplate, duplicate logic, over-abstracted helpers, and unnecessary branches.
 - Ease of use: the mental model should be direct for users and developers without heavy cognitive burden.
 - Cleanliness: no ad-hoc hacks, backward-compatibility leftovers, dead code, stale placeholders, debug prints, or unused artifacts.
-- Docstrings: user-facing APIs need detailed Google-style docstrings with `Args`, `Returns`, and relevant `Raises`, warnings, or examples.
+- Docstrings: publicly exposed functions, methods, and major feature APIs need full type hints plus detailed Google-style docstrings with a one-line summary, `Args`, `Returns` or `Yields`, and relevant `Raises`, warnings, notes, or examples.
 - Robustness: look for vulnerabilities, invalid input paths, corner cases, swallowed exceptions, resource leaks, race conditions, and unsafe fallbacks.
-- Migration alignment: if the change replaces a predecessor package, follow [compat.md](../rules/code/compat.md) and verify supported behavior remains available through the new API.
+- Migration alignment: if the change replaces a predecessor package, follow [compat.md](../rules/code/python/compat.md) and verify supported behavior remains available through the new API.
 - Sync: docs, HeavenBase docs, architecture markdown, generated artifacts, tests, examples in the relevant rules, and Linear issue state should match the codebase.
 
 ## Findings Format

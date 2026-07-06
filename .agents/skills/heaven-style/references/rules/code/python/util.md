@@ -40,6 +40,8 @@ Before importing stdlib for app code, search HeavenBase utilities for an existin
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 import json
 import os
@@ -54,6 +56,8 @@ def load_items(name: str) -> list[dict[str, Any]]:
         data = json.load(file)
     return list(data.get("items", []))
 ```
+
+**Recommended pattern:**
 
 ```python
 from typing import Any

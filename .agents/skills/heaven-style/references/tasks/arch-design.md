@@ -4,10 +4,10 @@ task_kind: arch-design
 status: active
 enabled: true
 order: 38
-keywords: [architecture design, architecture review, periodic architecture review, module design, refactor plan, dependency review, agile design, SOLID, design smells, design doc]
+keywords: [architecture design, architecture review, periodic architecture review, module design, refactor plan, dependency review, agile design, SOLID, SRP, OCP, LSP, ISP, DIP, design smells, design doc]
 triggers: [arch-design, architecture design, design architecture, architecture review, design review, periodic architecture review, module design, refactor plan, ADR]
 description: Use when designing or reviewing architecture, module boundaries, dependency direction, extension seams, refactor plans, or periodic architecture health using agile design principles before implementation.
-related_rules: [overview, docs, review, model, oop, clean, extension, compat, test, environment]
+related_rules: [overview, docs, review, model, oop, solid, types, docstring, files, clean, extension, compat, test, environment]
 ---
 
 # Arch Design Task
@@ -32,6 +32,7 @@ Use agile design as a control loop, not a big upfront phase:
 - Keep the design simple but refactorable. Avoid both needless abstraction and convenient shortcuts that make future change harder.
 - Treat tests, CI, and refactoring as architectural fitness functions. A design is not agile if changes cannot be made safely.
 - Use design patterns only to manage real variation, dependency, or collaboration pressure already visible in the evidence.
+- Use [solid.md](../rules/code/python/solid.md) for SRP, OCP, LSP, ISP, and DIP boundary checks when class, module, backend, provider, strategy, registry, or dependency direction is part of the design.
 - Keep documentation light but durable. Use diagrams and tables when they clarify decisions; never let them substitute for tests or code truth.
 
 ## Architecture Review Checklist
@@ -55,6 +56,7 @@ Then check dependency health:
 - Dependency cycles are blockers unless explicitly waived with a plan to break them.
 - Modules that change together should live together; modules reused together should be released and documented together.
 - Public extension points should use registration APIs instead of central planner/router branches.
+- SOLID findings should name the exact principle abbreviation: **SRP** for reason-to-change boundaries, **OCP** for extension without reopening stable planners, **LSP** for substitutable contracts, **ISP** for optional capability surfaces, and **DIP** for dependency direction.
 
 ## Output Modes
 

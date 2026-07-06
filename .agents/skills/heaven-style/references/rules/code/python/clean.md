@@ -39,7 +39,9 @@ Use this decision order:
 2. Specialized one-liner or small local block: keep it inline where the behavior is used.
 3. Specialized large block: a private helper is allowed, with a clear name, type hints, and a docstring explaining the transformation boundary.
 
-## Anti-pattern
+## Example
+
+**Anti-pattern:**
 
 ```python
 def _convert_to_lists(rows: list[tuple[str, int]]) -> list[list[object]]:
@@ -52,7 +54,7 @@ payload = _convert_to_lists(rows)
 flattened_payload = _flatten_list_of_lists(payload)
 ```
 
-## Good pattern
+**Recommended pattern:**
 
 ```python
 from heavenbase.utils import lflat

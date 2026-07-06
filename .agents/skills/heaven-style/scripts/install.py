@@ -34,7 +34,6 @@ CLAUDE_MARKETPLACE = "heaven-style-local"
 VERSION_RE = re.compile(r"^metadata:\s*\n(?:[ \t].*\n)*?[ \t]+version:\s*(\S+)", re.M)
 NAME_RE = re.compile(r"^name:\s*(\S+)", re.M)
 DESCRIPTION_RE = re.compile(r"^description:\s*(.+)", re.M)
-ASSET_FILES = ("REFERENCE.md", "default-glossary.md", ".gitignore")
 SKIP_NAMES = {"__pycache__", "heavenbase-reference"}
 
 
@@ -146,10 +145,15 @@ def copy_skill_tree(source: str, target: str) -> None:
         dest = pj(target, name, abs=True)
         if name == "assets" and exists_dir(path):
             touch_dir(dest)
-            for asset in ASSET_FILES:
-                asset_path = pj(path, asset)
-                if exists_file(asset_path):
-                    copy_file(asset_path, pj(dest, asset))
+            for asset_path in list_paths(path, abs=True):
+                asset_name = get_file_basename(asset_path)
+                if asset_name in SKIP_NAMES or (asset_name.startswith(".") and asset_name != ".gitignore"):
+                    continue
+                asset_dest = pj(dest, asset_name)
+                if exists_dir(asset_path):
+                    copy_dir(asset_path, asset_dest)
+                else:
+                    copy_file(asset_path, asset_dest)
             continue
         if exists_dir(path):
             copy_dir(path, dest)

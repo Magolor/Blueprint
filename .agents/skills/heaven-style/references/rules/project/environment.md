@@ -76,13 +76,15 @@ New repo wrappers should set `ROOT`, `cd` to it, `source "${ROOT}/scripts/_env.b
 
 ## Example
 
+**Anti-pattern:**
+
 ```bash
 pytest tests -q
 python -m black src
 pip install -e ".[dev]"
 ```
 
-## Good pattern
+**Recommended pattern:**
 
 ```bash
 rtk bash scripts/sync-env.bash

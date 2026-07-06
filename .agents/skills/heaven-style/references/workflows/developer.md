@@ -39,7 +39,7 @@ Use this loop for large HeavenBase stabilization work:
 
 Load all code-quality rules for public APIs, shared utilities, or broad refactors:
 
-- `util`, `config`, `types`, `oop`, `model`, `name`, `py`, `clean`, `error`, `sql`, `compat`
+- `util`, `config`, `types`, `docstring`, `oop`, `model`, `solid`, `name`, `files`, `py`, `clean`, `error`, `sql`, `compat`
 
 Load project rules when the task touches release readiness:
 

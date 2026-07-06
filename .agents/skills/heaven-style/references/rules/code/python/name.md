@@ -35,13 +35,19 @@ Names should be short enough for hot-path readability and precise enough to pres
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 database_connection_object_list = load_database_connections()
 ```
 
+**Recommended pattern:**
+
 ```python
 dbs = load_dbs()
 ```
+
+Names should be brief whenever possible, any names with 3 or more parts in snake case is worth serious re-examination and potential re-naming unless there is a good reason to keep it.
 
 ## Shared abbreviations
 

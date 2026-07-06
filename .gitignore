@@ -75,9 +75,9 @@ CLAUDE.local.md
 !.agents/**
 .agents/**/__pycache__/
 .agents/**/*.pyc
+.agents/**/.DS_Store
 
 # Demo runtime data (demos/.temp/ name matches *.temp above)
 !demos/.temp/
 demos/.temp/*
 !demos/.temp/.gitignore
-

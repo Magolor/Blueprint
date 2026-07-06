@@ -99,13 +99,20 @@ def collect_assets() -> list[dict[str, str]]:
         return []
     out: list[dict[str, str]] = []
     for path in list_paths(ASSETS, abs=True):
-        if get_file_basename(path).startswith("."):
+        name = get_file_basename(path)
+        if name.startswith("."):
             continue
         entry = {"path": rel(path), "kind": "dir" if exists_dir(path) else "file"}
         head = pj(path, ".git", "HEAD")
         if exists_dir(path) and exists_file(head):
             entry["git_head"] = load_txt(head).strip()
         out.append(entry)
+        if name == "instance" and exists_dir(path):
+            out.extend(
+                {"path": rel(asset), "kind": "file"}
+                for asset in sorted(enum_files(path, abs=True), key=str.lower)
+                if not get_file_basename(asset).startswith(".")
+            )
     return out
 
 

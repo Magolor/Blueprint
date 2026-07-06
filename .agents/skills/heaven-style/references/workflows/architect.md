@@ -3,7 +3,7 @@ id: workflow-architect
 title: Architect workflow
 enabled: true
 audience: architect
-keywords: [architecture plan, architecture review, periodic architecture review, agile design, design smells, dependency review, module design, refactor plan, goals roadmap, api standard table, docs cleanup, organize docs, short-term goals, mid-term goals, long-term goals, implementation plan, design doc]
+keywords: [architecture plan, architecture review, periodic architecture review, agile design, SOLID, SRP, OCP, LSP, ISP, DIP, design smells, dependency review, module design, refactor plan, goals roadmap, api standard table, docs cleanup, organize docs, short-term goals, mid-term goals, long-term goals, implementation plan, design doc]
 description: Use when organizing docs, designing or reviewing architecture, drafting refactor plans, updating goals, or producing step-by-step execution plans without implementing code.
 ---
 
@@ -46,7 +46,9 @@ Every architect artifact must align with the Heaven Style principles in `SKILL.m
 
 Load rule files when the design touches their surface:
 
-- Public API shape: `model`, `oop`, `name`, `types`
+- Public API shape: `model`, `oop`, `name`, `types`, `docstring`
+- Module/package layout: `files`, `clean`
+- SOLID boundary and dependency diagnostics: [solid](../rules/code/python/solid.md)
 - Extension seams: `extension`, `compat`
 - Docs and goals: `docs`
 - Storage/query behavior: `sql`, `error`
@@ -67,12 +69,12 @@ Architecture is a continuous design activity, not a one-time document phase. Use
 | Collaboration | Are user, issue, roadmap, or maintainer concerns named instead of hidden behind generic architecture claims? |
 | Useful documentation | Do diagrams and tables clarify decisions without becoming a substitute for code truth? |
 
-Use SOLID, package principles, and patterns as diagnostic tools, not slogans:
+Use [SOLID](../rules/code/python/solid.md), package principles, and patterns as diagnostic tools, not slogans:
 
-- SRP and Common Closure: group responsibilities by reason to change.
-- OCP and Heaven-style registries: extend behavior through registration APIs instead of reopening stable planners.
-- LSP and ISP: keep public contracts substitutable and clients dependent only on methods they use.
-- DIP, Stable Dependencies, and Stable Abstractions: high-level policy depends on abstractions; low-level details depend inward.
+- **SRP** (Single Responsibility) and Common Closure: group responsibilities by reason to change.
+- **OCP** (Open/Closed) and Heaven-style registries: extend behavior through registration APIs instead of reopening stable planners.
+- **LSP** (Liskov Substitution) and **ISP** (Interface Segregation): keep public contracts substitutable and optional capability surfaces separate from required common behavior.
+- **DIP** (Dependency Inversion), Stable Dependencies, and Stable Abstractions: high-level policy depends on abstractions; low-level details depend inward.
 - ADP, REP, and Common Reuse: avoid dependency cycles, release reused units coherently, and avoid forcing consumers to depend on unrelated classes.
 
 ## Smell and dependency review
@@ -189,7 +191,7 @@ Add an **Agile feedback gates** section before handoff: tests, demos, review che
 
 ### API standard table template
 
-Use one row per public symbol. Keep names aligned with [../rules/code/oop.md](../rules/code/oop.md) and [../rules/code/name.md](../rules/code/name.md).
+Use one row per public symbol. Keep names aligned with [../rules/code/python/oop.md](../rules/code/python/oop.md) and [../rules/code/python/name.md](../rules/code/python/name.md).
 
 | Symbol | Kind | Layer | Inputs | Returns | Raises | Registry seam | Doc page | Test anchor |
 |--------|------|-------|--------|---------|--------|---------------|----------|-------------|
@@ -322,6 +324,7 @@ Also include an agile review summary: change pressure, smell/dependency findings
 
 - Implementation: [../tasks/code.md](../tasks/code.md)
 - Architecture design/review task: [../tasks/arch-design.md](../tasks/arch-design.md)
+- SOLID boundary rule: [../rules/code/python/solid.md](../rules/code/python/solid.md)
 - Full-rule coding/refactor route: [developer.md](developer.md)
 - Explanation for newcomers: [../tasks/code-explain.md](../tasks/code-explain.md)
 - Docs sync after shipping: [../tasks/doc-sync.md](../tasks/doc-sync.md)

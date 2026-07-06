@@ -7,7 +7,7 @@ order: 10
 keywords: [implement feature, fix bug, modify code, refactor code, add tests, update docs, linear issue, stabilize]
 triggers: [implement, fix, code, refactor, add feature, change behavior, stabilize, TAL]
 description: Use when implementing Heaven-style features, fixes, refactors, tests, docs, or stabilization work.
-related_rules: [overview, util, config, types, oop, model, name, py, clean, error, sql, compat, environment, format, test, docs, extension]
+related_rules: [overview, util, config, types, docstring, oop, model, solid, name, files, py, clean, error, sql, compat, environment, format, test, docs, extension]
 ---
 
 # Code Task
@@ -39,9 +39,9 @@ Ship a small or medium code change in Heaven style without loading the full rule
 - Brevity: prefer the smallest readable implementation; remove boilerplate, redundant helpers, and repeated branches.
 - Ease of use: keep public mental models straightforward for users and maintainers; avoid unnecessary classes, modes, flags, or DSL branches.
 - Cleanliness: remove ad-hoc code, dead code, stale TODOs, debug prints, compatibility leftovers, and unused artifacts.
-- Docstrings: every user-facing public API needs type hints and Google-style docstrings with `Args`, `Returns`, and `Raises` or warning notes/examples when useful.
+- Docstrings: every publicly exposed function, method, and major feature API needs full type hints plus Google-style docstrings with a one-line summary, `Args`, `Returns` or `Yields`, and `Raises`, warnings, notes, or examples when useful.
 - Robustness: validate unsupported values, use contextual exceptions, avoid swallowed errors, and cover corner cases.
-- Legacy migration: when replacing a predecessor package, follow [compat.md](../rules/code/compat.md) and preserve supported behavior only through the new cleaner API.
+- Legacy migration: when replacing a predecessor package, follow [compat.md](../rules/code/python/compat.md) and preserve supported behavior only through the new cleaner API.
 - Sync: docs, examples, generated files, architecture notes, sibling docs repos, and Linear issue state must match the implementation when relevant.
 
 ## Completion Gate

@@ -40,6 +40,8 @@ For unsupported choices, prefer `raise_mismatch` when the utility exists. Heaven
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 def parse_job(payload: bytes, mode: str) -> dict[str, object]:
     try:
@@ -51,6 +53,8 @@ def parse_job(payload: bytes, mode: str) -> dict[str, object]:
         return {}
 ```
 
+**Recommended pattern:**
+
 ```python
 from heavenbase.utils import loads_json, raise_mismatch
 
@@ -61,6 +65,8 @@ def parse_job(payload: bytes, mode: str) -> dict[str, object]:
         raise TypeError(f"job payload must decode to dict, got {type(data).__name__}")
     return data
 ```
+
+Prioritize logical error handling over exception handling whenever possible, use or implement heavenabse error utils rather than system error handling. Don't overthink and don't guard over the very common non-logic errors. If docstring or definitions makes assumption about the input, don't guard over the assumption unless its only about literal.
 
 ## Related rules
 

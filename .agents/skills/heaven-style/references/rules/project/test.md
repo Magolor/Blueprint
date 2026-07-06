@@ -40,12 +40,14 @@ Behavior changes need focused verification through the repository entrypoint. Ke
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 def test_works():
     assert run("ok")
 ```
 
-## Good pattern
+**Recommended pattern:**
 
 ```python
 def test_run_happy_path(): ...

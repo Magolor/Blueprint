@@ -38,6 +38,8 @@ New providers, backends, handlers, plugins, and capabilities should register wit
 
 ## Example
 
+**Anti-pattern:**
+
 ```python
 if backend == "qdrant":
     return compile_qdrant_near(...)
@@ -47,7 +49,7 @@ if backend == "weaviate":
     return compile_weaviate_near(...)
 ```
 
-## Good pattern
+**Recommended pattern:**
 
 ```python
 # In some central initialization code
@@ -70,4 +72,4 @@ For HeavenBase-shaped repos, read the active repo's `AGENTS.md` first. When work
 
 ## Related rules
 
-Also apply [oop.md](../code/oop.md) for provider/preset/backend vocabulary, [model.md](../code/model.md) for user-facing surfaces, and [test.md](test.md) for route evidence.
+Also apply [oop.md](../code/python/oop.md) for provider/preset/backend vocabulary, [model.md](../code/python/model.md) for user-facing surfaces, and [test.md](test.md) for route evidence.

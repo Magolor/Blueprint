@@ -54,7 +54,7 @@ Keep the public OOP interface as small as possible. For each functionality, expo
 ws = hb.HeavenBase("shop", preset="debug", _isolated=False, _register_global=False, _set_default=True)
 ```
 
-**Pattern:**
+**Recommended pattern:**
 
 ```python
 ws = hb.HeavenBase("shop", preset="debug")
@@ -78,7 +78,7 @@ hb.ext.register_profile(
 )
 ```
 
-**Pattern:**
+**Recommended pattern:**
 
 ```python
 hb.ProfileSpec.from_dict(
@@ -102,7 +102,7 @@ class EntityRegistry:
 registry.register_entity(Product)
 ```
 
-**Pattern:**
+**Recommended pattern:**
 
 ```python
 ws.register(Product)
@@ -123,7 +123,7 @@ toolkit.register()
 sku = hb.field(hb.ShortText, store_to="sql", compute_fn=normalize_sku, description="Stock keeping unit")
 ```
 
-**Pattern:**
+**Recommended pattern:**
 
 ```python
 sku = hb.field(hb.ShortText).store(to="sql").compute(normalize_sku).desc("Stock keeping unit")
@@ -142,7 +142,7 @@ class Data:
     metadata: Metadata
 ```
 
-**Pattern:**
+**Recommended pattern:**
 
 ```python
 class Data:
@@ -155,4 +155,4 @@ Use a dedicated class only when it carries behavior, invariants, lifecycle, or a
 
 ## Related rules
 
-Also apply [oop.md](oop.md) for method vocabulary, [name.md](name.md) for symbols, [types.md](types.md) for public contracts, and [clean.md](clean.md) for helper abstraction costs.
+Also apply [oop.md](oop.md) for method vocabulary, [name.md](name.md) for symbols, [types.md](types.md) for public contracts, [docstring.md](docstring.md) for public API documentation, and [clean.md](clean.md) for helper abstraction costs.
