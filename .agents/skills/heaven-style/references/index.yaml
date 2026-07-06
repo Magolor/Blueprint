@@ -8,7 +8,7 @@ description: Heaven-style code and architecture guide for Python-first repos in 
     public API docstrings, canonical OOP vocabulary, short names, raise_mismatch,
     SQL/resource discipline, architecture-review artifacts, code-review artifacts,
     and repo lint/test gates.
-generated_at: '2026-07-06T08:39:40Z'
+generated_at: '2026-07-06T09:43:46Z'
 generator: scripts/index.py
 references:
     rules:
@@ -931,6 +931,8 @@ scripts:
 assets:
 -   path: assets/instance
     kind: dir
+-   path: assets/instance/docker.md
+    kind: file
 -   path: assets/instance/Magolor-M5.md
     kind: file
 -   path: assets/default-glossary.md

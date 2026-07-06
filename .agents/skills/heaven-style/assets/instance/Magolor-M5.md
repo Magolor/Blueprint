@@ -5,7 +5,7 @@ Volatile versions, free space, displays, live env values, and secret values are 
 
 ## Identity
 
-- Computer: `Magolor M5`; local host: `Magolor-M5`.
+- Computer: `Magolor-M5`; local host: `Magolor-M5`.
 - Account: `magolor`; home: `/Users/magolor`; shell: `/bin/zsh`.
 - Skill root: `/Users/magolor/Projects/Blueprint/.agents/skills/heaven-style`; standard install target: `~/.agents/skills/heaven-style`.
 
