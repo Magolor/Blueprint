@@ -11,7 +11,7 @@ description: Use when maintaining this heaven-style skill, changing rules/tasks/
 
 ## When to use
 
-Use this surface only when maintaining the `heaven-style` skill itself: editing `SKILL.md`, rules, workflows, task playbooks, failure playbooks, scripts, assets, generated index metadata, or packaged artifacts.
+Use this surface only when maintaining the `heaven-style` skill itself: editing `SKILL.md`, rules, design references, workflows, task playbooks, failure playbooks, scripts, assets, generated index metadata, or packaged artifacts.
 
 ## Skill maintenance workflow
 
@@ -32,10 +32,11 @@ Use this surface only when maintaining the `heaven-style` skill itself: editing 
    - `references/workflows/developer.md` for large refactors, public API design, and full-rule reading during implementation.
    - `references/workflows/editor.md` for skill maintenance.
    - `references/rules/` for rule-selection, code/project rules, and focused anti/recommended examples.
+   - `references/design/` for framework-neutral GUI, frontend, dashboard, desktop, and app-shell design references.
 2. Keep `references/tasks/` minimal. Default active tasks are `code.md`, `code-review.md`, `doc-sync.md`, `doc-trans.md`, `test-compress.md`, `code-explain.md`, `env.md`, `arch-design.md`, `manager.md`, and `skill-update.md`; add another task only for a stable, repeated workflow that cannot fit them.
 3. Use trigger-oriented YAML frontmatter. Use `description` and `keywords` for discovery; the Markdown body is normative.
 4. Keep examples inside their owning rule and list cross-checks in `Related rules`.
-5. Run `rtk uv run python scripts/install.py` from the Blueprint skill root after reference or script changes to refresh the standard global install at `~/.agents/skills/heaven-style`. Use `rtk uv run python scripts/install.py --all-harnesses` when local Claude Code support should be refreshed too; it installs a Claude plugin bridge and does not write `~/.claude/skills/heaven-style`. Skill-maintenance scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` only from a known-good shell; prefer `rtk uv run python` in agent sessions. Target-repo work must still use `AGENTS.md` wrappers, `uv`, and `rtk` when available. When maintaining an embedded in-repo copy, use `rtk uv run python scripts/install.py --skip-sync` (or rely on the embedded auto-skip) and refresh the global install for reference assets.
+5. Run `rtk uv run python scripts/install.py` from the Blueprint skill root after reference, design, or script changes to refresh the standard global install at `~/.agents/skills/heaven-style`. Use `rtk uv run python scripts/install.py --all-harnesses` when local Claude Code support should be refreshed too; it installs a Claude plugin bridge and does not write `~/.claude/skills/heaven-style`. Skill-maintenance scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` only from a known-good shell; prefer `rtk uv run python` in agent sessions. Target-repo work must still use `AGENTS.md` wrappers, `uv`, and `rtk` when available. When maintaining an embedded in-repo copy, use `rtk uv run python scripts/install.py --skip-sync` (or rely on the embedded auto-skip) and refresh the global install for reference assets.
 6. Run `rtk uv run python scripts/index.py --check` after install to confirm generated metadata is current.
 7. HeavenBase does not track an in-repo skill copy; it consumes the standard global install. Use `rtk uv run python scripts/install.py --mirror <path> --skip-global` only for repos that intentionally embed a copy.
 
@@ -79,5 +80,5 @@ The skill must follow its own code-quality rules:
 - `--all-harnesses` installs the common Agent Skill plus a Claude Code plugin bridge. It never writes `~/.claude/skills/heaven-style`; use `--backup-claude-skill` only when an existing verified plain Claude skill must be moved aside to avoid duplicate discovery in Cursor, OpenCode, and Kilo.
 - When embedded in the HeavenBase repository, `install.py` skips reference sync automatically to avoid a maintenance loop; use `~/.agents/skills/heaven-style` for `assets/heavenbase-reference/`.
 - `sync.py` refreshes `assets/heavenbase-reference` in global or sibling skill checkouts only.
-- `index.py` indexes rules, workflows, tasks, failures, scripts, and assets.
+- `index.py` indexes rules, design references, workflows, tasks, failures, scripts, and assets.
 - `scan.py` checks banned stdlib imports for covered utility concerns.

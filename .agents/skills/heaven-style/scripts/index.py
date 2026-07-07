@@ -138,6 +138,7 @@ def build_index() -> dict[str, object]:
         "generator": rel(__file__),
         "references": {
             "rules": collect_md(pj(REFERENCES, "rules")),
+            "design": collect_md(pj(REFERENCES, "design")),
             "workflows": collect_md(pj(REFERENCES, "workflows")),
             "tasks": collect_md(pj(REFERENCES, "tasks")),
             "failures": collect_md(pj(REFERENCES, "failures")),

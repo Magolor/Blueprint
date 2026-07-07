@@ -8,7 +8,7 @@ description: Heaven-style code and architecture guide for Python-first repos in 
     public API docstrings, canonical OOP vocabulary, short names, raise_mismatch,
     SQL/resource discipline, architecture-review artifacts, code-review artifacts,
     and repo lint/test gates.
-generated_at: '2026-07-06T09:43:46Z'
+generated_at: '2026-07-07T04:05:57Z'
 generator: scripts/index.py
 references:
     rules:
@@ -416,6 +416,35 @@ references:
         description: Use for PR, diff, module, branch, or Linear review, severity-marked
             findings, review artifacts, follow-up, or explicit waivers.
         path: references/rules/project/review.md
+    design:
+    -   id: gui-style
+        title: GUI style
+        enabled: true
+        default_exposed: false
+        order: 10
+        keywords:
+        - gui
+        - ui
+        - frontend
+        - desktop app
+        - web app
+        - app shell
+        - dashboard
+        - design system
+        - theme
+        - tokens
+        - minimalism
+        - materialism
+        - react
+        - vue
+        - streamlit
+        - pyside
+        - nicegui
+        - tailwind
+        description: Use when designing, implementing, or reviewing graphical user
+            interfaces, app shells, dashboards, desktop tools, or web frontends in
+            any framework.
+        path: references/design/gui-style.md
     workflows:
     -   id: workflow-architect
         title: Architect workflow

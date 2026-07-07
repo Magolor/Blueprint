@@ -20,6 +20,7 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 
 - `SKILL.md` is the fast path. A small coding or review task should succeed from it plus one directly matched task/failure/rule file.
 - `references/tasks/` contains stable active workflows only: `code`, `code-review`, `doc-sync`, `doc-trans`, `test-compress`, `code-explain`, `env`, `arch-design`, `manager`, and `skill-update`.
+- `references/design/` contains framework-neutral design references for GUI, frontend, desktop, dashboard, and app-shell work.
 - `references/tasks/arch-design.md` is the task entry point for architecture design and periodic architecture review.
 - `references/rules/` contains detailed criteria and focused examples for large refactors, public APIs, shared utilities, storage/query behavior, architecture boundaries, and tradeoffs.
 - `references/rules/code/python/solid.md` owns SOLID boundary diagnostics: SRP, OCP, LSP, ISP, and DIP. Keep architecture task/workflow references linked to it instead of duplicating examples.
@@ -41,7 +42,7 @@ Keep `heaven-style` aligned with the current HeavenBase codebase, docs ecosystem
 
 ## Update Workflow
 
-1. Read this file, `SKILL.md`, `references/workflows/editor.md`, `references/index.yaml`, and the changed script/task/rule/failure surfaces.
+1. Read this file, `SKILL.md`, `references/workflows/editor.md`, `references/index.yaml`, and the changed script/task/rule/design/failure surfaces.
 2. Read current HeavenBase evidence before changing rules: `AGENTS.md`, `pyproject.toml`, `src/heavenbase/version.py`, `src/heavenbase/utils/`, config/LLM/DB/MCP/backends/workspace/query/catalog modules, tests, examples, and docs that describe those surfaces.
 3. Compare sibling docs and traces when relevant: `HeavenBase-docs`, Mintlify guide files, Cursor/Codex/Copilot/OpenCode histories, and prior review artifacts. Extract repeated requirements, not one-off preferences.
 4. Update `SKILL.md` only for daily notices, task routing, and default criteria needed for fast coding. Move detailed or situational guidance into task/rule/failure files.
