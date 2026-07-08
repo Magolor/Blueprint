@@ -50,6 +50,12 @@ Each rule uses this body shape where practical:
 
 Examples live inside their owning rules. Do not add a separate demo rule surface unless a future project has concrete evidence that search/routing works better with separate example files.
 
+## Design rules
+
+On-demand references outside the default coding loop; load only when the task matches:
+
+1. `gui-style` (`references/design/gui-style.md`) - load for GUI, frontend, dashboard, app-shell, desktop-tool, theme/token, or design-system work in any framework.
+
 ## Failure playbooks
 
 Use `references/failures/` when command failures block progress:
