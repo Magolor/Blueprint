@@ -20,4 +20,4 @@ jobs:
           enable-cache: true
       - run: uv sync --all-extras
       - run: bash scripts/sync-env.bash --check --no-heavenbase
-      - run: bash scripts/flake.bash --ci
+      - run: bash scripts/check.bash fast

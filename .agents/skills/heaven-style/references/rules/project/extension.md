@@ -61,6 +61,10 @@ Keep these responsibilities distinct even when one public `Registry` facade coor
 
 The persisted catalog and in-process runtime cache are related but not the same mutable singleton. Applications, workspaces, tenants, tests, and concurrent processes may need isolated runtime views over the same durable descriptors.
 
+Persisted descriptors are authoritative data; loaded objects are disposable caches. Prefer data-backed listing and inspection that does not import or execute an implementation merely to describe it.
+
+Capability declarations advertise candidates, not successful execution. When a route claims native or provider-specific behavior, require operation-specific compilation, a real provider candidate, and evidence tied to the concrete physical field/resource being executed. Missing, malformed, or stale evidence fails closed. Explanations and diagnostics must report the route actually selected, including fallback, rather than repeating advertised capability metadata.
+
 ## Do
 
 - Keep dependency flow inward/downward according to the repository's documented layers; high-level policy depends on extension contracts and the resolver, never concrete implementations.
@@ -69,6 +73,8 @@ The persisted catalog and in-process runtime cache are related but not the same 
 - Use stable artifact and entry-point coordinates. Treat machine-specific paths as locators, not identities.
 - Define deterministic duplicate, alias, version, scope-precedence, enablement, refresh, cache-invalidation, and rollback behavior.
 - Make registration atomic, persistent, auditable, and reversible. “Register at any time” means no host source edit and activation at the next documented refresh boundary; hot replacement is an optional family capability.
+- Stage discovery, validation, acquisition, and initialization before publishing a descriptor or default. On failure, restore only state still owned by the failed operation; stale cleanup must not dislodge a newer registration or owner.
+- Treat generated catalogs, capability tables, and loaded-object indexes as non-authoritative projections. Content-address them where practical and record the source revision or digest so unchanged projections are not republished and stale evidence is detectable.
 - Keep discovery and inspection free of arbitrary code execution. Remote catalogs advertise candidates; they do not imply installation, trust, enablement, or execution.
 - Pin and integrity-check executable artifacts before loading them. Inline Registry content should normally be schema-validated declarative data; embedded executable code receives the same trust treatment as any other executable artifact.
 - Reserve a minimal bootstrap kernel for the Registry schema, resolver/loader contracts, trust policy, and one bootstrap path; the extension system must not require itself to load itself.
@@ -104,6 +110,8 @@ For installed Python distributions, [PyPA entry points](https://packaging.python
 - Prove duplicate identifiers, aliases, incompatible versions, disabled records, and scope precedence fail or resolve deterministically.
 - List and inspect descriptors without importing their implementation modules.
 - Prove provenance remains inspectable but does not select a different dispatch or validation path.
+- Prove an advertised but unexecutable capability is rejected or honestly explained as fallback.
+- Inject failure before publication and after a competing owner takes over; the previous valid state or newer owner must remain visible.
 
 ## Related rules
 

@@ -42,7 +42,7 @@ Turn an overgrown pytest suite into a compact, maintainable coverage set that pr
 
 ## Completion Gate
 
-Do not mark done until the retained suite has clear marker coverage, deleted tests are justified by non-contract or redundant status, targeted fast tests pass, and any skipped full validation is explicitly waived with the reason. For substantial suite compression, save the keep/drop rationale in a plan, progress note, or review/refactor report.
+Do not mark done until the retained suite has clear marker coverage, deleted tests are justified by non-contract or redundant status, targeted fast tests pass, and any skipped full validation is explicitly waived with the reason. For substantial suite compression, save the keep/drop rationale in a linked plan or review/refactor report and summarize closure in the development log.
 
 ## Verification Commands
 

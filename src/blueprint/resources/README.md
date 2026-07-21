@@ -59,7 +59,9 @@ bash scripts/sync-env.bash
 | `docs/plans/` | Multi-slice plans with checklist progress and verification gates. |
 | `docs/resources/` | Stable project references and background. |
 | `docs/reports/` | Durable review, refactor, and survey reports. |
-| `docs/progress/` | Daily progress folders with summaries and optional notes. |
+| `docs/tasks.yaml` | Single machine-readable queue for active, resumable work. |
+| `docs/DEVLOG.md` | One rolling development and handoff log. |
+| `docs/scratch/` | Expiring tracked notes; ignored local slop stays under `.temp/notes/`. |
 | `BLUEPRINT.md` | Blueprint-only template notes that are separate from downstream project docs. |
 | `Dockerfile` | Runtime container adapter built from `requirements.txt`. |
 | `.dockerignore` | Docker build-context exclusions. |
@@ -71,6 +73,7 @@ bash scripts/sync-env.bash
 | `.github/workflows/` | GitHub Actions CI. |
 | `.githooks/` | Git hooks for README sync and local formatting gates. |
 | `scripts/` | Copyable uv-backed repo wrappers. |
+| `.blueprint-template.yaml` | Exact/adapted/excluded synchronization contract for the primary HeavenBase consumer. |
 
 ## Environment Policy
 
@@ -86,6 +89,8 @@ Use this install priority order:
 6. **Docker** - `Dockerfile` installs `requirements.txt` first, then installs the project with dependency resolution disabled.
 
 CI should use `bash scripts/sync-env.bash --check --no-heavenbase` as the generated-file drift gate.
+
+After synchronizing the declared environment, run `bash scripts/check.bash fast` for the offline deterministic code/docs contract inventory; CI runs `scripts/sync-env.bash --check --no-heavenbase` separately for lock and adapter drift. Blueprint maintainers must also reconcile every template-facing change with HeavenBase: exact paths are copied, adapted paths are reviewed, and the consumer records the reviewed Blueprint commit and content digest in `.blueprint-sync.yaml`. Configure the canonical checkout with `git config core.hooksPath .githooks` so pre-push enforces that boundary. The globally installed `heaven-style` skill is deliberately excluded from repository sync.
 
 Build and smoke-test the runtime image with:
 
@@ -143,6 +148,8 @@ The script creates or reuses a `[release]` commit on `master`, pushes `master`, 
 
 ## Documentation Policy
 
-Agents should start with `docs/README.md` before docs-sensitive work. Use `docs/plans/` for multi-slice work, `docs/reports/` for durable review/refactor/survey evidence, `docs/resources/` for stable source-of-truth material, and `docs/progress/YYYY-MM-DD/README.md` for append-only daily handoff notes.
+Blueprint uses four explicit surfaces: this canonical English README for users; `docs/README.md` and its linked durable material for engineers, agents, and architects; `docs/DEVLOG.md` for concise change and handoff evidence; and `docs/scratch/` or ignored `.temp/notes/` for expiring ideas. Active resumable work exists only in `docs/tasks.yaml`.
+
+Agents should run `rtk uv run python scripts/docs.py tasks --ready` before creating a parallel task and `rtk uv run python scripts/docs.py check` before closeout. Completed work leaves the live queue after its acceptance evidence is recorded in the development log. Stable conclusions move into user docs, resources, tests, or code; temporary notes are promoted or deleted.
 
 English doc sync updates canonical English docs and generated docs through `.agents/skills/heaven-style/references/tasks/doc-sync.md`. Chinese or other translations should be refreshed separately through `.agents/skills/heaven-style/references/tasks/doc-trans.md` after English changes are complete.

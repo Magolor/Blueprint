@@ -1,0 +1,55 @@
+schema: heaven.template/v1
+source:
+  repository: Magolor/Blueprint
+consumer:
+  repository: Magolor/HeavenBase
+  ref: dev-refactor
+  manifest: .blueprint-sync.yaml
+exact:
+  - .gitattributes
+  - .python-version
+  - scripts/_env.bash
+  - scripts/docs.py
+  - scripts/template_sync.py
+  - docs/scratch/README.md
+  - docs/scratch/.gitignore
+  - .github/ISSUE_TEMPLATE/**
+adapted:
+  - .dockerignore
+  - .github/pull_request_template.md
+  - .github/workflows/**
+  - .githooks/**
+  - .gitignore
+  - AGENTS.md
+  - CLAUDE.md
+  - CONTRIBUTING.md
+  - Dockerfile
+  - README.en.md
+  - assets/**
+  - demos/**
+  - docs/README.md
+  - docs/goals/README.md
+  - docs/plans/README.md
+  - docs/reports/**/README.md
+  - docs/reports/README.md
+  - docs/resources/README.md
+  - requirements*.txt
+  - scripts/**
+  - tests/**
+excluded:
+  - .agents/skills/heaven-style/**
+  - .blueprint-template.yaml
+  - BLUEPRINT.md
+  - LICENSE
+  - README.md
+  - README.zh.md
+  - docs/DEVLOG.md
+  - docs/tasks.yaml
+  - docs/plans/20*.md
+  - docs/progress/**
+  - docs/reports/**/20*.md
+  - environment*.yml
+  - poetry.lock
+  - pyproject.toml
+  - src/blueprint/**
+  - uv.lock

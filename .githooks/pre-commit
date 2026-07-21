@@ -3,14 +3,21 @@ set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel)"
 cd "${ROOT}"
+source "${ROOT}/scripts/_env.bash"
 export BLUEPRINT_PYTHON_PREFERENCE=uv-first
 
 bash scripts/sync-env.bash --no-heavenbase
 git add README.md src/blueprint/resources/README.md pyproject.toml environment-dev.yml uv.lock poetry.lock
 
-bash scripts/flake.bash --all
+run_python .agents/skills/heaven-style/scripts/index.py
+git add .agents/skills/heaven-style/references/index.yaml
+run_python scripts/docs.py check
+run_python scripts/template_sync.py check-source
 
-if ! git diff --quiet -- src scripts demos; then
+bash scripts/flake.bash --all
+bash scripts/test.bash tests/test_docs_contract.py tests/test_heaven_style_index.py tests/test_heaven_style_scan.py tests/test_template_sync.py -q
+
+if ! git diff --quiet -- src scripts tests demos .agents/skills/heaven-style/scripts; then
     echo "error: formatting changed files. Review and re-stage them, then commit again." >&2
     exit 1
 fi

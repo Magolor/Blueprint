@@ -55,6 +55,10 @@ tmp/
 _legacy/
 secret/
 scratch/
+!docs/scratch/
+!docs/scratch/**
+docs/scratch/local/
+docs/scratch/*.local.md
 temp.py
 temp.bash
 session.json

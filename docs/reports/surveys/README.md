@@ -12,7 +12,7 @@ Surveys should preserve enough source and method context for a later agent to ju
 - Findings and options.
 - Recommendation or decision criteria.
 - Staleness trigger, such as dependency release, pricing change, API change, or date-based review.
-- Follow-up links to plans, resources, issues, or progress notes.
+- Follow-up links to one `docs/tasks.yaml` item, plans, resources, or issues.
 
 Use this naming pattern:
 

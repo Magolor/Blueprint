@@ -19,3 +19,17 @@ Docker follows the same rule. The Dockerfile installs runtime dependencies from 
 Blueprint treats repo-local `.agents/skills` and `AGENTS.md` as the canonical, standards-oriented skill surface for templates. Global installs should use one unversioned common skill path, `~/.agents/skills/heaven-style`, with `metadata.version` inside `SKILL.md`; harness-specific copies are avoided by default so Cursor, OpenCode, Kilo, Codex, Copilot, and similar agents do not discover the same skill twice.
 
 Claude Code is the main exception because it does not follow the [AGENTS.md](https://agents.md) protocol by default; it needs a `CLAUDE.md` file with an `@AGENTS.md` import to work. Its plugin marketplace path can expose the same canonical skill without copying it into `~/.claude/skills/heaven-style`. The template-level rule is therefore to prefer shared standards paths and thin harness bridges, and only add per-harness files when a concrete project has a tool-specific reason. Claude Code is the only per-harness special case included here because of its popularity and current protocol gap.
+
+## Primary Consumer Contract
+
+HeavenBase is Blueprint's primary continuously maintained consumer. `.blueprint-template.yaml` classifies every Blueprint path into one of three synchronization modes:
+
+- **Exact:** source-neutral infrastructure copied byte-for-byte.
+- **Adapted:** the same contract or intent, rewritten for HeavenBase's real package, branches, risks, and docs.
+- **Excluded:** Blueprint history, package identity, generated state, and the canonical `heaven-style` source.
+
+`scripts/template_sync.py` fails when a source path has no classification, when exact inventory or bytes drift, when a reviewed adapted counterpart changes, or when HeavenBase's manifest does not name the current Blueprint commit and source digest. A Blueprint template change is not complete until the HeavenBase adaptation is reviewed and recorded. This is a per-consumer synchronization checkpoint, not a claim of distributed atomicity. Push the reviewed Blueprint commit to a non-default branch so HeavenBase CI can fetch its pinned SHA, record and publish HeavenBase, then fast-forward Blueprint `master`. The canonical Blueprint checkout enforces the local boundary in its pre-push hook; HeavenBase CI performs the reciprocal check by checking out public Blueprint. Blueprint CI cannot read private HeavenBase with its repository-scoped token, and this design deliberately avoids copying a personal token into Actions.
+
+Blueprint and HeavenBase requirements take precedence when they conflict with generic lessons imported from CDASE, DeepSeek, or other references. The references supply enforcement patterns; they do not own either repository's design.
+
+The skill follows a separate boundary. Blueprint remains its only repository source, HeavenBase carries no mirror, and a verified Blueprint skill change is installed globally for supported harnesses.

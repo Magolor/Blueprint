@@ -14,13 +14,13 @@ related_rules: [overview, review, docs, test]
 
 ## Goal
 
-Maintain an operational view of the GitHub repo and Linear workspace, then propose or coordinate the next useful work. Default project scope is HeavenBase unless the user names another repo, Linear project, team, label, milestone, or issue set.
+Maintain an operational view from the repository's one declared task authority, then propose or coordinate the next useful work. GitHub and Linear are linked evidence or explicit mirrors unless repository policy selects one of them as the sole writable queue.
 
 ## Sources
 
-1. Read repo `AGENTS.md`, current branch, `git status`, recent commits, open PRs, CI/check status, issues, and project docs/status files.
-2. Use GitHub tools or `gh` when available for PRs, branches, issues, checks, reviews, and recent activity.
-3. Use Linear tools when available for issues, projects, cycles, labels, status, comments, stale work, blockers, and ownership.
+1. Read repo `AGENTS.md` and resolve the one canonical queue before interpreting goals, plans, reports, logs, GitHub, or Linear as work state.
+2. Read current branch, `git status`, recent commits, CI/check status, the docs authority map, development log, and active queue tasks.
+3. Use GitHub tools or `gh` for linked PRs, branches, issues, checks, reviews, and recent activity; use Linear for linked project/cycle/issue evidence.
 4. If a connector/MCP auth fails repeatedly, use [../failures/auth-secrets.md](../failures/auth-secrets.md) and fall back to direct API paths when possible.
 5. If Linear issue creation is blocked by project pressure, or a continuous issue has accumulated too many routine comments, use [../failures/linear-pressure.md](../failures/linear-pressure.md).
 6. Never expose secrets, tokens, or private auth details in status reports.
@@ -29,15 +29,17 @@ Maintain an operational view of the GitHub repo and Linear workspace, then propo
 
 Classify work into:
 
-- Ongoing: active branches, in-progress Linear issues, open PRs, recent commits, active review threads, or running plans.
+- Ongoing: active queue tasks, their linked branches/plans/issues/PRs, recent commits, or active review threads.
 - Recent: tasks completed or materially changed in the selected lookback window.
 - Stale: no recent activity, blocked status, failing checks, old review comments, unclear owner, missing acceptance criteria, or docs/test sync gaps.
 - Risk: issues with ambiguous scope, hidden dependencies, stale docs, unverified fixes, auth/env blockers, or too-large PRs.
 - Next steps: concrete actions with owner, target artifact, verification, and suggested task route.
 
+When evidence disagrees, the declared queue owns coordination state; code/tests own shipped behavior. Do not merge multiple trackers into a new shadow list.
+
 ## Orchestration Authority
 
-- The manager may create or update Linear issues, comments, labels, links, and status when that follows from discovered facts.
+- The manager may update the canonical queue within repository/user authority. It may create or update GitHub/Linear mirrors only when the user or repository policy authorizes that external write.
 - For continuous Linear issues, the manager should maintain one rolling status comment and edit it for routine progress, verification, and next steps. Do not pile up new comments unless the update is a distinct decision, blocker, handoff, or explicitly requested separate note.
 - The manager may move Linear issues up to `In Review` when implementation evidence and review readiness are clear.
 - The manager must not set Linear issues to `Done` unless the user explicitly instructs it or explicitly grants that authority for the current run.
@@ -46,12 +48,12 @@ Classify work into:
 
 ## Workflow
 
-1. Resolve scope: project, repo, Linear team/project/cycle, GitHub branch/PR/issue set, and lookback window.
-2. Gather current GitHub and Linear state. Prefer live connector data; use local git and docs as supporting evidence.
-3. Cross-check code/docs/Linear claims for mismatch.
+1. Resolve scope: project, repo, canonical queue, linked Linear/GitHub scope, and lookback window.
+2. Gather the queue first, then current GitHub/Linear evidence. Prefer live connector data for external state and local git/code/docs for repository state.
+3. Cross-check queue, code, docs, GitHub, and Linear claims for mismatch.
 4. Identify ongoing, recent, stale, blocked, and risky items.
 5. Propose next steps in priority order. Include which task playbook should execute each step.
-6. Make authorized status/comment updates only when evidence is clear. State every update made.
+6. Update the canonical queue first. Make authorized external mirror/comment updates only when evidence is clear, and state every update made.
 7. If orchestrating agents, launch or propose the smallest useful chain, then monitor until each handoff has an artifact or explicit blocker.
 
 ## Report Format

@@ -27,7 +27,7 @@ After the target repository's `AGENTS.md`, runtime contract, and public compatib
 - **Shared infrastructure by ownership.** Prefer the target repository's declared utility, configuration, database, logging, and platform owners. When none exists, use language-standard or established dependency APIs directly and add a shared abstraction only when multiple real consumers need the same policy. HeavenBase-specific helpers apply only to repositories that explicitly adopt them.
 - **Break and fix within the declared compatibility policy.** Internal renames and redesigns update all owned call sites in the same change. Published packages and external protocols follow the repository's support policy; any migration shim has a named consumer, removal condition, and test rather than becoming a permanent parallel API.
 - **Compact, explicit code.** Use direct data flow, guard clauses, canonical domain verbs, typed boundaries, and loud contextual failures. In Python, use repository-provided helpers such as `raise_mismatch` only when they exist and own the behavior; in TypeScript, apply strict types, explicit ownership, and promise/lifecycle rules.
-- **Docs are part of the code.** Architecture pages, generated artifacts, and examples must match the implementation; a durable mental-model doc beats rediscovering design in chat history.
+- **Docs are part of the code.** Declare separate user, engineering, development-log, and scratch surfaces plus one writable task queue. Architecture pages, generated artifacts, and examples must match implementation; label current behavior, accepted target, remaining gap, and non-goal. Close work by promoting durable truth, removing closed task state, and deleting or superseding stale material. See [documentation and task lifecycle](references/rules/project/docs.md).
 
 ## Task Surface
 
@@ -46,14 +46,14 @@ Keep task playbooks inside this skill by default. Separate wrapper skills such a
 
 ## Normal Coding Loop
 
-1. Inspect `AGENTS.md`, the project command rule plus matched language environment, issue context if provided, declared lint/test entrypoints, config patterns, docs, and nearby source before editing.
+1. Inspect `AGENTS.md`, the declared task queue, the project command rule plus matched language environment, issue context if provided, lint/test entrypoints, docs authority map, config patterns, and nearby source before editing.
 2. Brainstorm only when requirements or design are uncertain: present the best option plus tradeoffs, then detail the plan once accepted.
-3. Plan small slices with success criteria, touched APIs, storage/query impact, docs/example impact, tests, and explicit non-goals.
+3. Claim or create one durable task when work must survive the session, then plan small slices with success criteria, touched APIs, storage/query impact, docs/example impact, tests, and explicit non-goals. Do not create a parallel task list in the plan.
 4. For Linear-driven work, read or create the issue, record acceptance criteria, and keep status aligned with the code. For continuous issues, edit one rolling status comment instead of adding routine progress comments.
 5. Implement minimal diffs using existing project style, declared infrastructure owners, and the selected language rules. Do not introduce a framework dependency merely to imitate another repository's mechanics.
 6. Exercise the behavior with a small probe or demo when useful, then run targeted tests through repository-declared entrypoints.
 7. Review the diff against the criteria below, fix confirmed issues, and repeat test/review until no blocking findings remain.
-8. Run the repository's static/format gates, sync docs/examples/generated artifacts/issue state, then report changes, verification, risks, and waivers.
+8. Run the repository's static/format gates; sync user/engineering docs, examples, generated artifacts, the development log, scratch cleanup, task/issue state; then report changes, verification, risks, and waivers.
 
 ## Coding Criteria
 
@@ -77,6 +77,8 @@ Keep task playbooks inside this skill by default. Separate wrapper skills such a
 - In TypeScript, repo metadata wins; use Bun by default only for a new repo without a contrary toolchain, commit one lockfile, pin local tools, run frozen installs in CI, and keep compiler/runtime/package exports aligned.
 - In TypeScript, keep `strict`, unchecked-index and exact-optional checks enabled; accept external values as `unknown`, validate once at the boundary, and make every promise, cancellation path, and disposable resource visibly owned.
 - For docs, verify facts against code, write in friendly professional prose, use realistic code demos, and run Mintlify checks when the docs repo supports them.
+- For resumable work, use the one task queue declared by the repository. Plans, reports, goals, development logs, GitHub/Linear mirrors, and chat may link to it but must not become competing writable queues.
+- Separate user docs, engineering truth, the rolling development log, and expiring scratch. When work closes, promote stable conclusions, remove closed queue rows, and delete or supersede stale plans/reviews/notes instead of preserving execution chatter as current documentation.
 - For reviews, assume parallel human/agent work may be happening. Re-read the current diff before judging or fixing, and never revert changes you did not make without explicit approval.
 - When maintaining this skill, distill learned rules into source-neutral patterns and anti-patterns. Do not publish private/reference-repo names, local checkout paths, machine-specific setup sources, or incidental implementation provenance.
 - Versioning uses `MAJOR.MINOR.PATCH.N[devK]` (for example `0.1.2.1`). The current heaven-style train is `0.1.2`; normally bump `N` for skill-only edits and use optional `devK` for in-development snapshots, unless the user records an explicit no-bump waiver. The skill may lead HeavenBase between releases; align skill `metadata.version` with `heavenbase.version.__version__` on HeavenBase-aligned releases.

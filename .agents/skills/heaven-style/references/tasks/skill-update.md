@@ -30,9 +30,9 @@ Keep `heaven-style` aligned with repo-owned contracts, packaged reference assets
 - `references/workflows/editor.md` is the skill-maintenance route.
 - `references/failures/` contains recurring blocker playbooks and subagent delegation prompts.
 - `scripts/sync.py` refreshes `assets/heavenbase-reference`.
-- `scripts/index.py` regenerates `references/index.yaml` from rules, examples, other reference frontmatter, scripts, assets, and skill metadata.
+- `scripts/index.py` validates frontmatter, IDs, relations, and local links, then generates a compact deterministic `references/index.yaml` routing projection. Parse errors and broken graph edges fail closed.
 - `scripts/install.py` is the one-shot updater: run sync, then index, then install the standard global copy at `~/.agents/skills/heaven-style`; `--all-harnesses` also installs the Claude Code plugin bridge without writing `~/.claude/skills/heaven-style`; `--mirror` copies into repos that intentionally embed the skill.
-- `scripts/scan.py` checks skill Python scripts for banned stdlib utility imports.
+- `scripts/scan.py` checks skill Python scripts for banned stdlib utility imports. A maintenance script that must remain import-hermetic and usable without HeavenBase may use the exact audited `# heaven-style-scan: standalone-control-plane` marker; the scanner still parses it, and focused tests must prove the exception.
 
 ## Repo sync
 
@@ -43,7 +43,7 @@ Keep `heaven-style` aligned with repo-owned contracts, packaged reference assets
 
 ## Update Workflow
 
-1. Read this file, `SKILL.md`, `references/workflows/editor.md`, `references/index.yaml`, and the changed script/task/rule/design/failure surfaces.
+1. Read this file, `SKILL.md`, `references/workflows/editor.md`, the compact generated `references/index.yaml`, and the changed script/task/rule/design/failure surfaces.
 2. Read evidence for the affected language before changing rules. Use the target repository's `AGENTS.md`, manifests, runtime pins, lockfile, configuration, public contracts, representative implementation/tests, and current primary runtime/compiler/tool documentation. For work explicitly about HeavenBase, use the packaged `assets/heavenbase-reference/` surface rather than depending on an external local checkout.
 3. Compare repo-owned docs, generated artifacts, prior review reports, and packaged reference assets when relevant. Extract repeated requirements, not one-off preferences.
 4. Update `SKILL.md` only for daily notices, task routing, and default criteria needed for fast coding. Move detailed or situational guidance into task/rule/failure files.
@@ -52,7 +52,7 @@ Keep `heaven-style` aligned with repo-owned contracts, packaged reference assets
 7. Keep examples grounded in double-checked evidence for their language, but make distributed rules and Blueprint docs source-neutral. Do not record private/reference-repository names, absolute local checkout paths, machine-specific setup guides or observed versions, package-specific internals, or incidental implementation provenance. Preserve the generic pattern/anti-pattern and link primary public specifications when useful. For work explicitly about HeavenBase APIs/assets, use the owned names and [compat.md](../rules/code/python/compat.md) normally.
 8. Keep the skill version on `MAJOR.MINOR.PATCH.N[devK]`; the current heaven-style train is `0.1.2`. Bump `N` (and optional `devK`) for ordinary skill-only edits unless the user explicitly requires version preservation; realign with `heavenbase.version.__version__` on HeavenBase-aligned releases.
 9. Run `rtk uv run python scripts/install.py` from the Blueprint skill root to refresh the standard global install and `assets/heavenbase-reference/`. Use `--all-harnesses` when Claude Code should consume the generated plugin bridge too. When the skill is embedded in HeavenBase itself, `install.py` skips reference sync automatically; use `~/.agents/skills/heaven-style` for the reference clone. `install.py` must always leave the index current.
-10. Run validation and report changed surfaces, evidence sources, version changes, commands, and any waivers.
+10. Run validation, including invalid fixtures for every new gate, and report changed surfaces, evidence sources, version changes, commands, and any waivers.
 
 ## Version Criteria
 
@@ -76,3 +76,5 @@ rtk bash scripts/flake.bash --ci --paths .agents/skills/heaven-style/scripts
 ```
 
 These are Python commands because the skill-maintenance scripts are Python. Also run the target evidence repo's declared gates when rule examples or behavior depend on it; Python uses its wrappers, while TypeScript uses its checked package manager/scripts. See [../rules/project/environment.md](../rules/project/environment.md).
+
+`index.py --check` must be hermetic and byte-deterministic: no network, configuration/database initialization, user-level writes, or volatile timestamps. Keep routing output succinct; full keywords, ordering, and relationship metadata remain in the owning frontmatter.

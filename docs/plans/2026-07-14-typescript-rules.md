@@ -3,7 +3,7 @@
 - Status: Done
 - Created: 2026-07-14
 - Scope: Add a Bun-first TypeScript rule surface to heaven-style while keeping Python-only conventions and source-repository provenance out of TypeScript guidance.
-- Links: `.agents/skills/heaven-style/`, `docs/reports/surveys/2026-07-14-typescript-rules-survey.md`, `docs/progress/2026-07-14/README.md`
+- Links: `.agents/skills/heaven-style/`, `docs/reports/surveys/2026-07-14-typescript-rules-survey.md`, `docs/DEVLOG.md`
 
 ## Problem
 
@@ -49,7 +49,7 @@ Heaven-style previously exposed detailed Python rules but only a placeholder Typ
 - Touch: generated `references/index.yaml`, plan/report/progress status.
 - Acceptance: Skill install, index check, scanner, compile, lint, tests, environment drift check, and diff checks pass or have explicit evidence-backed waivers.
 - Verification: Commands recorded in the closeout and daily progress note.
-- Docs: `docs/progress/2026-07-14/README.md` and final plan closeout.
+- Docs: `docs/DEVLOG.md` and final plan closeout.
 
 ## Progress
 
@@ -61,5 +61,5 @@ Heaven-style previously exposed detailed Python rules but only a placeholder Typ
 ## Closeout
 
 - Verification: Skill install/index, scanner, `py_compile`, relative-link check, full and skill-targeted flake, repository tests, environment drift, README drift, and diff/whitespace checks passed. Blueprint reports no tests and exits successfully by design.
-- Artifacts: Six rules under `.agents/skills/heaven-style/references/rules/code/typescript/`; survey at `docs/reports/surveys/2026-07-14-typescript-rules-survey.md`; daily closeout at `docs/progress/2026-07-14/README.md`.
+- Artifacts: Six rules under `.agents/skills/heaven-style/references/rules/code/typescript/`; survey at `docs/reports/surveys/2026-07-14-typescript-rules-survey.md`; closeout summarized in `docs/DEVLOG.md`.
 - Follow-up: Human review of the survey's source-neutral cross-language candidates before changing Python-wide rules; keep/remove the explicitly marked TypeScript inclusions during that review.

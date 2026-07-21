@@ -22,7 +22,8 @@ Use one plan per coherent outcome. If a plan becomes obsolete, mark it `Supersed
 - Status: Planned | In progress | Blocked | Done | Superseded
 - Created: YYYY-MM-DD
 - Scope: one or two sentences
-- Links: issues, reports, resources, or progress notes
+- Task: one active `docs/tasks.yaml` ID
+- Links: issues, reports, or resources
 
 ## Problem
 
@@ -42,9 +43,9 @@ Use one plan per coherent outcome. If a plan becomes obsolete, mark it `Supersed
 - Verification:
 - Docs:
 
-## Progress
+## Checkpoints
 
-- YYYY-MM-DD: short checkpoint with links to daily progress.
+- YYYY-MM-DD: short evidence checkpoint; keep queue state in `docs/tasks.yaml`.
 
 ## Closeout
 
@@ -55,7 +56,7 @@ Use one plan per coherent outcome. If a plan becomes obsolete, mark it `Supersed
 ## Update Rules
 
 - Keep status and checkboxes current while work proceeds.
-- Append dated progress checkpoints rather than replacing history.
-- Link the daily progress note for each substantial work session.
+- Every `Planned`, `In progress`, or `Blocked` plan must be linked by exactly one active queue task.
+- Append dated evidence checkpoints rather than replacing history.
 - Add exact verification commands, preferably repo wrappers with `rtk`.
-- Close with `Done`, `Superseded`, or `Blocked`; do not leave stale plans silently open.
+- Close with `Done` or `Superseded`, append the development log, and remove the task from the live queue. A blocked plan remains linked to one `blocked` task with an explicit unblock condition.

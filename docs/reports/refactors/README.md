@@ -11,7 +11,7 @@ Executable refactor plans belong in `docs/plans/`. Stable architecture conclusio
 - Invariants that had to remain true.
 - Risks, waivers, and compatibility decisions.
 - Verification performed.
-- Remaining follow-up linked to a plan, issue, or progress note.
+- Remaining follow-up linked to one `docs/tasks.yaml` item and, when needed, a plan or issue.
 
 Use this naming pattern:
 

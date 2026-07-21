@@ -29,6 +29,9 @@ For unsupported choices, use the target repository's validated lookup/error help
 - Use the repository's supported-value helper when it exists; otherwise validate directly and raise a focused exception.
 - Catch exceptions only at boundary layers and preserve cause/context.
 - Use logging helpers instead of `print`.
+- Keep “not found” distinct from “could not observe.” Translate absence only from the repository's specific absence signal; transport, permission, parse, and backend failures remain failures.
+- Stop an ordered mutation pipeline after the first failed phase. Preserve caller-visible mutation order unless the adapter proves failure atomicity for the entire reordered transaction.
+- Roll back by ownership or compare-and-swap identity when concurrent work can replace the state. Cleanup from an older failed operation must not delete or overwrite a newer value.
 
 ## Avoid
 
@@ -36,6 +39,8 @@ For unsupported choices, use the target repository's validated lookup/error help
 - Broad `except Exception` around one-liners.
 - `assert` for runtime validation.
 - Swallowed errors and silent `{}`/`None` fallbacks.
+- Broad fallback that turns observation failure into absence, unsupported, or unknown.
+- Continuing later writes after an earlier write failed, or reordering writes around a lock without a full transactional guarantee.
 - `print` in library code.
 
 ## Example

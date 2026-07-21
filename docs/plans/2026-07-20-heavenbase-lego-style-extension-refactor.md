@@ -1,11 +1,13 @@
 # HeavenBase Lego-Style Extension Refactor Route
 
-- Status: Planned
+- Status: Superseded
 - Created: 2026-07-20
 - Target: HeavenBase `0.1.2.0`, current `dev-refactor` line
 - Scope: Replace source-tree-privileged component discovery with one persisted, source-neutral component catalog while preserving the current consumer-facing identifier/configuration model.
 - Depends on: `docs/plans/2026-07-20-lego-style-extension-parity.md`
 - Path convention: All source and test paths below are relative to the HeavenBase repository root.
+
+This Blueprint-local planning copy is no longer active. HeavenBase owns the accepted, current route in [ADR 0011](https://github.com/Magolor/HeavenBase/blob/dev-refactor/docs/resources/architecture/adr/0011-standalone-registry-and-lego-resolution.md); future task state belongs to HeavenBase's canonical queue.
 
 ## Outcome
 
@@ -536,7 +538,7 @@ If the component snapshot approaches current item/byte limits or CAS contention 
 
 - `AGENTS.md`: update extension registration and verification commands after the lifecycle ships.
 - `docs/README.md`: link the ADR and revised architecture pages.
-- `docs/goals/current.md`, `docs/goals/roadmap.md`, `docs/progress/README.md`: track slices and remaining privileged paths.
+- HeavenBase's canonical queue, engineering guide, roadmap, and development log track slices and remaining privileged paths.
 - `docs/resources/architecture/mental-model.md`: add source-neutral resolution as a core invariant.
 - `docs/resources/architecture/registry-context.md`: document RegistryStore, catalog, Context scope, boot order, refresh, and CAS.
 - `docs/resources/architecture/extension-layout.md`: replace host-subfolder/export recipes with cohesive manifests and registration.

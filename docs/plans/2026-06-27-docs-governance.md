@@ -3,7 +3,7 @@
 - Status: Done
 - Created: 2026-06-27
 - Scope: Make Blueprint's docs directory operationally maintainable for future agents by defining artifact locations, update triggers, and closeout rules.
-- Links: `AGENTS.md`, `docs/README.md`, `docs/progress/README.md`
+- Links: `AGENTS.md`, `docs/README.md`, `docs/DEVLOG.md`
 
 ## Problem
 
@@ -13,7 +13,7 @@ Blueprint had a clean but underspecified docs split. Agents could see `goals/`, 
 
 - [x] `docs/README.md` acts as a docs authority map and artifact router.
 - [x] `AGENTS.md` tells future agents when to update plans, progress, resources, reports, and generated docs.
-- [x] `docs/progress/` defines append-only daily note rules.
+- [x] Historical dated notes were later consolidated into `docs/DEVLOG.md`.
 - [x] `docs/plans/` defines plan lifecycle and progress tracking.
 - [x] `docs/reports/` defines review, refactor, and survey report locations.
 - [x] README copies are synced from `README.en.md`.

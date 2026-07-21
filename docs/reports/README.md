@@ -39,3 +39,5 @@ Each report should include:
 - Staleness trigger, such as release boundary, dependency update, or next review date when the project uses one.
 
 Promote durable conclusions into `docs/resources/` or `docs/goals/` after the report is accepted. Keep the report as the evidence trail.
+
+Reports never own task state. Any actionable follow-up gets one `docs/tasks.yaml` item; after action, mark the report `Actioned` or `Superseded` and remove the closed queue item.

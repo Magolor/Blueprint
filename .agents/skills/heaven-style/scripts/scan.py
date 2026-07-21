@@ -18,6 +18,7 @@ BANNED = {
     "shutil": "heavenbase.utils file helpers",
     "hashlib": "heavenbase.utils hash helpers",
 }
+STANDALONE_MARKER = "# heaven-style-scan: standalone-control-plane"
 
 
 def _parts(path: str) -> set[str]:
@@ -68,7 +69,10 @@ def scan_file(path: str, *, allow_utils: bool) -> list[str]:
         return []
     issues: list[str] = []
     try:
-        tree = ast.parse(load_txt(path), filename=path)
+        source = load_txt(path)
+        tree = ast.parse(source, filename=path)
+        if STANDALONE_MARKER in source.splitlines()[:5]:
+            return []
         imports = _tree_imports(tree)
         os_lines = [lineno for lineno, top, _full in imports if top == "os"]
         for lineno, top, full in imports:

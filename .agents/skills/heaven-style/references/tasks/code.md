@@ -20,10 +20,10 @@ Select rules by language: Python IDs and `ts-*` IDs are alternatives unless the 
 
 ## Fast Path
 
-1. Read the user request, repo `AGENTS.md`, the project `environment` rule, target language/environment rules, declared lint/test entrypoints, docs, and nearby source before editing.
+1. Read the user request, repo `AGENTS.md`, its canonical task queue, the project `environment` rule, target language/environment rules, declared lint/test entrypoints, docs authority map, and nearby source before editing.
 2. If a Linear issue, plan file, or previous review is named, read it and extract objective, scope, acceptance criteria, open questions, and status.
 3. Brainstorm only when the design is under-specified. Prefer one recommended approach with tradeoffs; then detail the accepted plan.
-4. Define the behavior change, public API impact, data/storage impact, docs/example impact, test surface, and non-goals.
+4. Claim an existing queue item or add one when the work is resumable, multi-slice, blocked, or independently delegated. Define the behavior change, public API impact, data/storage impact, docs/example impact, test surface, and non-goals without copying the plan into the queue.
 5. For small local changes, use `SKILL.md` plus only directly matched rules from `references/rules/overview.md`.
 6. For public APIs, shared utilities, storage/query layers, extension points, or cross-module refactors, load `references/workflows/developer.md` and the relevant rules before editing.
 7. Apply minimal diffs using existing project patterns. Internal break-and-fix updates all owned call sites; published compatibility follows the repository policy, and any migration shim needs a named consumer and removal condition.
@@ -31,7 +31,7 @@ Select rules by language: Python IDs and `ts-*` IDs are alternatives unless the 
 9. Add or update tests for the happy path, one edge case, and one error path when behavior changes. Add a short demo when the repo requires one.
 10. Review the diff against Heaven-style criteria, fix confirmed issues, and repeat targeted tests as needed.
 11. Run the target repository's declared style, lint, typecheck, test, build/package, and aggregate gates through `rtk`. Python uses its `uv`-backed wrappers; TypeScript preserves its checked-in manager/scripts and uses `ts-environment`.
-12. Sync user-facing docs, sibling docs repos, architecture docs, generated capability docs, examples, and issue status when the code changes their claims.
+12. Sync user-facing docs, engineering current/target/gap status, sibling docs repos, generated capability docs, examples, the development log, scratch cleanup, and task/issue state when the code changes their claims.
 13. For Linear-driven work, edit the issue's existing rolling status comment for routine progress, verification, and next steps. Add a new comment only for a distinct decision, blocker, handoff, or user-requested update.
 
 ## Coding Criteria
@@ -48,7 +48,7 @@ Select rules by language: Python IDs and `ts-*` IDs are alternatives unless the 
 
 ## Completion Gate
 
-Do not mark done until the implementation, tests, review, repository static/format gates, docs/example sync, generated artifacts, issue updates, and final human report are either completed or explicitly waived with the reason.
+Do not mark done until the implementation, tests, review, repository static/format gates, docs/example sync, generated artifacts, development-log evidence, scratch cleanup, queue closeout, issue updates, and final human report are either completed or explicitly waived with the reason.
 
 ## Output
 

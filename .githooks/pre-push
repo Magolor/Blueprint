@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "${ROOT}"
+source "${ROOT}/scripts/_env.bash"
+export BLUEPRINT_PYTHON_PREFERENCE=uv-first
+
+REMOTE_NAME="${1:-origin}"
+REMOTE_URL="$(git remote get-url "${REMOTE_NAME}" 2>/dev/null || true)"
+
+# This boundary belongs only to Blueprint's canonical repository. Projects
+# created from the template adapt or remove it when they change their remote.
+case "${REMOTE_URL}" in
+    *Magolor/Blueprint*) ;;
+    *) exit 0 ;;
+esac
+
+CONSUMER="${HEAVENBASE_SOURCE:-../HeavenBase/HeavenBase}"
+if ! git -C "${CONSUMER}" rev-parse --show-toplevel >/dev/null 2>&1; then
+    echo "error: HeavenBase checkout not found at ${CONSUMER}" >&2
+    echo "Set HEAVENBASE_SOURCE to its checkout before pushing Blueprint." >&2
+    exit 1
+fi
+
+run_python scripts/template_sync.py check --consumer "${CONSUMER}"

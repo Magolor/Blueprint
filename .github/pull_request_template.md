@@ -2,6 +2,8 @@
 
 <!-- What changed and why? For template work, note whether downstream projects should react. -->
 
+Canonical task: <!-- docs/tasks.yaml ID, external tracker URL, or "direct request" -->
+
 ## Type of change
 
 - [ ] Template maintenance / health
@@ -13,15 +15,15 @@
 
 ## Test plan
 
-- [ ] `bash scripts/sync-env.bash --check --no-heavenbase`
-- [ ] `bash scripts/flake.bash --ci`
-- [ ] `bash scripts/test.bash`
+- [ ] `bash scripts/check.bash fast`
+- [ ] `bash scripts/check.bash full` when risk warrants it
 - [ ] Other: <!-- commands, screenshots, or workflow links -->
 
 ## Docs
 
 - [ ] No docs change needed
-- [ ] Updated canonical English docs and ran the repo doc workflow
+- [ ] Updated the correct user, engineering, development-log, or scratch surface
+- [ ] Closed/superseded legacy guidance and refreshed generated indexes
 - [ ] Translation follow-up noted separately if needed
 
 ## Downstream impact
@@ -29,4 +31,5 @@
 <!-- Delete this section if not applicable. -->
 
 - [ ] Safe for projects created with **Use this template**
+- [ ] Adapted changes were reviewed in HeavenBase and `.blueprint-sync.yaml` was refreshed
 - [ ] Requires downstream projects to rerun `scripts/rename.bash`, update URLs, or change setup steps

@@ -1,0 +1,34 @@
+schema: heaven.tasks/v1
+project: Blueprint
+updated: 2026-07-21
+tasks:
+  - id: BP-001
+    title: Make heaven-style installation transactional and offline by default
+    status: ready
+    priority: P1
+    owner: null
+    parent: null
+    updated: 2026-07-21
+    acceptance:
+      - A failed install leaves the previous verified global skill intact.
+      - Mirrors remove stale managed files without touching unrelated content.
+      - Reference refresh is explicit and ordinary validation is network-free.
+      - Failure-injection and real-entry tests pass.
+    depends_on: []
+    links:
+      - .agents/skills/heaven-style/scripts/install.py
+      - .agents/skills/heaven-style/scripts/sync.py
+  - id: BP-002
+    title: Narrow the universal multi-backend CLI rule
+    status: ready
+    priority: P2
+    owner: null
+    parent: null
+    updated: 2026-07-21
+    acceptance:
+      - A repository may select one CLI framework without unused dependencies.
+      - Multi-backend parity applies only when the repository declares that compatibility surface.
+      - The complete criterion has one normative home.
+    depends_on: []
+    links:
+      - .agents/skills/heaven-style/references/rules/project/interfaces.md

@@ -1,177 +1,361 @@
 #!/usr/bin/env python3
-"""Regenerate references/index.yaml from skill metadata and bundled resources."""
+# heaven-style-scan: standalone-control-plane
+"""Validate heaven-style metadata and generate its compact routing index."""
 
 from __future__ import annotations
 
 import argparse
+import hashlib
+import os
 import re
 import sys
-from datetime import datetime, timezone
+import tempfile
+from pathlib import Path
+from typing import Iterable
+from urllib.parse import unquote
 
-from heavenbase.utils import (
-    dump_yaml,
-    enum_files,
-    exists_dir,
-    exists_file,
-    get_file_basename,
-    get_file_dir,
-    get_file_name,
-    list_paths,
-    load_txt,
-    load_yaml,
-    loads_yaml,
-    pj,
-)
+import yaml
 
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
-SKILL_ROOT = get_file_dir(get_file_dir(__file__, abs=True))
-REFERENCES = pj(SKILL_ROOT, "references")
-ASSETS = pj(SKILL_ROOT, "assets")
-SCRIPTS = pj(SKILL_ROOT, "scripts")
+LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
+SKILL_ROOT = Path(__file__).resolve().parents[1]
+REFERENCES = SKILL_ROOT / "references"
+INDEX_PATH = REFERENCES / "index.yaml"
+COLLECTIONS = ("rules", "examples", "design", "workflows", "tasks", "failures")
+REQUIRED_FIELDS = {
+    "rules": ("id", "title", "description"),
+    "examples": ("id", "title", "description"),
+    "design": ("id", "title", "description"),
+    "workflows": ("id", "title", "description"),
+    "tasks": ("id", "task_kind", "description"),
+    "failures": ("id", "title", "description"),
+}
 
 
-def rel(path: str) -> str:
+class IndexValidationError(ValueError):
+    """Aggregate deterministic skill-index diagnostics."""
+
+    def __init__(self, errors: list[str]) -> None:
+        super().__init__("\n".join(errors))
+        self.errors = errors
+
+
+class _IndentedDumper(yaml.SafeDumper):
+    """Indent sequence items beneath their mapping owner."""
+
+    def increase_indent(self, flow: bool = False, indentless: bool = False) -> None:
+        return super().increase_indent(flow, False)
+
+
+def _relative(path: Path, root: Path) -> str:
     """Return a stable skill-root-relative POSIX path."""
-    root = SKILL_ROOT.replace("\\", "/").rstrip("/")
-    value = pj(path, abs=True).replace("\\", "/")
-    return value[len(root) + 1 :] if value.startswith(f"{root}/") else value
+    return path.resolve().relative_to(root.resolve()).as_posix()
 
 
-def parse_frontmatter(path: str) -> dict[str, object]:
-    """Return YAML frontmatter for a reference file."""
-    text = load_txt(path)
+def _load_frontmatter(path: Path, root: Path, errors: list[str]) -> dict[str, object] | None:
+    """Parse YAML frontmatter and fail closed on malformed input."""
+    relative = _relative(path, root)
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError as exc:
+        errors.append(f"READ_ERROR: {relative}: {exc}")
+        return None
     match = FRONTMATTER_RE.match(text)
     if not match:
-        return {"path": rel(path), "parse_error": "missing frontmatter"}
-    meta = loads_yaml(match.group(1)) or {}
-    if not isinstance(meta, dict):
-        return {"path": rel(path), "parse_error": "frontmatter not a mapping"}
-    meta.setdefault("path", rel(path))
-    return meta
+        errors.append(f"FRONTMATTER_MISSING: {relative}")
+        return None
+    try:
+        metadata = yaml.safe_load(match.group(1))
+    except yaml.YAMLError as exc:
+        errors.append(f"FRONTMATTER_INVALID: {relative}: {exc}")
+        return None
+    if not isinstance(metadata, dict):
+        errors.append(f"FRONTMATTER_MAPPING: {relative}")
+        return None
+    return metadata
 
 
-def _rule_category(path: str) -> str | None:
-    value = rel(path)
-    if "/rules/code/" in f"/{value}":
-        return "code-quality"
-    if "/rules/project/" in f"/{value}":
+def _rule_category(path: Path, root: Path) -> str:
+    """Infer the compact rule family from its path."""
+    relative = _relative(path, root)
+    if "/rules/code/python/" in f"/{relative}":
+        return "python"
+    if "/rules/code/typescript/" in f"/{relative}":
+        return "typescript"
+    if "/rules/code/rust/" in f"/{relative}":
+        return "rust"
+    if "/rules/project/" in f"/{relative}":
         return "project"
-    if value == "references/rules/overview.md":
-        return "overview"
-    return None
+    return "overview"
 
 
-def collect_md(root: str) -> list[dict[str, object]]:
-    """Collect reference markdown frontmatter recursively."""
-    if not exists_dir(root):
-        return []
-    items: list[dict[str, object]] = []
-    for path in enum_files(root, ext="md", abs=True):
-        if get_file_basename(path).startswith("_"):
+def _markdown_links(path: Path) -> Iterable[str]:
+    """Yield Markdown links outside fenced code blocks."""
+    fenced = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.lstrip().startswith("```"):
+            fenced = not fenced
             continue
-        entry = parse_frontmatter(path)
-        entry["path"] = rel(path)
-        if get_file_basename(root) == "rules" and "category" not in entry:
-            category = _rule_category(path)
-            if category:
-                entry["category"] = category
-        items.append(entry)
-    return sorted(items, key=lambda item: (item.get("order", 9999), item.get("path", "")))
-
-
-def _script_desc(path: str) -> str:
-    text = load_txt(path)
-    return text.split('"""', 2)[1].strip().split("\n")[0] if '"""' in text[:500] else ""
-
-
-def collect_scripts() -> list[dict[str, str]]:
-    """Collect script names and docstring summaries."""
-    return [
-        {"path": rel(path), "name": get_file_basename(path, ext=False), "description": _script_desc(path)}
-        for path in sorted(enum_files(SCRIPTS, ext="py", abs=True))
-        if not get_file_basename(path).startswith("_")
-    ]
-
-
-def collect_assets() -> list[dict[str, str]]:
-    """Collect direct assets and reference clone metadata."""
-    if not exists_dir(ASSETS):
-        return []
-    out: list[dict[str, str]] = []
-    for path in list_paths(ASSETS, abs=True):
-        name = get_file_basename(path)
-        if name.startswith("."):
+        if fenced:
             continue
-        entry = {"path": rel(path), "kind": "dir" if exists_dir(path) else "file"}
-        head = pj(path, ".git", "HEAD")
-        if exists_dir(path) and exists_file(head):
-            entry["git_head"] = load_txt(head).strip()
-        out.append(entry)
-        if name == "instance" and exists_dir(path):
-            out.extend(
-                {"path": rel(asset), "kind": "file"}
-                for asset in sorted(enum_files(path, abs=True), key=str.lower)
-                if not get_file_basename(asset).startswith(".")
-            )
-    return out
+        for match in LINK_RE.finditer(line):
+            target = match.group(1).strip()
+            if target.startswith("<") and target.endswith(">"):
+                target = target[1:-1]
+            elif ' "' in target:
+                target = target.split(' "', 1)[0]
+            yield target
 
 
-def skill_meta() -> dict[str, object]:
-    """Return selected SKILL.md frontmatter fields."""
-    meta = parse_frontmatter(pj(SKILL_ROOT, "SKILL.md"))
-    out = {key: meta[key] for key in ["name", "description"] if key in meta}
-    metadata = meta.get("metadata")
-    version = metadata.get("version") if isinstance(metadata, dict) else meta.get("version")
-    if version is not None:
-        out["version"] = version
-    return out
+def _validate_links(root: Path, paths: Iterable[Path], errors: list[str]) -> None:
+    """Reject broken local links in distributed skill Markdown."""
+    for source in sorted(paths):
+        for raw_target in _markdown_links(source):
+            if raw_target.startswith(("#", "http://", "https://", "mailto:", "skill://")):
+                continue
+            target = unquote(raw_target.split("#", 1)[0])
+            if not target:
+                continue
+            if Path(target).is_absolute():
+                errors.append(f"LINK_ABSOLUTE: {_relative(source, root)} -> {raw_target}")
+                continue
+            resolved = (source.parent / target).resolve()
+            if root.resolve() not in resolved.parents and resolved != root.resolve():
+                errors.append(f"LINK_ESCAPE: {_relative(source, root)} -> {raw_target}")
+                continue
+            if not resolved.exists():
+                errors.append(f"LINK_MISSING: {_relative(source, root)} -> {raw_target}")
 
 
-def build_index() -> dict[str, object]:
-    """Build the full generated index."""
-    meta = skill_meta()
+def _reference_paths(root: Path, collection: str) -> list[Path]:
+    """Return stable Markdown sources for one collection."""
+    base = root / "references" / collection
+    if not base.is_dir():
+        return []
+    return sorted(path for path in base.rglob("*.md") if not path.name.startswith("_"))
+
+
+def _compact_entry(collection: str, path: Path, root: Path, metadata: dict[str, object]) -> tuple[str, dict[str, object]]:
+    """Project canonical frontmatter into one compact route."""
+    entry: dict[str, object] = {
+        "path": _relative(path, root),
+        "use": metadata["description"],
+    }
+    if collection == "rules":
+        entry["family"] = metadata.get("category") or _rule_category(path, root)
+        if metadata.get("blocking") is True:
+            entry["blocking"] = True
+    elif collection == "workflows" and metadata.get("audience"):
+        entry["audience"] = metadata["audience"]
+    elif collection == "tasks" and metadata.get("task_kind") != metadata.get("id"):
+        entry["kind"] = metadata["task_kind"]
+    if metadata.get("enabled") is False:
+        entry["enabled"] = False
+    if metadata.get("default_exposed") is False:
+        entry["default"] = False
+    return str(metadata["id"]), entry
+
+
+def _collect_references(root: Path, errors: list[str]) -> tuple[dict[str, dict[str, dict[str, object]]], list[Path]]:
+    """Validate reference metadata and return compact routes plus sources."""
+    routes: dict[str, dict[str, dict[str, object]]] = {}
+    sources: list[Path] = []
+    identifiers: dict[str, str] = {}
+    rules: set[str] = set()
+    pending_relations: list[tuple[str, str, list[object]]] = []
+    for collection in COLLECTIONS:
+        records: list[tuple[int, str, dict[str, object]]] = []
+        for path in _reference_paths(root, collection):
+            sources.append(path)
+            metadata = _load_frontmatter(path, root, errors)
+            if metadata is None:
+                continue
+            relative = _relative(path, root)
+            for field in REQUIRED_FIELDS[collection]:
+                if field not in metadata or metadata[field] in (None, ""):
+                    errors.append(f"FIELD_MISSING: {relative}: {field}")
+                elif not isinstance(metadata[field], str):
+                    errors.append(f"FIELD_TYPE: {relative}: {field} must be a string")
+            identifier = metadata.get("id")
+            if not isinstance(identifier, str) or not identifier.strip():
+                errors.append(f"ID_INVALID: {relative}")
+                continue
+            if identifier in identifiers:
+                errors.append(f"ID_DUPLICATE: {identifier}: {identifiers[identifier]} and {relative}")
+                continue
+            identifiers[identifier] = relative
+            if collection == "rules":
+                rules.add(identifier)
+            if "enabled" in metadata and not isinstance(metadata["enabled"], bool):
+                errors.append(f"ENABLED_INVALID: {relative}")
+            for field in ("blocking", "default_exposed"):
+                if field in metadata and not isinstance(metadata[field], bool):
+                    errors.append(f"FIELD_TYPE: {relative}: {field} must be a boolean")
+            if "order" in metadata and type(metadata["order"]) is not int:
+                errors.append(f"FIELD_TYPE: {relative}: order must be an integer")
+            for field in ("category", "audience", "status"):
+                if field in metadata and not isinstance(metadata[field], str):
+                    errors.append(f"FIELD_TYPE: {relative}: {field} must be a string")
+            for field in ("keywords", "triggers"):
+                value = metadata.get(field)
+                if value is not None and (not isinstance(value, list) or not all(isinstance(item, str) for item in value)):
+                    errors.append(f"FIELD_TYPE: {relative}: {field} must be a string list")
+            related = metadata.get("related_rules")
+            if related is not None:
+                if not isinstance(related, list):
+                    errors.append(f"RELATED_RULES_INVALID: {relative}")
+                else:
+                    pending_relations.append((identifier, relative, related))
+            if any(field not in metadata or metadata[field] in (None, "") for field in REQUIRED_FIELDS[collection]):
+                continue
+            route_id, entry = _compact_entry(collection, path, root, metadata)
+            order = metadata.get("order", 9999)
+            records.append((order if isinstance(order, int) else 9999, route_id, entry))
+        routes[collection] = {identifier: entry for _, identifier, entry in sorted(records)}
+    for identifier, relative, related in pending_relations:
+        for rule_id in related:
+            if not isinstance(rule_id, str) or rule_id not in rules:
+                errors.append(f"RELATED_RULE_MISSING: {identifier} in {relative} -> {rule_id}")
+    return routes, sources
+
+
+def _script_summary(path: Path) -> str:
+    """Return the first line of a script module docstring."""
+    text = path.read_text(encoding="utf-8")[:1000]
+    match = re.search(r'^[^\n]*\n?\s*"""(.*?)"""', text, re.DOTALL)
+    return match.group(1).strip().splitlines()[0] if match else ""
+
+
+def _collect_scripts(root: Path) -> dict[str, dict[str, str]]:
+    """Return compact maintenance-script routes."""
+    scripts = root / "scripts"
+    return {path.stem: {"path": _relative(path, root), "use": _script_summary(path)} for path in sorted(scripts.glob("*.py")) if not path.name.startswith("_")}
+
+
+def _collect_assets(root: Path) -> list[str]:
+    """Return stable direct asset paths without indexing reference-clone contents."""
+    assets = root / "assets"
+    if not assets.is_dir():
+        return []
+    output: list[str] = []
+    for path in sorted(assets.iterdir()):
+        if path.name.startswith(".") or path.name == "heavenbase-reference":
+            continue
+        output.append(_relative(path, root))
+        if path.name == "instance" and path.is_dir():
+            output.extend(_relative(child, root) for child in sorted(path.iterdir()) if not child.name.startswith("."))
+    return output
+
+
+def _source_digest(root: Path, sources: Iterable[Path]) -> str:
+    """Hash normalized source paths and bytes for traceable generation."""
+    digest = hashlib.sha256()
+    for path in sorted(set(sources)):
+        digest.update(_relative(path, root).encode("utf-8"))
+        digest.update(b"\0")
+        if path.is_file():
+            digest.update(path.read_bytes().replace(b"\r\n", b"\n"))
+        elif path.is_dir():
+            digest.update(b"<directory>")
+        else:
+            digest.update(b"<missing>")
+        digest.update(b"\0")
+    return f"sha256:{digest.hexdigest()}"
+
+
+def build_index(root: Path = SKILL_ROOT) -> dict[str, object]:
+    """Validate the skill graph and return its compact deterministic index."""
+    root = root.resolve()
+    errors: list[str] = []
+    skill_path = root / "SKILL.md"
+    skill = _load_frontmatter(skill_path, root, errors)
+    routes, sources = _collect_references(root, errors)
+    markdown_sources = [skill_path, *sources]
+    _validate_links(root, markdown_sources, errors)
+    if skill is None:
+        skill = {}
+    for field in ("name", "description", "metadata"):
+        if field not in skill:
+            errors.append(f"SKILL_FIELD_MISSING: {field}")
+    for field in ("name", "description"):
+        if field in skill and not isinstance(skill[field], str):
+            errors.append(f"SKILL_FIELD_TYPE: {field} must be a string")
+    metadata = skill.get("metadata")
+    version = metadata.get("version") if isinstance(metadata, dict) else None
+    if not isinstance(version, str) or not version:
+        errors.append("SKILL_VERSION: metadata.version must be a non-empty string")
+    if errors:
+        raise IndexValidationError(sorted(set(errors)))
+    scripts = _collect_scripts(root)
+    assets = _collect_assets(root)
+    projection_sources = [root / route["path"] for route in scripts.values()]
+    projection_sources.extend(root / path for path in assets)
+    counts = {collection: len(routes[collection]) for collection in COLLECTIONS}
     return {
-        "skill": meta.get("name", "heaven-style"),
-        "version": meta.get("version"),
-        "description": meta.get("description"),
-        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "generator": rel(__file__),
-        "references": {
-            "rules": collect_md(pj(REFERENCES, "rules")),
-            "examples": collect_md(pj(REFERENCES, "examples")),
-            "design": collect_md(pj(REFERENCES, "design")),
-            "workflows": collect_md(pj(REFERENCES, "workflows")),
-            "tasks": collect_md(pj(REFERENCES, "tasks")),
-            "failures": collect_md(pj(REFERENCES, "failures")),
+        "schema": "heaven-style-index/v2",
+        "skill": {
+            "name": skill["name"],
+            "version": version,
+            "description": skill["description"],
+            "source_digest": _source_digest(root, [*markdown_sources, *projection_sources]),
         },
-        "scripts": collect_scripts(),
-        "assets": collect_assets(),
+        "entrypoints": {
+            "default": "SKILL.md",
+            "rules": "references/rules/overview.md",
+            "architect": "references/workflows/architect.md",
+            "editor": "references/workflows/editor.md",
+        },
+        "counts": counts,
+        "routes": routes,
+        "scripts": scripts,
+        "assets": assets,
     }
 
 
-def comparable(index: dict[str, object]) -> dict[str, object]:
-    """Return index with volatile fields normalized."""
-    out = dict(index)
-    out["generated_at"] = "<ignored>"
-    return out
+def render_index(index: dict[str, object]) -> str:
+    """Render canonical UTF-8 YAML bytes without volatile timestamps."""
+    body = yaml.dump(index, Dumper=_IndentedDumper, sort_keys=False, allow_unicode=True, width=120)
+    return "# Generated by scripts/index.py. Do not edit.\n" + body
+
+
+def write_atomic(path: Path, content: str) -> None:
+    """Stage and atomically publish one validated generated artifact."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = tempfile.NamedTemporaryFile("w", encoding="utf-8", newline="\n", dir=path.parent, prefix=f".{path.name}.", delete=False)
+    staged = Path(handle.name)
+    try:
+        with handle:
+            handle.write(content)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(staged, path)
+    finally:
+        if staged.exists():
+            staged.unlink()
 
 
 def main() -> int:
-    """CLI entrypoint."""
+    """Validate and regenerate the index, or check exact freshness."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="Exit 1 if index.yaml would change")
+    parser.add_argument("--check", action="store_true", help="Validate and exit 1 unless index.yaml is byte-current")
+    parser.add_argument("--root", type=Path, default=SKILL_ROOT, help="Skill root for fixtures or embedded copies")
     args = parser.parse_args()
-    index_path = pj(REFERENCES, "index.yaml")
-    new_index = build_index()
+    try:
+        rendered = render_index(build_index(args.root))
+    except IndexValidationError as exc:
+        for error in exc.errors:
+            print(error, file=sys.stderr)
+        return 1
+    index_path = args.root.resolve() / "references" / "index.yaml"
     if args.check:
-        old_index = load_yaml(index_path) if exists_file(index_path) else {}
-        if not isinstance(old_index, dict) or comparable(old_index) != comparable(new_index):
-            print(f"index.yaml is stale; run: python {rel(__file__)}", file=sys.stderr)
+        current = index_path.read_text(encoding="utf-8") if index_path.is_file() else ""
+        if current != rendered:
+            print(f"index.yaml is stale; run: python {_relative(Path(__file__), SKILL_ROOT)}", file=sys.stderr)
             return 1
-        print("index.yaml is up to date")
+        print("index.yaml is valid and up to date")
         return 0
-    dump_yaml(new_index, index_path, sort_keys=False, allow_unicode=True)
-    print(f"Wrote {rel(index_path)}")
+    write_atomic(index_path, rendered)
+    print(f"Wrote {_relative(index_path, args.root.resolve())}")
     return 0
 
 

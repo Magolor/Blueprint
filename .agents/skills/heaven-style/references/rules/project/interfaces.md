@@ -45,6 +45,8 @@ In this rule, **SDK** means the public Python import surface over core behavior.
 
 - Put cross-feature use-case orchestration in `api/`, not in interface callbacks or domain entities.
 - Define typed, serializable request, response, pagination, error, and event contracts once. Validate untrusted input at this boundary before calling core behavior.
+- Define serialization per boundary. Storage encoding, request JSON, public JSON, logs, cache keys, and wire formats may share primitives but must not silently reuse one tagged serializer when their contracts differ.
+- Include behavior-changing policy in the request/spec identity so validation, `explain`, caching, retries, serialization, and execution observe the same choice.
 - Keep application service methods independently testable without HTTP framework objects. HTTP routes should translate transport values to those methods and translate results/errors back.
 - Prefer resource-shaped REST routes and publish a current OpenAPI contract. Generate or check the schema from the same request/response definitions instead of maintaining a second endpoint catalog by hand.
 - Provide an async client or async service surface for remote/I/O-heavy work. Request handlers must support concurrent requests without process-global request state, blocking the event loop, or sharing unsafe mutable objects.

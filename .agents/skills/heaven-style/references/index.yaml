@@ -1,1197 +1,285 @@
-skill: heaven-style
-version: 0.1.2.0
-description: Heaven-style code and architecture guide for general Python package development
-    and TypeScript repositories, with conditional conventions for HeavenBase-lineage
-    projects. Use when writing, reviewing, designing architecture, refactoring, or
-    aligning tests/docs; apply repository policy first, then shared architecture and
-    the matched language rules.
-generated_at: '2026-07-20T07:34:50Z'
-generator: scripts/index.py
-references:
-    rules:
-    -   id: overview
-        title: Rule overview
-        enabled: true
-        blocking: true
-        order: 1
-        category: overview
-        keywords:
-        - which rule
-        - what rules apply
-        - rule map
-        - style overview
-        - start here
-        description: Use when deciding which heaven-style rule files apply to a task.
-        path: references/rules/overview.md
-    -   id: util
-        title: Utility layer
-        enabled: true
-        blocking: true
-        order: 10
-        category: code-quality
-        keywords:
-        - json
-        - yaml
-        - pickle
-        - pathlib
-        - os.path
-        - subprocess
-        - shutil
-        - hashlib
-        - logging
-        - print
-        - open
-        - standard library
-        - shared utility
-        description: Use when Python code touches paths, files, serialization, shell
-            commands, hashing, logging, temp files, IDs, or shared utility ownership.
-        path: references/rules/code/python/util.md
-    -   id: config
-        title: Config and resources
-        enabled: true
-        blocking: true
-        order: 20
-        category: code-quality
-        keywords:
-        - hard-coded
-        - magic number
-        - literals
-        - configuration owner
-        - resources
-        - default
-        - model
-        - timeout
-        - batch size
-        - CM_HVNB
-        description: Use when Python code introduces defaults, tunables, prompt or
-            resource paths, model/backend settings, or disputed literals.
-        path: references/rules/code/python/config.md
-    -   id: types
-        title: Type annotations
-        enabled: true
-        blocking: true
-        order: 25
-        category: code-quality
-        keywords:
-        - Dict
-        - List
-        - Optional
-        - Union
-        - pipe types
-        - builtins
-        - TypedDict
-        - Self
-        description: Use when adding or reviewing type annotations, public signatures,
-            Python-version compatibility, or schema-shaped data.
-        path: references/rules/code/python/types.md
-    -   id: docstring
-        title: Docstrings
-        enabled: true
-        blocking: true
-        order: 27
-        category: code-quality
-        keywords:
-        - docstring
-        - Google-style
-        - Args
-        - Returns
-        - Yields
-        - Raises
-        - markdown
-        - public API
-        - documentation
-        description: Use when adding or reviewing public API docstrings, major feature
-            APIs, generator docs, return docs, examples, warnings, or Markdown markup
-            inside Python docstrings.
-        path: references/rules/code/python/docstring.md
-    -   id: oop
-        title: OOP vocabulary
-        enabled: true
-        blocking: true
-        order: 30
-        category: code-quality
-        keywords:
-        - serialize
-        - as_dict
-        - fetch
-        - retrieve
-        - from_json
-        - CRUD
-        - collection
-        - engine
-        - preset
-        - provider
-        - backend
-        description: Use when designing public objects, stores, clients, CRUD/KV APIs,
-            batch APIs, engines, specs, configs, plans, or presets.
-        path: references/rules/code/python/oop.md
-    -   id: model
-        title: Mental model
-        enabled: true
-        blocking: true
-        order: 35
-        category: code-quality
-        keywords:
-        - api surface
-        - class count
-        - function count
-        - DSL
-        - user model
-        - interface design
-        - abstraction
-        - constructor flags
-        - OOP front door
-        description: Use when adding public classes or functions, designing a user-facing
-            surface, choosing method versus free function, adding constructor flags,
-            or proposing a DSL.
-        path: references/rules/code/python/model.md
-    -   id: solid
-        title: SOLID boundaries
-        enabled: true
-        blocking: true
-        order: 37
-        category: code-quality
-        keywords:
-        - SOLID
-        - SRP
-        - OCP
-        - LSP
-        - ISP
-        - DIP
-        - single responsibility
-        - open closed
-        - Liskov
-        - interface segregation
-        - dependency inversion
-        - backend
-        - provider
-        - strategy
-        - registry
-        - architecture
-        description: Use when designing or reviewing SOLID boundaries, class boundaries,
-            extension points, inheritance contracts, adapter interfaces, registries,
-            or strategy/provider dependencies.
-        path: references/rules/code/python/solid.md
-    -   id: name
-        title: Names
-        enabled: true
-        blocking: true
-        order: 40
-        category: code-quality
-        keywords:
-        - rename
-        - naming
-        - glossary
-        - abbreviations
-        - snake_case
-        - terse
-        - variable name
-        description: Use when adding or reviewing modules, public symbols, abbreviations,
-            predicates, variable names, or glossary terms.
-        path: references/rules/code/python/name.md
-    -   id: files
-        title: File organization
-        enabled: true
-        blocking: true
-        order: 45
-        category: code-quality
-        keywords:
-        - file organization
-        - module layout
-        - package layout
-        - folder
-        - private module
-        - internal file
-        - utils.py
-        - _utils.py
-        - __init__
-        - __init__.pyi
-        - py.typed
-        - pyi
-        - __all__
-        - __getattr__
-        - lazy exports
-        - exports
-        - adapter files
-        - provider files
-        - feature folder
-        - file naming
-        description: Use when adding or reviewing Python files, package folders, public
-            exports, lazy exports, local helper modules, internal helper modules,
-            typing stubs, implementation families, adapters, providers, or feature-local
-            module boundaries.
-        path: references/rules/code/python/files.md
-    -   id: py
-        title: Python shape
-        enabled: true
-        blocking: true
-        order: 50
-        category: code-quality
-        keywords:
-        - comprehension
-        - ternary
-        - guard clause
-        - compact python
-        - dict get
-        - nested loop
-        - early return
-        description: Use when code shape is verbose, deeply nested, unclear, or depends
-            on fallback/control-flow semantics.
-        path: references/rules/code/python/py.md
-    -   id: clean
-        title: Helper cleanliness
-        enabled: true
-        blocking: true
-        order: 55
-        category: code-quality
-        keywords:
-        - helper function
-        - temporary helper
-        - wrapper
-        - small function
-        - code cleanliness
-        - abstraction
-        description: Use when adding Python helper functions, wrappers, temporary
-            transforms, adapters, or deciding inline logic versus shared utilities.
-        path: references/rules/code/python/clean.md
-    -   id: error
-        title: Errors
-        enabled: true
-        blocking: true
-        order: 60
-        category: code-quality
-        keywords:
-        - try except
-        - logging
-        - raise
-        - print debug
-        - raise_mismatch
-        - unsupported value
-        - swallowed error
-        description: Use when validating supported values, handling exceptions, logging
-            failures, catching broadly, or returning fallbacks.
-        path: references/rules/code/python/error.md
-    -   id: sql
-        title: SQL
-        enabled: true
-        blocking: true
-        order: 70
-        category: code-quality
-        keywords:
-        - sqlalchemy
-        - embedded sql
-        - f-string sql
-        - orm
-        - ddl
-        - migration
-        - raw sql
-        - database layer
-        description: Use when Python code touches database queries, raw SQL, migrations,
-            DDL, binds, SQLAlchemy, ORM, or SQL resources.
-        path: references/rules/code/python/sql.md
-    -   id: compat
-        title: Compatibility shims
-        enabled: true
-        blocking: true
-        order: 90
-        category: code-quality
-        keywords:
-        - deprecated
-        - shim
-        - v1 v2
-        - warnings.warn
-        - backward compatibility
-        - alias
-        - migration
-        description: Use when renaming APIs, changing config schemas, adding aliases,
-            preserving old behavior, or proposing migration/deprecation shims.
-        path: references/rules/code/python/compat.md
-    -   id: environment
-        title: Agent environment and commands
-        enabled: true
-        blocking: true
-        order: 95
-        category: project
-        keywords:
-        - rtk
-        - uv
-        - Bun
-        - package manager
-        - lockfile
-        - AGENTS.md
-        - scripts/_env.bash
-        - bash wrapper
-        - python path
-        - venv
-        - sync-env.bash
-        - package script
-        - command prefix
-        - coding agent
-        description: Use when running shell commands, choosing the repository's Python
-            or TypeScript environment, adding wrappers or package scripts, or diagnosing
-            wrong-environment failures for coding agents.
-        path: references/rules/project/environment.md
-    -   id: format
-        title: Imports and formatting
-        enabled: true
-        blocking: true
-        order: 100
-        category: project
-        keywords:
-        - import order
-        - line length
-        - flake
-        - black
-        - Biome
-        - ESLint
-        - repo script
-        - package script
-        - wrapper
-        description: Use when running or reviewing Python or TypeScript formatters,
-            linters, import order, generated compatibility files, or repository command
-            entry points.
-        path: references/rules/project/format.md
-    -   id: test
-        title: Tests and examples
-        enabled: true
-        blocking: true
-        order: 110
-        category: project
-        keywords:
-        - pytest
-        - Bun test
-        - unit test
-        - contract test
-        - property test
-        - type test
-        - fast test
-        - full test
-        - test marker
-        - packed consumer
-        - runnable example
-        - coverage
-        - happy path
-        - edge case
-        - error path
-        description: Use when adding or reviewing Python or TypeScript behavior tests,
-            runnable examples, type/contract/property checks, package smoke tests,
-            integration evidence, or provider tests.
-        path: references/rules/project/test.md
-    -   id: docs
-        title: Docs and generated content
-        enabled: true
-        blocking: false
-        order: 120
-        category: project
-        keywords:
-        - README
-        - generated docs
-        - doc sync
-        - mintlify
-        - docs json
-        - architecture docs
-        - translation
-        - examples
-        description: Use when public behavior, README content, user-facing docs, generated
-            docs, Mintlify pages, sibling docs repos, or translation staleness changes.
-        path: references/rules/project/docs.md
-    -   id: extension
-        title: Extension points
-        enabled: true
-        blocking: false
-        order: 130
-        category: project
-        keywords:
-        - plugin
-        - extension api
-        - lego-style extension
-        - extension parity
-        - registry
-        - persisted registry
-        - entry point
-        - manifest
-        - discovery
-        - capability registration
-        - provider
-        - backend
-        - builtin
-        - remote extension
-        description: Use when adding or reviewing open extension families, registries,
-            plugin manifests, discovery/load paths, providers, backends, handlers,
-            strategies, capabilities, or built-in/external parity.
-        path: references/rules/project/extension.md
-    -   id: interfaces
-        title: Service interface architecture
-        enabled: true
-        blocking: true
-        order: 135
-        category: project
-        keywords:
-        - service architecture
-        - Python SDK
-        - API layer
-        - REST
-        - OpenAPI
-        - async API
-        - parallel requests
-        - CLI
-        - GUI
-        - MCP
-        - TUI
-        - Typer
-        - Click
-        - argparse
-        - Rich
-        - CLIRegistry
-        - Tauri
-        - thin wrapper
-        description: Use when a package is provided as a service or exposes SDK, API,
-            CLI, GUI, MCP, TUI, dashboard, or desktop-app surfaces.
-        path: references/rules/project/interfaces.md
-    -   id: review
-        title: Review checklist
-        enabled: true
-        blocking: true
-        order: 200
-        category: project
-        keywords:
-        - pr gate
-        - code review
-        - style review
-        - inline comments
-        - findings
-        - approval
-        - review criteria
-        description: Use for PR, diff, module, branch, or Linear review, severity-marked
-            findings, review artifacts, follow-up, or explicit waivers.
-        path: references/rules/project/review.md
-    -   id: ts-architecture
-        title: TypeScript architecture
-        enabled: true
-        blocking: true
-        order: 210
-        category: code-quality
-        keywords:
-        - TypeScript architecture
-        - SOLID
-        - registry
-        - discriminated union
-        - capability
-        - adapter
-        - strategy
-        - composition root
-        - lifecycle
-        - Bun
-        description: Use when designing or reviewing TypeScript modules, public APIs,
-            services, adapters, providers, registries, strategies, capabilities, or
-            lifecycle boundaries.
-        path: references/rules/code/typescript/architecture.md
-    -   id: ts-types
-        title: TypeScript types and language shape
-        enabled: true
-        blocking: true
-        order: 220
-        category: code-quality
-        keywords:
-        - TypeScript strict
-        - unknown
-        - any
-        - assertion
-        - discriminated union
-        - branded type
-        - readonly
-        - satisfies
-        - exactOptionalPropertyTypes
-        - runtime validation
-        description: Use when adding or reviewing TypeScript types, public signatures,
-            external data, unions, identifiers, config shapes, assertions, or strict
-            compiler options.
-        path: references/rules/code/typescript/types.md
-    -   id: ts-modules
-        title: TypeScript modules and packages
-        enabled: true
-        blocking: true
-        order: 230
-        category: code-quality
-        keywords:
-        - TypeScript files
-        - ESM
-        - package exports
-        - index.ts
-        - barrel
-        - workspace
-        - subpath exports
-        - moduleResolution
-        - dynamic import
-        - sideEffects
-        description: Use when adding or reviewing TypeScript files, package boundaries,
-            imports, exports, workspaces, barrels, optional integrations, build output,
-            or published artifacts.
-        path: references/rules/code/typescript/modules.md
-    -   id: ts-async
-        title: TypeScript async, errors, and resources
-        enabled: true
-        blocking: true
-        order: 240
-        category: code-quality
-        keywords:
-        - TypeScript promise
-        - no-floating-promises
-        - AbortSignal
-        - error cause
-        - dispose
-        - async lifecycle
-        - callback exception
-        - subprocess security
-        - teardown
-        description: Use when TypeScript code handles promises, callbacks, events,
-            cancellation, errors, subprocesses, resources, concurrency, startup, or
-            teardown.
-        path: references/rules/code/typescript/async.md
-    -   id: ts-docs
-        title: TypeScript API documentation
-        enabled: true
-        blocking: true
-        order: 250
-        category: code-quality
-        keywords:
-        - TSDoc
-        - JSDoc
-        - TypeScript public API
-        - '@param'
-        - '@returns'
-        - '@throws'
-        - module comment
-        - documentation examples
-        - generated docs
-        description: Use when adding or reviewing TypeScript public exports, package
-            entry points, JSDoc/TSDoc, examples, generated catalogs, or declaration-facing
-            documentation.
-        path: references/rules/code/typescript/docs.md
-    -   id: ts-environment
-        title: TypeScript environment and toolchain
-        enabled: true
-        blocking: true
-        order: 260
-        category: code-quality
-        keywords:
-        - Bun
-        - bun.lock
-        - packageManager
-        - TypeScript
-        - tsconfig
-        - Biome
-        - ESLint
-        - ESM
-        - NodeNext
-        - CI
-        - dependency audit
-        - trustedDependencies
-        description: Use when creating or changing a TypeScript repository, package
-            metadata, lockfile, compiler configuration, scripts, linting, testing,
-            dependency policy, runtime selection, or CI commands.
-        path: references/rules/code/typescript/environment.md
-    examples:
-    -   id: example-open-capability-vocabulary
-        title: Open capability vocabulary
-        enabled: true
-        order: 10
-        keywords:
-        - code smell
-        - design smell
-        - capability
-        - registry
-        - open extension
-        - OCP
-        - ISP
-        - plugin architecture
-        description: Read when an extensible family keeps gaining hard-coded feature
-            fields, feature-specific methods, switches, or unvalidated extra dictionaries.
-        path: references/examples/code/open-capability-vocabulary.md
-    design:
-    -   id: gui-style
-        title: GUI style
-        enabled: true
-        default_exposed: false
-        order: 10
-        keywords:
-        - gui
-        - ui
-        - frontend
-        - desktop app
-        - web app
-        - app shell
-        - dashboard
-        - design system
-        - theme
-        - tokens
-        - minimalism
-        - materialism
-        - react
-        - vue
-        - streamlit
-        - pyside
-        - nicegui
-        - tailwind
-        description: Use when designing, implementing, or reviewing graphical user
-            interfaces, app shells, dashboards, desktop tools, or web frontends in
-            any framework.
-        path: references/design/gui-style.md
-    workflows:
-    -   id: workflow-architect
-        title: Architect workflow
-        enabled: true
-        audience: architect
-        keywords:
-        - architecture plan
-        - architecture review
-        - periodic architecture review
-        - agile design
-        - SOLID
-        - SRP
-        - OCP
-        - LSP
-        - ISP
-        - DIP
-        - design smells
-        - dependency review
-        - module design
-        - refactor plan
-        - goals roadmap
-        - api standard table
-        - docs cleanup
-        - organize docs
-        - short-term goals
-        - mid-term goals
-        - long-term goals
-        - implementation plan
-        - design doc
-        description: Use when organizing docs, designing or reviewing architecture,
-            drafting refactor plans, updating goals, or producing step-by-step execution
-            plans without implementing code.
-        path: references/workflows/architect.md
-    -   id: workflow-developer
-        title: Developer workflow
-        enabled: true
-        audience: developer
-        keywords:
-        - advanced usage
-        - large refactor
-        - planning
-        - architecture review
-        - read all rules
-        - public api design
-        description: Use when planning broad work, refactoring shared surfaces, designing
-            public APIs, resolving rule tradeoffs, or needing the full Heaven Style
-            rule set.
-        path: references/workflows/developer.md
-    -   id: workflow-editor
-        title: Editor workflow
-        enabled: true
-        audience: editor
-        keywords:
-        - maintain heaven-style
-        - edit skill
-        - install skill
-        - update rules
-        - update tasks
-        - update failures
-        - update skill version
-        description: Use when maintaining this heaven-style skill, changing rules/tasks/failures/workflows,
-            regenerating indexes, syncing reference assets, or aligning versions.
-        path: references/workflows/editor.md
-    tasks:
-    -   id: code
-        task_kind: code
-        status: active
-        enabled: true
-        order: 10
-        keywords:
-        - implement feature
-        - fix bug
-        - modify code
-        - refactor code
-        - add tests
-        - update docs
-        - linear issue
-        - stabilize
-        triggers:
-        - implement
-        - fix
-        - code
-        - refactor
-        - add feature
-        - change behavior
-        - stabilize
-        - TAL
-        description: Use when implementing Heaven-style features, fixes, refactors,
-            tests, docs, or stabilization work.
-        related_rules:
-        - overview
-        - util
-        - config
-        - types
-        - docstring
-        - oop
-        - model
-        - solid
-        - name
-        - files
-        - py
-        - clean
-        - error
-        - sql
-        - compat
-        - ts-architecture
-        - ts-types
-        - ts-modules
-        - ts-async
-        - ts-docs
-        - ts-environment
-        - environment
-        - format
-        - test
-        - docs
-        - extension
-        - interfaces
-        path: references/tasks/code.md
-    -   id: code-review
-        task_kind: code-review
-        status: active
-        enabled: true
-        order: 20
-        keywords:
-        - review code
-        - review pr
-        - review branch
-        - review recent changes
-        - style review
-        - quality review
-        - linear review
-        triggers:
-        - review
-        - code review
-        - check this pr
-        - review TAL
-        - review branch
-        - review changes
-        description: Use when reviewing code changes, modules, branches, PRs, recent
-            diffs, or Linear-linked review work.
-        related_rules:
-        - overview
-        - review
-        - util
-        - config
-        - types
-        - docstring
-        - oop
-        - model
-        - solid
-        - name
-        - files
-        - py
-        - clean
-        - error
-        - sql
-        - compat
-        - ts-architecture
-        - ts-types
-        - ts-modules
-        - ts-async
-        - ts-docs
-        - ts-environment
-        - environment
-        - format
-        - test
-        - docs
-        - extension
-        - interfaces
-        path: references/tasks/code-review.md
-    -   id: doc-sync
-        task_kind: doc-sync
-        status: active
-        enabled: true
-        order: 30
-        keywords:
-        - sync docs
-        - update docs
-        - heavenbase docs
-        - mintlify docs
-        - docs json
-        - documentation task
-        triggers:
-        - doc sync
-        - update documentation
-        - sync HeavenBase-docs
-        - update Mintlify
-        - docs out of date
-        description: Use when syncing English code-facing docs, Mintlify MDX pages,
-            navigation, or sibling docs repos with current implementation.
-        related_rules:
-        - overview
-        - docs
-        - test
-        - config
-        - util
-        - model
-        - extension
-        path: references/tasks/doc-sync.md
-    -   id: doc-trans
-        task_kind: doc-trans
-        status: active
-        enabled: true
-        order: 32
-        keywords:
-        - translate docs
-        - zh docs
-        - chinese translation
-        - batch translate
-        - re-translate
-        - doc translation
-        - line-aligned translation
-        triggers:
-        - translate
-        - translation
-        - zh doc
-        - chinese docs
-        - batch translate
-        - re-translate
-        - line-by-line translation
-        - doc-trans
-        description: Use when translating or re-translating English MDX docs into
-            line-aligned Chinese pages.
-        related_rules:
-        - overview
-        - docs
-        - test
-        path: references/tasks/doc-trans.md
-    -   id: test-compress
-        task_kind: test-compress
-        status: active
-        enabled: true
-        order: 34
-        keywords:
-        - test compression
-        - compress tests
-        - prune tests
-        - pytest cleanup
-        - legacy tests
-        - fast tests
-        - full tests
-        - test markers
-        - suite cleanup
-        triggers:
-        - test-compress
-        - compress tests
-        - prune tests
-        - cleanup tests
-        - reduce tests
-        - slim tests
-        - test suite cleanup
-        description: Use when auditing and slimming a pytest suite by removing oddly
-            specific, legacy, low-value, brittle, or redundant tests while preserving
-            meaningful behavior coverage.
-        related_rules:
-        - overview
-        - test
-        - clean
-        - model
-        - compat
-        - environment
-        - format
-        - docs
-        - review
-        path: references/tasks/test-compress.md
-    -   id: code-explain
-        task_kind: code-explain
-        status: active
-        enabled: true
-        order: 35
-        keywords:
-        - explain code
-        - explain module
-        - architecture walkthrough
-        - data flow
-        - how does this work
-        - compare changes
-        triggers:
-        - explain
-        - walkthrough
-        - how does
-        - architecture
-        - dataflow
-        - compare code
-        - module question
-        description: Use when explaining HeavenBase architecture, modules, data flow,
-            feature behavior, or code changes.
-        related_rules:
-        - overview
-        - docs
-        - model
-        - oop
-        - files
-        - extension
-        - interfaces
-        - clean
-        path: references/tasks/code-explain.md
-    -   id: env
-        task_kind: env
-        status: active
-        enabled: true
-        order: 36
-        keywords:
-        - maintain env
-        - update env
-        - repair env
-        - system env
-        - machine maintenance
-        - setup maintenance
-        - Homebrew
-        - Brewfile
-        - uv
-        - conda
-        - mise
-        - rustup
-        - docker
-        triggers:
-        - env
-        - update env
-        - maintain environment
-        - repair environment
-        - system maintenance
-        - machine maintenance
-        - refresh machine tools
-        - setup maintenance
-        description: Use when maintaining a developer machine environment, updating
-            setup plans, performing scoped machine maintenance, or preparing safe
-            local environment commands.
-        related_rules:
-        - overview
-        - environment
-        - docs
-        - review
-        path: references/tasks/env.md
-    -   id: arch-design
-        task_kind: arch-design
-        status: active
-        enabled: true
-        order: 38
-        keywords:
-        - architecture design
-        - architecture review
-        - periodic architecture review
-        - module design
-        - refactor plan
-        - dependency review
-        - agile design
-        - SOLID
-        - SRP
-        - OCP
-        - LSP
-        - ISP
-        - DIP
-        - design smells
-        - design doc
-        triggers:
-        - arch-design
-        - architecture design
-        - design architecture
-        - architecture review
-        - design review
-        - periodic architecture review
-        - module design
-        - refactor plan
-        - ADR
-        description: Use when designing or reviewing architecture, module boundaries,
-            dependency direction, extension seams, refactor plans, or periodic architecture
-            health using agile design principles before implementation.
-        related_rules:
-        - overview
-        - docs
-        - review
-        - model
-        - oop
-        - solid
-        - types
-        - docstring
-        - files
-        - clean
-        - compat
-        - ts-architecture
-        - ts-types
-        - ts-modules
-        - ts-async
-        - ts-docs
-        - ts-environment
-        - extension
-        - interfaces
-        - test
-        - environment
-        path: references/tasks/arch-design.md
-    -   id: skill-update
-        task_kind: skill-update
-        status: active
-        enabled: true
-        order: 40
-        keywords:
-        - update heaven-style
-        - maintain skill
-        - refresh skill
-        - update rules
-        - update tasks
-        - skill version
-        triggers:
-        - skill-update
-        - update heaven-style
-        - stabilize heaven-style
-        - TAL-215
-        - TAL-231
-        description: Use when maintaining heaven-style Python or TypeScript rules,
-            tasks, workflows, scripts, indexes, versions, evidence, or failure patterns.
-        related_rules:
-        - overview
-        - util
-        - config
-        - files
-        - clean
-        - error
-        - sql
-        - solid
-        - extension
-        - docs
-        - review
-        - environment
-        - format
-        - test
-        - ts-architecture
-        - ts-types
-        - ts-modules
-        - ts-async
-        - ts-docs
-        - ts-environment
-        - interfaces
-        path: references/tasks/skill-update.md
-    -   id: manager
-        task_kind: manager
-        status: active
-        enabled: true
-        order: 50
-        keywords:
-        - project manager
-        - status report
-        - track tasks
-        - triage linear
-        - triage github
-        - orchestrate agents
-        - project status
-        triggers:
-        - manager
-        - project status
-        - what's ongoing
-        - stale tasks
-        - next steps
-        - orchestrate
-        - track Linear
-        - track GitHub
-        description: Use when tracking GitHub/Linear status, stale work, recent activity,
-            next steps, or multi-agent coordination.
-        related_rules:
-        - overview
-        - review
-        - docs
-        - test
-        path: references/tasks/manager.md
-    failures:
-    -   id: failure-env
-        title: Environment and PATH failures
-        enabled: true
-        order: 10
-        keywords:
-        - wrong python
-        - uv
-        - command not found
-        - PATH
-        - module not found
-        - system error
-        - venv
-        description: Use when commands fail because the wrong shell, Python, uv environment,
-            or PATH is active.
-        path: references/failures/env.md
-    -   id: failure-network-proxy
-        title: Network and proxy failures
-        enabled: true
-        order: 20
-        keywords:
-        - network timeout
-        - proxy
-        - VPN
-        - HTTP_PROXY
-        - HTTPS_PROXY
-        - connection refused
-        - TLS
-        description: Use when CLI/API/network commands fail while local VPN or proxy
-            settings may be active.
-        path: references/failures/network-proxy.md
-    -   id: failure-auth-secrets
-        title: Auth, MCP, and secret lookup failures
-        enabled: true
-        order: 30
-        keywords:
-        - Linear auth expired
-        - Tavily auth failed
-        - cannot find api key
-        - missing token
-        - MCP failed
-        - GraphQL API
-        - LLM provider key
-        description: Use when MCP tools, CLIs, Linear/Tavily, GraphQL, or LLM providers
-            fail because auth, tokens, or API keys are missing or expired.
-        path: references/failures/auth-secrets.md
-    -   id: failure-linear-pressure
-        title: Linear issue and comment pressure failures
-        enabled: true
-        order: 40
-        keywords:
-        - Linear issue limit
-        - too many Linear issues
-        - cannot create issue
-        - project full
-        - Done issues
-        - too many comments
-        - comment spam
-        - rolling comment
-        description: Use when Linear cannot create more issues, a project has too
-            many Done issues, or an issue has too many routine comments.
-        path: references/failures/linear-pressure.md
+# Generated by scripts/index.py. Do not edit.
+schema: heaven-style-index/v2
+skill:
+  name: heaven-style
+  version: 0.1.2.0
+  description: Heaven-style code and architecture guide for general Python package development and TypeScript repositories,
+    with conditional conventions for HeavenBase-lineage projects. Use when writing, reviewing, designing architecture, refactoring,
+    or aligning tests/docs; apply repository policy first, then shared architecture and the matched language rules.
+  source_digest: sha256:437c7b2baf7504be219f2ae7f802cdb59cfd8458eb4fef23204c116bf51601c4
+entrypoints:
+  default: SKILL.md
+  rules: references/rules/overview.md
+  architect: references/workflows/architect.md
+  editor: references/workflows/editor.md
+counts:
+  rules: 28
+  examples: 1
+  design: 1
+  workflows: 3
+  tasks: 10
+  failures: 4
+routes:
+  rules:
+    overview:
+      path: references/rules/overview.md
+      use: Use when deciding which heaven-style rule files apply to a task.
+      family: overview
+      blocking: true
+    util:
+      path: references/rules/code/python/util.md
+      use: Use when Python code touches paths, files, serialization, shell commands, hashing, logging, temp files, IDs, or
+        shared utility ownership.
+      family: code-quality
+      blocking: true
+    config:
+      path: references/rules/code/python/config.md
+      use: Use when Python code introduces defaults, tunables, prompt or resource paths, model/backend settings, or disputed
+        literals.
+      family: code-quality
+      blocking: true
+    types:
+      path: references/rules/code/python/types.md
+      use: Use when adding or reviewing type annotations, public signatures, Python-version compatibility, or schema-shaped
+        data.
+      family: code-quality
+      blocking: true
+    docstring:
+      path: references/rules/code/python/docstring.md
+      use: Use when adding or reviewing public API docstrings, major feature APIs, generator docs, return docs, examples,
+        warnings, or Markdown markup inside Python docstrings.
+      family: code-quality
+      blocking: true
+    oop:
+      path: references/rules/code/python/oop.md
+      use: Use when designing public objects, stores, clients, CRUD/KV APIs, batch APIs, engines, specs, configs, plans, or
+        presets.
+      family: code-quality
+      blocking: true
+    model:
+      path: references/rules/code/python/model.md
+      use: Use when adding public classes or functions, designing a user-facing surface, choosing method versus free function,
+        adding constructor flags, or proposing a DSL.
+      family: code-quality
+      blocking: true
+    solid:
+      path: references/rules/code/python/solid.md
+      use: Use when designing or reviewing SOLID boundaries, class boundaries, extension points, inheritance contracts, adapter
+        interfaces, registries, or strategy/provider dependencies.
+      family: code-quality
+      blocking: true
+    name:
+      path: references/rules/code/python/name.md
+      use: Use when adding or reviewing modules, public symbols, abbreviations, predicates, variable names, or glossary terms.
+      family: code-quality
+      blocking: true
+    files:
+      path: references/rules/code/python/files.md
+      use: Use when adding or reviewing Python files, package folders, public exports, lazy exports, local helper modules,
+        internal helper modules, typing stubs, implementation families, adapters, providers, or feature-local module boundaries.
+      family: code-quality
+      blocking: true
+    py:
+      path: references/rules/code/python/py.md
+      use: Use when code shape is verbose, deeply nested, unclear, or depends on fallback/control-flow semantics.
+      family: code-quality
+      blocking: true
+    clean:
+      path: references/rules/code/python/clean.md
+      use: Use when adding Python helper functions, wrappers, temporary transforms, adapters, or deciding inline logic versus
+        shared utilities.
+      family: code-quality
+      blocking: true
+    error:
+      path: references/rules/code/python/error.md
+      use: Use when validating supported values, handling exceptions, logging failures, catching broadly, or returning fallbacks.
+      family: code-quality
+      blocking: true
+    sql:
+      path: references/rules/code/python/sql.md
+      use: Use when Python code touches database queries, raw SQL, migrations, DDL, binds, SQLAlchemy, ORM, or SQL resources.
+      family: code-quality
+      blocking: true
+    compat:
+      path: references/rules/code/python/compat.md
+      use: Use when renaming APIs, changing config schemas, adding aliases, preserving old behavior, or proposing migration/deprecation
+        shims.
+      family: code-quality
+      blocking: true
+    environment:
+      path: references/rules/project/environment.md
+      use: Use when running shell commands, choosing the repository's Python or TypeScript environment, adding wrappers or
+        package scripts, or diagnosing wrong-environment failures for coding agents.
+      family: project
+      blocking: true
+    format:
+      path: references/rules/project/format.md
+      use: Use when running or reviewing Python or TypeScript formatters, linters, import order, generated compatibility files,
+        or repository command entry points.
+      family: project
+      blocking: true
+    test:
+      path: references/rules/project/test.md
+      use: Use when adding or reviewing Python or TypeScript behavior tests, runnable examples, type/contract/property checks,
+        package smoke tests, integration evidence, or provider tests.
+      family: project
+      blocking: true
+    docs:
+      path: references/rules/project/docs.md
+      use: Use when work changes public behavior, architecture, active tasks, handoff state, generated artifacts, examples,
+        documentation authority, or temporary notes.
+      family: project
+      blocking: true
+    extension:
+      path: references/rules/project/extension.md
+      use: Use when adding or reviewing open extension families, registries, plugin manifests, discovery/load paths, providers,
+        backends, handlers, strategies, capabilities, or built-in/external parity.
+      family: project
+    interfaces:
+      path: references/rules/project/interfaces.md
+      use: Use when a package is provided as a service or exposes SDK, API, CLI, GUI, MCP, TUI, dashboard, or desktop-app
+        surfaces.
+      family: project
+      blocking: true
+    review:
+      path: references/rules/project/review.md
+      use: Use for PR, diff, module, branch, or Linear review, severity-marked findings, review artifacts, follow-up, or explicit
+        waivers.
+      family: project
+      blocking: true
+    ts-architecture:
+      path: references/rules/code/typescript/architecture.md
+      use: Use when designing or reviewing TypeScript modules, public APIs, services, adapters, providers, registries, strategies,
+        capabilities, or lifecycle boundaries.
+      family: code-quality
+      blocking: true
+    ts-types:
+      path: references/rules/code/typescript/types.md
+      use: Use when adding or reviewing TypeScript types, public signatures, external data, unions, identifiers, config shapes,
+        assertions, or strict compiler options.
+      family: code-quality
+      blocking: true
+    ts-modules:
+      path: references/rules/code/typescript/modules.md
+      use: Use when adding or reviewing TypeScript files, package boundaries, imports, exports, workspaces, barrels, optional
+        integrations, build output, or published artifacts.
+      family: code-quality
+      blocking: true
+    ts-async:
+      path: references/rules/code/typescript/async.md
+      use: Use when TypeScript code handles promises, callbacks, events, cancellation, errors, subprocesses, resources, concurrency,
+        startup, or teardown.
+      family: code-quality
+      blocking: true
+    ts-docs:
+      path: references/rules/code/typescript/docs.md
+      use: Use when adding or reviewing TypeScript public exports, package entry points, JSDoc/TSDoc, examples, generated
+        catalogs, or declaration-facing documentation.
+      family: code-quality
+      blocking: true
+    ts-environment:
+      path: references/rules/code/typescript/environment.md
+      use: Use when creating or changing a TypeScript repository, package metadata, lockfile, compiler configuration, scripts,
+        linting, testing, dependency policy, runtime selection, or CI commands.
+      family: code-quality
+      blocking: true
+  examples:
+    example-open-capability-vocabulary:
+      path: references/examples/code/open-capability-vocabulary.md
+      use: Read when an extensible family keeps gaining hard-coded feature fields, feature-specific methods, switches, or
+        unvalidated extra dictionaries.
+  design:
+    gui-style:
+      path: references/design/gui-style.md
+      use: Use when designing, implementing, or reviewing graphical user interfaces, app shells, dashboards, desktop tools,
+        or web frontends in any framework.
+      default: false
+  workflows:
+    workflow-architect:
+      path: references/workflows/architect.md
+      use: Use when organizing docs, designing or reviewing architecture, drafting refactor plans, updating goals, or producing
+        step-by-step execution plans without implementing code.
+      audience: architect
+    workflow-developer:
+      path: references/workflows/developer.md
+      use: Use when planning broad work, refactoring shared surfaces, designing public APIs, resolving rule tradeoffs, or
+        needing the full Heaven Style rule set.
+      audience: developer
+    workflow-editor:
+      path: references/workflows/editor.md
+      use: Use when maintaining this heaven-style skill, changing rules/tasks/failures/workflows, regenerating indexes, syncing
+        reference assets, or aligning versions.
+      audience: editor
+  tasks:
+    code:
+      path: references/tasks/code.md
+      use: Use when implementing Heaven-style features, fixes, refactors, tests, docs, or stabilization work.
+    code-review:
+      path: references/tasks/code-review.md
+      use: Use when reviewing code changes, modules, branches, PRs, recent diffs, or Linear-linked review work.
+    doc-sync:
+      path: references/tasks/doc-sync.md
+      use: Use when syncing English code-facing docs, Mintlify MDX pages, navigation, or sibling docs repos with current implementation.
+    doc-trans:
+      path: references/tasks/doc-trans.md
+      use: Use when translating or re-translating English MDX docs into line-aligned Chinese pages.
+    test-compress:
+      path: references/tasks/test-compress.md
+      use: Use when auditing and slimming a pytest suite by removing oddly specific, legacy, low-value, brittle, or redundant
+        tests while preserving meaningful behavior coverage.
+    code-explain:
+      path: references/tasks/code-explain.md
+      use: Use when explaining HeavenBase architecture, modules, data flow, feature behavior, or code changes.
+    env:
+      path: references/tasks/env.md
+      use: Use when maintaining a developer machine environment, updating setup plans, performing scoped machine maintenance,
+        or preparing safe local environment commands.
+    arch-design:
+      path: references/tasks/arch-design.md
+      use: Use when designing or reviewing architecture, module boundaries, dependency direction, extension seams, refactor
+        plans, or periodic architecture health using agile design principles before implementation.
+    skill-update:
+      path: references/tasks/skill-update.md
+      use: Use when maintaining heaven-style Python or TypeScript rules, tasks, workflows, scripts, indexes, versions, evidence,
+        or failure patterns.
+    manager:
+      path: references/tasks/manager.md
+      use: Use when tracking GitHub/Linear status, stale work, recent activity, next steps, or multi-agent coordination.
+  failures:
+    failure-env:
+      path: references/failures/env.md
+      use: Use when commands fail because the wrong shell, Python, uv environment, or PATH is active.
+    failure-network-proxy:
+      path: references/failures/network-proxy.md
+      use: Use when CLI/API/network commands fail while local VPN or proxy settings may be active.
+    failure-auth-secrets:
+      path: references/failures/auth-secrets.md
+      use: Use when MCP tools, CLIs, Linear/Tavily, GraphQL, or LLM providers fail because auth, tokens, or API keys are missing
+        or expired.
+    failure-linear-pressure:
+      path: references/failures/linear-pressure.md
+      use: Use when Linear cannot create more issues, a project has too many Done issues, or an issue has too many routine
+        comments.
 scripts:
--   path: scripts/index.py
-    name: index
-    description: Regenerate references/index.yaml from skill metadata and bundled
-        resources.
--   path: scripts/install.py
-    name: install
-    description: Install heaven-style globally, mirror optional checkouts, and refresh
-        assets.
--   path: scripts/machine.py
-    name: machine
-    description: Generate sanitized local-machine instance notes.
--   path: scripts/scan.py
-    name: scan
-    description: Scan HeavenBase-adopting repo files for imports covered by its utility
-        layer.
--   path: scripts/sync.py
-    name: sync
-    description: Clone or refresh the HeavenBase reference tree under assets/.
+  index:
+    path: scripts/index.py
+    use: ''
+  install:
+    path: scripts/install.py
+    use: Install heaven-style globally, mirror optional checkouts, and refresh assets.
+  machine:
+    path: scripts/machine.py
+    use: Generate sanitized local-machine instance notes.
+  scan:
+    path: scripts/scan.py
+    use: Scan HeavenBase-adopting repo files for imports covered by its utility layer.
+  sync:
+    path: scripts/sync.py
+    use: Clone or refresh the HeavenBase reference tree under assets/.
 assets:
--   path: assets/instance
-    kind: dir
--   path: assets/instance/docker.md
-    kind: file
--   path: assets/instance/Magolor-M5.md
-    kind: file
--   path: assets/default-glossary.md
-    kind: file
--   path: assets/MacOS-env.md
-    kind: file
--   path: assets/REFERENCE.md
-    kind: file
+  - assets/MacOS-env.md
+  - assets/REFERENCE.md
+  - assets/default-glossary.md
+  - assets/instance
+  - assets/instance/Magolor-M5.md
+  - assets/instance/docker.md

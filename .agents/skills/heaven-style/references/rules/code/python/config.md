@@ -38,6 +38,8 @@ Tunables are choices a deployment, project, benchmark, user, or caller may chang
 - Model related settings as an immutable typed config/spec when that reduces repeated interpretation.
 - Keep important public overrides explicit; use `None` or a dedicated sentinel only when omission has distinct meaning.
 - Validate and coerce config values once, then pass resolved values to lower layers.
+- Use explicit phases when several sources contribute configuration: **Preset -> Normalize -> Validate -> Apply(profile)**. Each phase has one owner and returns a value suitable for the next; generic normalization must not absorb provider-, filesystem-, or dialect-specific policy.
+- Freeze behavior-changing execution policy into the immutable request/spec identity before caching, retries, serialization, explanation, or execution. Terminal-only flags are valid only when they cannot change the operation's meaning or route.
 - Load packaged read-only assets through `importlib.resources` or the repository's declared resource API.
 - Keep writable user/application state outside installed package resources and resolve it through the owning environment/config policy.
 - Keep secrets out of committed defaults and rendered diagnostics.

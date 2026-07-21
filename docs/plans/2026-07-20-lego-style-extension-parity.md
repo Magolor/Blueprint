@@ -3,7 +3,7 @@
 - Status: Done
 - Created: 2026-07-20
 - Scope: Propose a source-neutral heaven-style criterion for extension parity, then promote the confirmed criterion into the skill.
-- Links: `.agents/skills/heaven-style/references/rules/project/extension.md`; `docs/plans/2026-07-20-heavenbase-lego-style-extension-refactor.md`; `docs/progress/2026-07-20/README.md`
+- Links: `.agents/skills/heaven-style/references/rules/project/extension.md`; `docs/plans/2026-07-20-heavenbase-lego-style-extension-refactor.md`; `docs/DEVLOG.md`
 - Approval gate: Confirmed by the user on 2026-07-20. The skill was updated under an explicit no-version-bump waiver and remains exactly `0.1.2.0`.
 
 ## Proposed Criterion

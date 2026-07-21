@@ -3,7 +3,7 @@
 - Status: Done
 - Created: 2026-07-14
 - Scope: Add a blocking cross-language heaven-style rule for service-package SDK, API, CLI, GUI, MCP, TUI, and desktop boundaries.
-- Links: `.agents/skills/heaven-style/references/rules/project/interfaces.md`; `docs/progress/2026-07-14/README.md`
+- Links: `.agents/skills/heaven-style/references/rules/project/interfaces.md`; `docs/DEVLOG.md`
 
 ## Problem
 
@@ -40,7 +40,7 @@ Heaven-style has public API, extension, Python file-layout, TypeScript architect
 - Touch: generated `references/index.yaml`, global install, daily progress note, plan status.
 - Acceptance: Skill checks and repository gates pass or carry explicit waivers.
 - Verification: Skill install/index, scanner, compile, flake, tests, env/README drift, diff checks.
-- Docs: `docs/progress/2026-07-14/README.md` and plan closeout.
+- Docs: `docs/DEVLOG.md` and plan closeout.
 
 ## Progress
 

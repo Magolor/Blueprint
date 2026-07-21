@@ -1,68 +1,66 @@
-# Docs
+# Engineering Guide
 
-This file is the project docs menu and authority map. Keep it short, current, and project-specific after initializing Blueprint. Agents should use it before creating or changing docs artifacts.
+This is the single entry point for engineers, agents, and architects. It explains where each kind of truth lives, how work enters the repository, and when temporary or historical material must be removed.
 
-## Core Areas
+## Four Documentation Surfaces
+
+| Surface | Canonical home | Audience | Lifecycle |
+| --- | --- | --- | --- |
+| User documentation | `README.en.md` | Users and evaluators | Update when shipped behavior, setup, or supported usage changes. `README.md` and package copies are generated from it. |
+| Engineering documentation | `docs/README.md` plus the durable folders below | Engineers, agents, and architects | Keep current and source-backed. Planned behavior must be labeled; stable conclusions have one normative home. |
+| Development log | [`docs/DEVLOG.md`](DEVLOG.md) | Future maintainers and agents resuming work | Record concise change, verification, and handoff evidence. Keep at most 50 entries; Git preserves older detail. |
+| Scratch | [`docs/scratch/`](scratch/README.md) and ignored `.temp/notes/` | Short-lived requirements, brainstorms, and rough analysis | Tracked notes expire within 45 days and must be promoted or deleted. Pure local slop stays under `.temp/notes/`. |
+
+The canonical active task source is [`docs/tasks.yaml`](tasks.yaml). GitHub, Linear, plans, reports, chat, and the development log may link to tasks, but must not become parallel writable queues.
+
+## Engineering Areas
 
 | Area | Purpose |
 | --- | --- |
-| [Goals](goals/README.md) | Long-, mid-, and short-term outcomes that guide implementation. |
-| [Plans](plans/README.md) | Multi-slice designs and execution plans with checklist progress and verification gates. |
-| [Resources](resources/README.md) | Stable references, architecture background, specifications, inventories, and source-of-truth notes. |
-| [Reports](reports/README.md) | Durable review, refactor, and survey reports that need an audit trail. |
-| [Progress](progress/README.md) | Append-only daily progress summaries, decisions, verification, blockers, and handoff notes. |
+| [Goals](goals/README.md) | Durable product or platform outcomes. Never store task state here. |
+| [Plans](plans/README.md) | Detailed execution for a queued multi-slice task. A plan is subordinate to exactly one queue item while active. |
+| [Resources](resources/README.md) | Stable architecture, specifications, inventories, and source-of-truth notes. |
+| [Reports](reports/README.md) | Evidence snapshots for reviews, refactors, and surveys. Actionable follow-up becomes a queue task. |
 
 ## Authority Order
 
-When docs disagree, resolve in this order:
+When sources disagree, resolve them in this order:
 
-1. Shipped code, tests, generated artifacts, and release configuration.
-2. Canonical English docs sources such as `README.en.md` and project-owned docs generators.
-3. Stable resources under `docs/resources/`.
-4. Current goals under `docs/goals/`.
-5. Active plans under `docs/plans/`.
-6. Durable reports under `docs/reports/`.
-7. Dated progress notes under `docs/progress/`.
+1. User instructions and repository policy.
+2. Shipped code, tests, generated artifacts, packaging, and release configuration.
+3. Canonical user documentation.
+4. Stable engineering resources.
+5. Current goals and accepted plans.
+6. Reports, the development log, and scratch notes.
 
-Progress notes explain what happened. They do not become long-term truth until the durable conclusion is promoted into goals, resources, shipped docs, or code.
+Architecture documents must distinguish **current**, **target**, **gap**, and **non-goal**. An accepted design is not shipped behavior until code and behavioral evidence prove it.
 
-## Initialization
+## Agent Work Loop
 
-When creating a project from Blueprint:
+1. Run `rtk uv run python scripts/docs.py tasks --ready` and read the first relevant task before proposing new work.
+2. If the user's request is meant for later, spans sessions, or needs delegation, add one queue item before implementation. A one-session direct request may stay out of the queue only if it is completed in that session.
+3. Claim queued work by setting `status: active`, `owner`, and `updated`. A blocked task records both `blocker` and an observable `unblock_when`. Keep detailed slice checklists in one linked plan only when the plan trigger applies.
+4. Delegate beneath the owning task; subagents do not create parallel task lists. Durable child work becomes another queue item with `parent` pointing to the owning task and `depends_on` describing execution order only when it must be resumed independently.
+5. Update user docs for shipped user-visible behavior and engineering docs for durable architecture or workflow changes.
+6. Close work by verifying acceptance criteria, appending one development-log entry, promoting durable conclusions, deleting or promoting scratch notes, and removing the completed task from the live queue.
+7. Run `rtk uv run python scripts/docs.py check`. The queue and docs checks are also enforced by hooks and CI.
 
-1. Replace this menu with the real project docs map.
-2. Link the current short-term goal, active plan, latest progress day, and main source-of-truth references.
-3. Keep only artifact families that the project will actively maintain.
-4. Add project-specific docs only when they have an owner, lifecycle, and clear purpose.
+## Cleanup Rules
 
-## Agent Docs Check
+- Completed or cancelled work leaves `docs/tasks.yaml`; Git and the development log preserve the history.
+- A finished plan becomes `Done` or `Superseded`. Do not leave silent `Planned` or `In progress` files.
+- A report is an evidence snapshot. Promote accepted conclusions to resources, code, tests, or user docs; mark the report `Actioned` or `Superseded` when its action is complete.
+- The newest development-log entry's `Next` names an active task ID or `none`; historical entries may retain IDs that have since left the live queue.
+- Tracked scratch notes require `status`, `created`, `expires`, and `task` frontmatter. Expired notes fail validation.
+- `.temp/notes/` is disposable, ignored, and never authoritative. `scripts/cleanup.bash` removes it.
+- Delete stale navigation and contradictory legacy docs in the same change that promotes their surviving truth.
 
-Before major feature, refactor, review, survey, release, or docs-sync work, agents should check:
+## Enforcement
 
-- Current goals: `docs/goals/` or the project-specific replacement.
-- Current progress: the latest `docs/progress/YYYY-MM-DD/README.md`.
-- Active or recently closed plans: `docs/plans/`.
-- Relevant durable reports: `docs/reports/`.
-- Feature requests and issue tracker: `AGENTS.md`, Linear/GitHub links, or the project-specific docs map.
-- Stable references: `docs/resources/` and linked source-of-truth material.
-- Canonical docs source, generated docs, and translation status.
+```bash
+rtk uv run python scripts/docs.py tasks --ready
+rtk uv run python scripts/docs.py check
+rtk bash scripts/test.bash tests/test_docs_contract.py -q
+```
 
-If one of these locations is missing or ambiguous, choose the narrowest existing location that matches the artifact lifecycle. Ask before creating broad new docs folders.
-
-## Update Triggers
-
-- Major feature or public behavior change: update or create a plan when the work has multiple slices, update user-facing docs when behavior ships, and append the daily progress note.
-- Architecture or cross-module refactor: create or update a plan before implementation, save a refactor report when findings or migration decisions need an audit trail, update stable architecture resources when the mental model changes, and append progress.
-- Code or architecture review: return quick findings inline for small read-only reviews; save durable reviews under `docs/reports/reviews/` when the review gates a PR/issue or follow-up work.
-- Survey or research task: save durable evidence under `docs/reports/surveys/` when the answer may guide future decisions; promote stable conclusions into `docs/resources/`.
-- Release, docs sweep, or generated-doc sync: update canonical English sources and generated artifacts through repo scripts, append progress, and call out stale translations for the translation workflow.
-
-## Closeout Gate
-
-Before declaring docs-impacting work done:
-
-- The relevant plan/report status is current or explicitly not needed.
-- The daily progress note links the changed files, issue/plan/report, verification, decisions, and next step.
-- Stable conclusions are promoted out of dated progress notes.
-- Generated README/docs artifacts are synced through repo wrappers.
-- Translation staleness is reported instead of mixed into ordinary English doc sync.
+The checker validates the four surfaces, queue schema and dependencies, development-log ordering, scratch expiry, retired progress directories, task links, and repository-local Markdown links.

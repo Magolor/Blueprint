@@ -9,7 +9,7 @@ This file is a scaffold placeholder. When creating a new project from Blueprint,
 3. Replace template package paths such as `src/blueprint/` with the real import package.
 4. Record the real GitHub remote, default branch, issue tracker, and release policy.
 5. Keep environment commands aligned with `pyproject.toml`, `scripts/`, and CI.
-6. Describe project-specific source-of-truth docs under `docs/goals/`, `docs/resources/`, and `docs/progress/`.
+6. Describe project-specific source-of-truth docs, keep `docs/tasks.yaml` as the only task queue, and keep handoff evidence in `docs/DEVLOG.md`.
 7. Remove any section that is not true for the new project.
 
 ## Environment
@@ -35,19 +35,17 @@ Install priority: **uv -> pip (requirements) -> pyproject -> conda -> poetry**.
 
 ## Docs
 
-- Start docs-sensitive work at `docs/README.md`; it is the docs menu, authority map, and artifact-routing guide.
-- `docs/goals/` holds long-, mid-, and short-term goals. Keep it outcome-oriented, not a task log.
-- `docs/plans/` holds active or completed multi-slice plans with checklist progress, verification gates, and closeout state.
-- `docs/resources/` holds stable external/internal references, architecture background, specifications, and durable source-of-truth notes.
-- `docs/reports/` holds auditable review, refactor, and survey reports. Use `docs/reports/reviews/`, `docs/reports/refactors/`, and `docs/reports/surveys/` for the common report families.
-- `docs/progress/` holds append-only progress notes by day: `docs/progress/YYYY-MM-DD/README.md` is the daily summary, with focused notes beside it only when they preserve decisions, evidence, or handoff context.
-- Before major feature, refactor, review, survey, release, or docs-sync work, read the current goals, latest progress day, relevant active plans/reports, stable resources, issue-tracker context, canonical English docs source, generated-doc ownership, and translation status.
-- Create or update a plan when work spans multiple sessions or PRs, changes architecture/public behavior, needs ordered acceptance criteria, or may be resumed by another agent. Do not create a plan for one-pass fixes.
-- Append a daily progress entry for every major feature, refactor, release, docs sweep, decision, blocker, or handoff. Link the plan/report/issue, record decisions and verification, and name the next step.
-- Save a report when findings need an audit trail, drive a decision, gate a PR/Linear issue, or summarize substantial review/refactor/survey work. Keep quick read-only findings inline when no durable artifact is needed.
-- Promote stable conclusions from progress notes, plans, and reports into `docs/resources/` or `docs/goals/`; do not leave long-term truth buried in dated notes.
-- Close docs-impacting work by updating plan/report status, adding the daily progress entry, syncing generated README/docs artifacts, and calling out stale translations instead of updating them ad hoc.
-- Do not create broad new docs folders outside the approved taxonomy unless the project has a concrete owner, lifecycle, and entry in `docs/README.md`.
+- Start at `docs/README.md`; it owns the four-surface map, authority order, lifecycle, and cleanup contract.
+- User documentation is canonical in `README.en.md`; regenerate `README.md` and package copies instead of editing them.
+- `docs/README.md` and `docs/{goals,plans,resources,reports}/` form the engineer/agent/architect surface. Goals are outcomes, plans are subordinate execution detail, resources are durable truth, and reports are evidence snapshots.
+- `docs/tasks.yaml` is the only writable task queue. At the start of non-trivial work, run `rtk uv run python scripts/docs.py tasks --ready`; claim an existing task before creating another.
+- Add a queue item for user work that must survive the current session, spans multiple slices, or needs independent delegation. A one-session direct request may stay out of the queue only when it finishes in that session.
+- `docs/DEVLOG.md` is the one rolling developer log. Add one concise entry when substantial work closes or hands off; the newest entry's `Next` names an active task ID or `none`, while older entries retain historical task evidence.
+- Tracked temporary notes live in `docs/scratch/` with a maximum 45-day expiry. Pure local slop belongs in ignored `.temp/notes/`. Promote or delete scratch before expiry.
+- Create a plan only for queued work that spans sessions or PRs, changes architecture/public behavior, or needs ordered acceptance criteria. Do not duplicate task state or slice checklists in the queue.
+- Architecture guidance distinguishes current behavior, accepted target, known gap, and non-goal. Code and behavioral evidence outrank aspirational prose.
+- Close work by verifying task acceptance, updating required user/engineering docs and generated artifacts, appending the development log, removing closed task rows, and running `rtk uv run python scripts/docs.py check`.
+- Promote stable conclusions from plans, reports, the log, and scratch into one durable home. Mark plans/reports closed or superseded and remove contradictory legacy navigation.
 
 ## Linear
 
@@ -79,7 +77,11 @@ For new Bash wrappers, source `scripts/_env.bash` and use its helpers instead of
 - For broad local harness support, run `rtk uv run python .agents/skills/heaven-style/scripts/install.py --all-harnesses`; this installs the common Agent Skill plus a Claude Code plugin bridge without writing `~/.claude/skills/heaven-style`, which can duplicate discovery in Cursor, OpenCode, and Kilo.
 - Do not create `.codex/skills`, `.github/skills`, `.cursor/`, `.opencode/`, `.kilo/skills`, or `~/.claude/skills/heaven-style` copies for the default heaven-style install.
 - GitHub-specific files live under `.github`.
-- Git hooks live under `.githooks`; the pre-commit hook runs `scripts/sync-env.bash --no-heavenbase`, stages generated README/env files, then runs `scripts/flake.bash --all`.
+- Git hooks live under `.githooks`; configure the canonical checkout with `git config core.hooksPath .githooks`. The pre-commit hook refreshes generated environment/README/index files, validates docs and template classification, formats/lints code, and runs focused contract tests. The Blueprint pre-push hook blocks the canonical remote until HeavenBase records the same commit and digest.
+- `scripts/check.bash fast` is the offline repository-owned code/docs contract inventory and assumes the declared environment is already synchronized. CI runs the environment/lock drift check first, then this gate; do not maintain an undocumented second code/docs gate list.
+- `.blueprint-template.yaml` classifies every Blueprint file as exact, adapted, or excluded for the primary HeavenBase consumer. Exact files must match byte-for-byte; adapted changes require review; excluded files remain Blueprint-owned.
+- After every Blueprint template change, sync and review `/Users/magolor/Projects/HeavenBase/HeavenBase`, refresh its `.blueprint-sync.yaml`, and verify `rtk uv run python scripts/template_sync.py check --consumer /Users/magolor/Projects/HeavenBase/HeavenBase` before merging Blueprint. Blueprint and HeavenBase design decisions take precedence over generic source lessons. HeavenBase CI performs the reciprocal check because public Blueprint can be checked out from the private consumer without a cross-repository secret.
+- `heaven-style` is excluded from repository template sync. Edit it only in Blueprint, keep its version at the intentionally waived `0.1.2.0` for this change, then install it globally with `--all-harnesses`; never copy it into HeavenBase.
 - PyPI publishing is gated to the `release` branch through `.github/workflows/release.yml`; `scripts/release.bash` fast-forwards `release` from clean `master`.
 - Python package code is the default SDK surface; CLI commands are the default user/developer surface.
 - Keep the default `blueprint-gui` placeholder acceptable, but do not add more GUI, REST, MCP, LSP, VS Code, or desktop app scaffolding unless the project explicitly needs it.

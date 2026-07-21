@@ -104,14 +104,14 @@ Gather evidence before writing. Prefer live connectors; fall back to local git a
 
 ### 1. Repo and environment
 
-1. Read `AGENTS.md`, `docs/README.md`, and the docs authority map.
+1. Read `AGENTS.md`, the docs authority map, canonical task queue, and development log.
 2. Note package version, default branch, release/compatibility policy, runtime pins, lockfile, and command entrypoints from `AGENTS.md` plus the repository manifest (`pyproject.toml`, `package.json`, or equivalent).
 3. Skim top-level source/package layout and public entry points—Python facades/`__init__.py` or TypeScript `exports`/entry modules/`tsconfig`—mapping layers rather than every file.
 
 ### 2. Docs inventory
 
-1. List `docs/goals/`, `docs/resources/`, `docs/progress/`, architecture notes, generated artifacts, and sibling docs repos linked from `AGENTS.md`.
-2. Mark each doc: **current**, **stale**, **planned-not-shipped**, **duplicate**, or **orphan**.
+1. List the declared user, engineering, development-log, scratch, generated-artifact, and sibling-doc surfaces.
+2. Mark each doc: **current**, **target**, **gap**, **non-goal**, **stale**, **duplicate**, **orphan**, or **expiring scratch**.
 3. Identify the canonical English source for each user-facing claim (`README.en.md`, Mintlify root, mental-model page, etc.).
 
 ### 3. Codebase signals (breadth-first)
@@ -123,9 +123,9 @@ Gather evidence before writing. Prefer live connectors; fall back to local git a
 
 ### 4. Status and issues
 
-1. Use Linear when available: active milestones, `In Progress` / `In Review` issues, blockers, rolling status comments, linked design threads.
-2. Use GitHub/`gh` when available: open PRs, failing checks, review threads, recent merges on the default branch.
-3. Read the latest `docs/progress/YYYY-MM-DD/README.md` when progress notes exist.
+1. Read the repository's one canonical task queue first; plans, GitHub, and Linear are subordinate links or explicit mirrors unless policy declares one external tracker canonical.
+2. Use Linear when linked: active milestones, issue evidence, blockers, rolling status comments, and design threads.
+3. Use GitHub/`gh` when linked: open PRs, failing checks, review threads, and recent merges; read the one development log for local handoff evidence.
 4. On auth or project-pressure failures, use [../failures/auth-secrets.md](../failures/auth-secrets.md) and [../failures/linear-pressure.md](../failures/linear-pressure.md).
 
 ### 5. Synthesis
@@ -134,7 +134,7 @@ Produce a short **current-state brief** (half page max):
 
 - What the system is for, in one sentence.
 - Layer map or module boundaries (table or diagram).
-- Top mismatches between docs, goals, Linear claims, and code.
+- Top mismatches between the canonical queue, docs, goals, external trackers, and code.
 - Constraints and non-goals already recorded.
 - Open questions that block a design decision.
 
@@ -146,7 +146,7 @@ Use a periodic review when the project has a cadence, reaches a release boundary
 
 1. **Scope** - name the package, module family, feature slice, release train, or whole-repo boundary under review.
 2. **Comparison point** - cite the last review, last release, baseline branch, roadmap item, or current state if no previous review exists.
-3. **Evidence** - inspect architecture docs, current goals, latest progress, public exports, dependency entry points, open-registry or closed-variant seams, tests, examples, open issues, and recent PRs/commits when available.
+3. **Evidence** - inspect architecture docs, current goals, canonical tasks, the development log, public exports, dependency entry points, open-registry or closed-variant seams, tests, examples, open issues, and recent PRs/commits when available.
 4. **Change pressure** - list what actually changed: user requests, new backends/providers, schema/storage behavior, defects, onboarding pain, or repeated code-review findings.
 5. **Smell matrix** - score rigidity, fragility, immobility, viscosity, needless complexity, needless repetition, and opacity with concrete file/doc/test evidence.
 6. **Dependency matrix** - identify inward dependencies, cycles, unstable dependencies, detail leakage into policy, and extension seams that require central edits.
@@ -154,19 +154,19 @@ Use a periodic review when the project has a cadence, reaches a release boundary
 8. **Actions** - classify recommendations as **now**, **next**, **defer**, or **waive**. Avoid broad rewrites unless the evidence shows repeated change cost.
 9. **Next trigger** - record the next review trigger or cadence only when the project actually uses one.
 
-Deliverable: an **architecture review** with scope, evidence, findings, prioritized actions, verification expectations, and docs/issue updates. Store durable reviews under a project-approved path such as `docs/reports/reviews/`, `docs/resources/architecture/`, `docs/progress/YYYY-MM-DD/`, or the owning issue when a tracker is the source of truth.
+Deliverable: an **architecture review** with scope, evidence, findings, prioritized actions, verification expectations, and docs/task/issue updates. Store it only where repository policy keeps current engineering truth or auditable evidence; actionable follow-up becomes one canonical queue item.
 
 ## Doc organization and cleanup
 
 When the task includes docs hygiene:
 
 1. **Consolidate** — one canonical page per topic; merge duplicates; link out instead of copying prose.
-2. **Retire** — move superseded pages to a dated progress note or delete with a one-line redirect in the docs menu; do not leave contradictory architecture pages.
-3. **Relabel** — separate *shipped*, *in progress*, and *planned* sections; never describe planned behavior as current.
-4. **Anchor** — ensure `docs/README.md` lists goals, resources, progress, and the mental-model entry.
+2. **Retire** — promote surviving truth, then delete or clearly supersede stale pages; Git preserves execution history.
+3. **Relabel** — separate **current**, **target**, **gap**, and **non-goal**; never describe planned behavior as current.
+4. **Anchor** — ensure the engineering entry point names user docs, canonical tasks, the development log, scratch policy, durable references, and the mental model.
 5. **Defer translation** — route Chinese MDX work to [../tasks/doc-trans.md](../tasks/doc-trans.md); architect output stays English unless the user requests translation.
 
-Deliverable: a **docs change list** with file path, action (`keep`, `merge`, `rewrite`, `retire`, `create`), owner slice, and verification (grep, link check, Mintlify validate when applicable).
+Deliverable: a **docs change list** with file path, audience/surface, action (`keep`, `merge`, `rewrite`, `promote`, `retire`, `create`), owner task, expiry when temporary, and verification.
 
 ## Module design output
 
@@ -183,7 +183,7 @@ For a new module or extension, produce a design doc with this structure:
 7. **Variation seam** — Registry API for an open family or discriminated/exhaustive contract for a closed set; no concrete-name routing in high-level policy. For independently extensible families, document descriptor persistence, source-independent loading, provenance, conflict policy, and the built-in extraction fitness test.
 8. **Migration / compatibility** — rename map, owned call-site sweep, external consumers, repository support policy, and removal conditions for temporary shims.
 9. **Tests and examples** — behavior contracts agents must implement.
-10. **Docs touch list** — mental-model, reference pages, goals, progress note, Mintlify pages.
+10. **Docs touch list** — user docs, mental model/reference pages, goals, development log, generated docs, and scratch cleanup.
 11. **Slices** — ordered implementation slices with acceptance criteria and verification commands.
 12. **Risks and waivers** — anything that needs explicit human approval.
 
@@ -243,7 +243,7 @@ Align `docs/goals/` (or project equivalent) with evidence from discovery.
 ### Short term (weeks)
 
 - Bullet items tied to **current train** work; each item links to a Linear issue or names an owner slice.
-- Mark completed items with date; move finished narrative to progress notes when it clutters the horizon view.
+- Mark completed items with date; summarize closure in the development log and rely on Git for execution history.
 - Prefer coherence and doc/code alignment before new features.
 
 ### Mid term (1–3 months)
@@ -278,7 +278,7 @@ Store durable plans under a project-approved path:
 - `docs/plans/<YYYY-MM-DD>-<topic>.md` for active multi-slice execution plans in repos that maintain plan artifacts.
 - `docs/resources/architecture/<topic>.md` for architecture designs.
 - `docs/goals/` updates for horizon changes.
-- `docs/progress/YYYY-MM-DD/<topic>.md` for time-bound execution plans tied to a milestone.
+- the declared scratch lane for time-bound unaccepted designs, with owner and expiry.
 - Linear issue description or a single rolling design comment when the plan is issue-owned.
 
 Do not bury the only copy in chat history.

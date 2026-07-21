@@ -29,6 +29,9 @@ In Blueprint/HeavenBase Python repos, keep pytest suites intentionally limited a
 - In Python repos that define them, tag tests with `fast`/`full` or clearer project categories so agents can run the useful subset instead of the whole suite by default.
 - Prefer targeted or repository-defined fast runs for daily feature sessions; run the full suite only for broad refactors, large PR merge gates, release gates, or when touched behavior needs it.
 - Run broader repo scripts/wrappers before completion; follow [environment.md](environment.md) for repository command policy.
+- Put at least one risk-appropriate deterministic behavior tier on pull requests. Keep expensive provider/platform matrices for broader gates, but do not reduce PR evidence to formatting alone when executable behavior changed.
+- For validators, schemas, generators, and policy checkers, keep a valid golden fixture plus invalid fixtures for the important rejected states. A validator that accepts its negative fixture fails the suite.
+- Test import cost and optional-dependency isolation in a fresh subprocess when lazy public imports, plugins, providers, or process-global initialization are part of the contract.
 - For TypeScript, add type tests for complex public generic contracts, reusable contract suites for multiple implementations, property tests for parsers/round trips/invariants, and packed-consumer smoke tests for published packages when those risks exist. Do not add every layer mechanically.
 - For an open extension family, run one reusable contract suite against bundled and external implementations. Add an extraction test proving a bundled implementation can move to an independently registered artifact without changing consumer-facing tests.
 - Verify durable registration/refresh, deterministic conflicts and version selection, and descriptor inspection without implementation import when the Registry promises those behaviors.
@@ -41,6 +44,7 @@ In Blueprint/HeavenBase Python repos, keep pytest suites intentionally limited a
 - Oddly specific, legacy, duplicated, or implementation-detail tests that freeze non-contract behavior.
 - Running every full, slow, provider, or external-dependency test on every agent feature session when a targeted or fast check covers the changed behavior.
 - Documenting provider/backend support before a real route is exercised or explicitly waived.
+- Treating a capability declaration, registered handler, generated table, or coverage percentage as proof that the concrete runtime route works.
 - Example-generated runtime data outside the declared temp folder.
 - Extension tests that exercise only the bundled import path while external discovery, persistence, loading, or provenance takes another route.
 
