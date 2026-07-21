@@ -2,6 +2,13 @@
 
 This rolling log records change, verification, and handoff evidence. New entries go first. Stable behavior belongs in user or engineering documentation. Blueprint is a template source with no live queue, so its newest entry always hands off with `Next: none`; instantiated projects own their own task authority.
 
+## 2026-07-21 — Published-runtime Python boundary
+
+- Task: `v0.1.2.0` hosted release gate
+- Changed: Aligned Blueprint's declared and tested Python range to 3.12–3.13 because its locked published HeavenBase runtime uses Python 3.12 syntax, bound the ordinary Python workflow's `uv` interpreter to its matrix entry with a runtime assertion, and promoted the detailed CDASE comparison and actioned Heaven-style proposal into governed survey reports.
+- Verified: Metadata/workflow contract coverage, the full local repository gate, and the hosted source and distribution matrices pass on every declared interpreter.
+- Next: none
+
 ## 2026-07-21 — Hosted annotated-tag verification repair
 
 - Task: direct user request

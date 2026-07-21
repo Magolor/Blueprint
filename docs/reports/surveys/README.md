@@ -19,3 +19,10 @@ Use this naming pattern:
 ```text
 docs/reports/surveys/YYYY-MM-DD-<scope>-survey.md
 ```
+
+<!-- blueprint-template-only:start -->
+## Current Blueprint Research
+
+- [CDASE workflow comparison](2026-07-21-cdase-workflow-comparison-survey.md) summarizes the reference workflow and compares its enforceable lessons with Blueprint, HeavenBase, and DeepSeek Harness.
+- [Heaven-style improvement proposal](2026-07-21-heaven-style-improvement-proposal.md) records the actioned Pareto portfolio, remaining recommendations, design conflicts, and implementation criteria.
+<!-- blueprint-template-only:end -->

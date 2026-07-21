@@ -4,7 +4,7 @@ dynamic = ["version", "dependencies", "optional-dependencies"]
 authors = [{ name = "Magolor", email = "magolorcz@gmail.com" }]
 description = "Blueprint: a uv-first Python starter project."
 readme = { file = "README.md", content-type = "text/markdown" }
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.12,<3.14"
 keywords = ["blueprint", "starter", "template", "uv", "python"]
 license = "MIT"
 license-files = ["LICENSE"]
@@ -12,8 +12,6 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
@@ -52,7 +50,7 @@ package-mode = true
 
 [tool.black]
 line-length = 160
-target-version = ["py310"]
+target-version = ["py312"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"

@@ -14,9 +14,11 @@ jobs:
          contains(github.event.head_commit.message, '[release]') ||
          contains(github.event.head_commit.message, '[merge]')))
     runs-on: ubuntu-latest
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -25,5 +27,11 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-      - run: bash scripts/sync-env.bash --no-heavenbase
+      - name: Synchronize the locked environment
+        env:
+          EXPECTED_PYTHON: ${{ matrix.python-version }}
+        shell: bash
+        run: |
+          uv sync --all-extras --frozen --python "${EXPECTED_PYTHON}"
+          uv run python -c 'import os, sys; expected = tuple(map(int, os.environ["EXPECTED_PYTHON"].split("."))); actual = sys.version_info[:2]; assert actual == expected, (actual, expected)'
       - run: bash scripts/test.bash

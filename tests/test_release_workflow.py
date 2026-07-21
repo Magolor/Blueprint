@@ -10,6 +10,8 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "release.yml"
+PYTHON_WORKFLOW = ROOT / ".github" / "workflows" / "python-test.yml"
+PYPROJECT = ROOT / "pyproject.toml"
 
 
 def _git_env() -> dict[str, str]:
@@ -91,3 +93,19 @@ def test_release_fetch_replaces_checkout_lightweight_tag(tmp_path: Path) -> None
     assert _git(checkout, "cat-file", "-t", "refs/tags/v0.1.2.0") == "tag"
     assert _git(checkout, "rev-parse", "refs/tags/v0.1.2.0^{commit}") == _git(checkout, "rev-parse", "refs/remotes/origin/master^{commit}")
     assert '"refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"' in WORKFLOW.read_text(encoding="utf-8")
+
+
+@pytest.mark.fast
+def test_python_workflows_match_the_declared_runtime_floor() -> None:
+    """Keep package metadata and uv-backed CI on the supported interpreters."""
+    release = WORKFLOW.read_text(encoding="utf-8")
+    python_tests = PYTHON_WORKFLOW.read_text(encoding="utf-8")
+    pyproject = PYPROJECT.read_text(encoding="utf-8")
+
+    assert 'requires-python = ">=3.12,<3.14"' in pyproject
+    assert 'target-version = ["py312"]' in pyproject
+    assert 'python-version: ["3.12", "3.13"]' in release
+    assert 'python-version: ["3.12", "3.13"]' in python_tests
+    for workflow in (release, python_tests):
+        assert "UV_PYTHON: ${{ matrix.python-version }}" in workflow
+        assert "actual == expected, (actual, expected)" in workflow
