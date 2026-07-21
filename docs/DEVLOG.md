@@ -2,6 +2,13 @@
 
 This rolling log records change, verification, and handoff evidence. New entries go first. Stable behavior belongs in user or engineering documentation. Blueprint is a template source with no live queue, so its newest entry always hands off with `Next: none`; instantiated projects own their own task authority.
 
+## 2026-07-21 — Hosted annotated-tag verification repair
+
+- Task: direct user request
+- Changed: Made the release gate force-fetch the exact remote tag object before testing its type, so a commit-typed tag synthesized by checkout cannot mask a valid annotated release tag.
+- Verified: A portable local Git regression recreates the checkout mismatch, replaces it from the remote, and proves the fetched ref is annotated and peels to current master; the full repository gate passes.
+- Next: none
+
 ## 2026-07-21 — Blueprint 0.1.2.0 release boundary
 
 - Task: direct user request
