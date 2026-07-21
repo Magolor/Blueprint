@@ -20,7 +20,7 @@ Design or review architecture as a continuous, evidence-backed activity that kee
 
 1. Load [../workflows/architect.md](../workflows/architect.md) before producing the artifact.
 2. Classify the mode: **new design**, **refactor plan**, **targeted architecture review**, or **periodic architecture review**.
-3. Read `AGENTS.md`, the environment rule, docs authority map, canonical task queue, development log, current goals, architecture docs, public exports, registry/extension points, tests, examples, and issue context when available.
+3. Read `AGENTS.md`, the environment rule, docs authority map, declared task authority when operational, development log, current goals, architecture docs, public exports, registry/extension points, tests, examples, and issue context when available.
 4. Use this task for design and review before implementation. Route implementation to [code.md](code.md), diff-focused code review to [code-review.md](code-review.md), and newcomer explanation to [code-explain.md](code-explain.md).
 
 ## Agile Design Principles

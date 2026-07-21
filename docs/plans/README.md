@@ -22,7 +22,7 @@ Use one plan per coherent outcome. If a plan becomes obsolete, mark it `Supersed
 - Status: Planned | In progress | Blocked | Done | Superseded
 - Created: YYYY-MM-DD
 - Scope: one or two sentences
-- Task: one active `docs/tasks.yaml` ID
+- Task: one active task-authority ID in operational mode, or a direct/external maintenance reference in template mode
 - Links: issues, reports, or resources
 
 ## Problem
@@ -45,7 +45,7 @@ Use one plan per coherent outcome. If a plan becomes obsolete, mark it `Supersed
 
 ## Checkpoints
 
-- YYYY-MM-DD: short evidence checkpoint; keep queue state in `docs/tasks.yaml`.
+- YYYY-MM-DD: short evidence checkpoint; keep operational state in the concrete project's task authority.
 
 ## Closeout
 
@@ -56,7 +56,7 @@ Use one plan per coherent outcome. If a plan becomes obsolete, mark it `Supersed
 ## Update Rules
 
 - Keep status and checkboxes current while work proceeds.
-- Every `Planned`, `In progress`, or `Blocked` plan must be linked by exactly one active queue task.
+- Every `Planned`, `In progress`, or `Blocked` operational plan must be linked by exactly one active task. In template mode, it instead names one direct-request or external-tracker reference and must not invent a local task ID.
 - Append dated evidence checkpoints rather than replacing history.
 - Add exact verification commands, preferably repo wrappers with `rtk`.
-- Close with `Done` or `Superseded`, append the development log, and remove the task from the live queue. A blocked plan remains linked to one `blocked` task with an explicit unblock condition.
+- Close with `Done` or `Superseded`, append the development log, and remove the task from the concrete project's live authority. A blocked operational plan remains linked to one `blocked` task with an explicit unblock condition.

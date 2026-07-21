@@ -40,4 +40,4 @@ Each report should include:
 
 Promote durable conclusions into `docs/resources/` or `docs/goals/` after the report is accepted. Keep the report as the evidence trail.
 
-Reports never own task state. Any actionable follow-up gets one `docs/tasks.yaml` item; after action, mark the report `Actioned` or `Superseded` and remove the closed queue item.
+Reports never own task state. In operational mode, actionable follow-up enters the one declared task authority; template maintenance uses a direct request or selected external issue. After action, mark the report `Actioned` or `Superseded` and remove any closed operational task.

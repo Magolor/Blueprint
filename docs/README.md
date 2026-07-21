@@ -11,16 +11,22 @@ This is the single entry point for engineers, agents, and architects. It explain
 | Development log | [`docs/DEVLOG.md`](DEVLOG.md) | Future maintainers and agents resuming work | Record concise change, verification, and handoff evidence. Keep at most 50 entries; Git preserves older detail. |
 | Scratch | [`docs/scratch/`](scratch/README.md) and ignored `.temp/notes/` | Short-lived requirements, brainstorms, and rough analysis | Tracked notes expire within 45 days and must be promoted or deleted. Pure local slop stays under `.temp/notes/`. |
 
-The canonical active task source is [`docs/tasks.yaml`](tasks.yaml). GitHub, Linear, plans, reports, chat, and the development log may link to tasks, but must not become parallel writable queues.
+Repository role is explicit.
+
+<!-- blueprint-template-only:start -->
+While `.blueprint-template.yaml` exists, `docs/tasks.template.yaml` is an inert, empty downstream starter and template maintenance stays attached to the direct request or an explicitly selected external issue. `scripts/rename.bash` removes template mode and promotes the starter.
+<!-- blueprint-template-only:end -->
+
+In operational mode, `docs/tasks.yaml` is the project's single writable task authority.
 
 ## Engineering Areas
 
 | Area | Purpose |
 | --- | --- |
 | [Goals](goals/README.md) | Durable product or platform outcomes. Never store task state here. |
-| [Plans](plans/README.md) | Detailed execution for a queued multi-slice task. A plan is subordinate to exactly one queue item while active. |
+| [Plans](plans/README.md) | Detailed execution for multi-slice work, subordinate to the repository's declared operational task or template-maintenance reference. |
 | [Resources](resources/README.md) | Stable architecture, specifications, inventories, and source-of-truth notes. |
-| [Reports](reports/README.md) | Evidence snapshots for reviews, refactors, and surveys. Actionable follow-up becomes a queue task. |
+| [Reports](reports/README.md) | Evidence snapshots for reviews, refactors, and surveys. Actionable follow-up enters the repository's declared authority. |
 
 ## Authority Order
 
@@ -37,20 +43,28 @@ Architecture documents must distinguish **current**, **target**, **gap**, and **
 
 ## Agent Work Loop
 
-1. Run `rtk uv run python scripts/docs.py tasks --ready` and read the first relevant task before proposing new work.
-2. If the user's request is meant for later, spans sessions, or needs delegation, add one queue item before implementation. A one-session direct request may stay out of the queue only if it is completed in that session.
-3. Claim queued work by setting `status: active`, `owner`, and `updated`. A blocked task records both `blocker` and an observable `unblock_when`. Keep detailed slice checklists in one linked plan only when the plan trigger applies.
-4. Delegate beneath the owning task; subagents do not create parallel task lists. Durable child work becomes another queue item with `parent` pointing to the owning task and `depends_on` describing execution order only when it must be resumed independently.
-5. Update user docs for shipped user-visible behavior and engineering docs for durable architecture or workflow changes.
-6. Close work by verifying acceptance criteria, appending one development-log entry, promoting durable conclusions, deleting or promoting scratch notes, and removing the completed task from the live queue.
-7. Run `rtk uv run python scripts/docs.py check`. The queue and docs checks are also enforced by hooks and CI.
+<!-- blueprint-template-only:start -->
+In template mode, keep maintenance attached to the direct request or one explicitly selected GitHub/Linear issue and do not create `docs/tasks.yaml`. Close template work with `Next: none`, promote durable conclusions, and delete or promote scratch notes. To instantiate a concrete project, run `scripts/rename.bash`; it promotes the empty starter to that project's canonical queue.
+<!-- blueprint-template-only:end -->
+
+1. In an operational project, read and claim the existing task before creating another. A blocked task records both `blocker` and an observable `unblock_when`; one linked plan may hold ordered execution detail.
+2. Delegate beneath the owning request or task; subagents do not create parallel task lists.
+3. Update user docs for shipped user-visible behavior and engineering docs for durable architecture or workflow changes.
+4. Close operational work by removing completed rows from the live queue after acceptance evidence, promoting durable conclusions, and deleting or promoting scratch notes.
+5. Run `rtk uv run python scripts/docs.py check`. Hooks and CI enforce the role-aware docs contract.
 
 ## Cleanup Rules
 
-- Completed or cancelled work leaves `docs/tasks.yaml`; Git and the development log preserve the history.
+<!-- blueprint-template-only:start -->
+- Template mode never owns `docs/tasks.yaml`; its empty starter stays inert.
+<!-- blueprint-template-only:end -->
+- In operational mode, completed or cancelled work leaves the live task authority and Git plus the development log preserve history.
 - A finished plan becomes `Done` or `Superseded`. Do not leave silent `Planned` or `In progress` files.
 - A report is an evidence snapshot. Promote accepted conclusions to resources, code, tests, or user docs; mark the report `Actioned` or `Superseded` when its action is complete.
-- The newest development-log entry's `Next` names an active task ID or `none`; historical entries may retain IDs that have since left the live queue.
+<!-- blueprint-template-only:start -->
+- A template-mode development-log entry uses `Next: none`.
+<!-- blueprint-template-only:end -->
+- In operational mode, `Next` may name an active task ID or `none`; historical entries may retain IDs that have since closed.
 - Tracked scratch notes require `status`, `created`, `expires`, and `task` frontmatter. Expired notes fail validation.
 - `.temp/notes/` is disposable, ignored, and never authoritative. `scripts/cleanup.bash` removes it.
 - Delete stale navigation and contradictory legacy docs in the same change that promotes their surviving truth.
@@ -58,9 +72,11 @@ Architecture documents must distinguish **current**, **target**, **gap**, and **
 ## Enforcement
 
 ```bash
-rtk uv run python scripts/docs.py tasks --ready
 rtk uv run python scripts/docs.py check
 rtk bash scripts/test.bash tests/test_docs_contract.py -q
 ```
 
-The checker validates the four surfaces, queue schema and dependencies, development-log ordering, scratch expiry, retired progress directories, task links, and repository-local Markdown links.
+<!-- blueprint-template-only:start -->
+The checker rejects a live queue in template mode and validates the empty starter.
+<!-- blueprint-template-only:end -->
+In operational mode it requires the live queue and validates its schema, dependencies, development-log handoff, scratch expiry, retired paths, task links, and repository-local Markdown links.

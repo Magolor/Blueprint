@@ -18,4 +18,4 @@ Keep goals objective enough for agents to turn them into acceptance criteria. Li
 - Mark completed short-term goals with a completion date, then summarize the change in `docs/DEVLOG.md`.
 - Keep speculative ideas out of goals unless they are explicit non-goals or accepted future direction.
 - Do not duplicate plan checklists here; link to `docs/plans/` instead.
-- Do not store task status here; active work belongs only in `docs/tasks.yaml`.
+- Do not store task status here. Operational mode uses its declared task authority; template mode has no live queue.

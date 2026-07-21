@@ -1,11 +1,18 @@
 # Development Log
 
-This rolling log records change, verification, and handoff evidence. New entries go first. Stable behavior belongs in user or engineering documentation; active work belongs only in `docs/tasks.yaml`.
+This rolling log records change, verification, and handoff evidence. New entries go first. Stable behavior belongs in user or engineering documentation. Blueprint is a template source with no live queue, so its newest entry always hands off with `Next: none`; instantiated projects own their own task authority.
+
+## 2026-07-21 — Blueprint 0.1.2.0 release boundary
+
+- Task: direct user request
+- Changed: Corrected Blueprint to a queue-free template source with an inert downstream starter, made `heaven-style` task authority conditional on repository role, hardened real-tree initialization and document cleanup, and replaced the obsolete release-branch/PyPI path with an independently verified master tag plus immutable GitHub Release artifacts.
+- Verified: The full repository gate passed 39 tests across documentation, skill, template-sync, and real-tree rename contracts; fresh wheel/sdist metadata, isolated installation, package version, `bp`, and `blueprint-gui` smoke checks passed.
+- Next: none
 
 ## 2026-07-21 — Documentation lifecycle enforcement
 
 - Task: direct user request
-- Changed: Established four documentation surfaces, one task queue, an expiring scratch lane, a compact deterministic skill index, and reviewed Blueprint-to-HeavenBase synchronization with exact inventory plus adapted-state fingerprints.
+- Changed: Established four documentation surfaces, an initial queue contract later corrected to an inert template starter, an expiring scratch lane, a compact deterministic skill index, and reviewed Blueprint-to-HeavenBase synchronization with exact inventory plus adapted-state fingerprints.
 - Verified: The offline fast gate passed documentation, skill graph, template coverage, formatter/lint, and 26 positive/negative contract tests; the skill scan, compilation, generated environment, and README drift checks passed separately.
 - Next: `BP-001`
 

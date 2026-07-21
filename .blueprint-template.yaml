@@ -3,7 +3,7 @@ source:
   repository: Magolor/Blueprint
 consumer:
   repository: Magolor/HeavenBase
-  ref: dev-refactor
+  ref: master
   manifest: .blueprint-sync.yaml
 exact:
   - .gitattributes
@@ -44,6 +44,7 @@ excluded:
   - README.md
   - README.zh.md
   - docs/DEVLOG.md
+  - docs/tasks.template.yaml
   - docs/tasks.yaml
   - docs/plans/20*.md
   - docs/progress/**

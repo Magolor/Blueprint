@@ -45,7 +45,7 @@ Reviews are findings-first, severity-marked, and grounded in file/line evidence 
 - **API documentation:** public surfaces follow the matched language documentation rule: Python uses [docstring](../code/python/docstring.md), while TypeScript uses [TypeScript API documentation](../code/typescript/docs.md).
 - **Robustness:** invalid input, security issues, unowned promises, corner cases, swallowed errors, resource leaks, races, and unsafe fallbacks are handled.
 - **Migration alignment:** follow the repository's recorded release/compatibility policy. Apply [Python compatibility](../code/python/compat.md) only to matching Python/predecessor migrations.
-- **Sync:** tests, user/engineering docs, architecture current/target/gap status, generated artifacts, rule examples, development-log evidence, scratch cleanup, the one canonical task queue, and authorized external mirrors match the code.
+- **Sync:** tests, user/engineering docs, architecture current/target/gap status, generated artifacts, rule examples, development-log evidence, scratch cleanup, the operational repository's canonical task authority (or a template source's intentional lack of a live queue), and authorized external mirrors match the code.
 
 ## Severity
 

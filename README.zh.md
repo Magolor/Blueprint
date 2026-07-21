@@ -16,13 +16,13 @@ uv build
 ## CLI
 
 ```bash
-uv run blueprint --help
-uv run blueprint --version
-uv run blueprint setup
-uv run blueprint init
-uv run blueprint config list
-uv run blueprint cfg get blueprint.project.name
-uv run blueprint pj demos .temp --abs
+uv run bp --help
+uv run bp --version
+uv run bp setup
+uv run bp init
+uv run bp config list
+uv run bp cfg get blueprint.project.name
+uv run bp pj demos .temp --abs
 uv run blueprint-gui --help
 ```
 
@@ -54,13 +54,17 @@ bash scripts/sync-env.bash
 | `src/blueprint/utils/` | 共享工具代码。 |
 | `docs/README.md` | 项目文档菜单和权威地图。 |
 | `docs/goals/` | 长期、中期和短期项目目标。 |
+| `docs/DEVLOG.md` | 单一、滚动的开发变更与交接日志。 |
+| `docs/tasks.template.yaml` | 模板模式下保持为空；初始化后提升为项目的 `docs/tasks.yaml`。 |
+| `docs/scratch/` | 有所有者和过期时间的短期笔记。 |
 | `docs/resources/` | 稳定的项目参考资料和背景。 |
-| `docs/progress/` | 按日期组织的进展文件夹，包含每日摘要和可选详细记录。 |
-| `tests/` | 为空的测试根目录，供未来项目添加具体测试。 |
-| `demos/` | 为空的演示根目录，供未来项目添加具体演示。 |
+| `docs/plans/` | 从属于单一任务权威的多阶段执行细节。 |
+| `docs/reports/` | 审查、重构和调研的证据快照。 |
+| `tests/` | 行为、文档契约与模板同步测试。 |
+| `demos/` | 可运行的演示和项目起始示例。 |
 | `demos/assets/` | 已提交的演示夹具。 |
 | `demos/.temp/` | 被忽略的演示运行时数据。 |
-| `.agents/skills/heaven-style/` | 从 HeavenBase 复制的仓库本地 Heaven-style agent skill。 |
+| `.agents/skills/heaven-style/` | Blueprint 维护的 Heaven-style agent skill 权威源码。 |
 | `.github/workflows/` | GitHub Actions CI。 |
 | `.githooks/` | 用于 README 同步和本地格式检查的 Git hooks。 |
 | `scripts/` | 可复用的 uv 脚本包装器。 |
@@ -87,9 +91,7 @@ CI 应使用 `bash scripts/sync-env.bash --check --no-heavenbase` 作为生成�
 
 ## 发布策略
 
-Blueprint 包含位于 `.github/workflows/release.yml` 的 PyPI trusted publishing 工作流。它只在推送到 `release` 分支且 head commit 消息包含 `[release]` 时运行。
-
-首次发布前，需要在 PyPI 为 GitHub 仓库、`release.yml` 工作流和 `pypi` environment 配置信任发布，并在 GitHub 中创建同名 `pypi` environment。
+Blueprint 不发布到同名的第三方 PyPI 项目。正式版本是位于已发布 `master` 头部、名称与 `src/blueprint/version.py` 完全一致的四段式 annotated tag：`v<version>`。`.github/workflows/release.yml` 会独立验证 tag、运行 Python 3.10–3.13 的完整源码检查、构建并测试 wheel 与 sdist，然后把不可覆盖的产物附加到 GitHub Release。
 
 从干净的 `master` 分支发布：
 
@@ -97,8 +99,10 @@ Blueprint 包含位于 `.github/workflows/release.yml` 的 PyPI trusted publishi
 bash scripts/release.bash
 ```
 
-该脚本会在 `master` 上创建或复用 `[release]` commit，推送 `master`，将 `release` 从 `master` 快进，然后推送 `release` 触发发布工作流。
+该脚本拒绝开发版本、脏工作区、非 `master` 分支、分叉历史、lightweight tag 和 tag/version 冲突；在需要时先推送 `master`，然后创建或复用 annotated tag 并推送它。对同一个已经发布的 tag 重跑是幂等的。
 
 ## 文档策略
+
+文档分为四个明确表面：面向用户的 `README.en.md`（`README.md` 和包内副本由它生成）、面向工程师/agent/架构师的 `docs/README.md` 及其稳定资料、单一滚动的 `docs/DEVLOG.md`，以及会过期的 `docs/scratch/` 或本地 `.temp/notes/`。Blueprint 作为模板源码没有实时任务队列；`docs/tasks.template.yaml` 必须保持为空，只有 `scripts/rename.bash` 初始化具体项目时才会变成 `docs/tasks.yaml`。
 
 英文 doc-sync 通过 `.agents/skills/heaven-style/references/tasks/doc-sync.md` 更新权威英文文档和生成文档。中文或其他语言翻译应在英文变更完成后，通过 `.agents/skills/heaven-style/references/tasks/doc-trans.md` 单独刷新。

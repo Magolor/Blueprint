@@ -9,6 +9,10 @@ export BLUEPRINT_PYTHON_PREFERENCE=uv-first
 REMOTE_NAME="${1:-origin}"
 REMOTE_URL="$(git remote get-url "${REMOTE_NAME}" 2>/dev/null || true)"
 
+if [[ ! -f ".blueprint-template.yaml" ]]; then
+    exit 0
+fi
+
 # This boundary belongs only to Blueprint's canonical repository. Projects
 # created from the template adapt or remove it when they change their remote.
 case "${REMOTE_URL}" in

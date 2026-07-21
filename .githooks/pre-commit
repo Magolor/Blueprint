@@ -12,10 +12,21 @@ git add README.md src/blueprint/resources/README.md pyproject.toml environment-d
 run_python .agents/skills/heaven-style/scripts/index.py
 git add .agents/skills/heaven-style/references/index.yaml
 run_python scripts/docs.py check
-run_python scripts/template_sync.py check-source
+if [[ -f ".blueprint-template.yaml" ]]; then
+    run_python scripts/template_sync.py check-source
+fi
 
 bash scripts/flake.bash --all
-bash scripts/test.bash tests/test_docs_contract.py tests/test_heaven_style_index.py tests/test_heaven_style_scan.py tests/test_template_sync.py -q
+CONTRACT_TESTS=(
+    tests/test_docs_contract.py
+    tests/test_heaven_style_index.py
+    tests/test_heaven_style_scan.py
+    tests/test_template_sync.py
+)
+if [[ -f ".blueprint-template.yaml" ]]; then
+    CONTRACT_TESTS+=(tests/test_rename.py)
+fi
+bash scripts/test.bash "${CONTRACT_TESTS[@]}" -q
 
 if ! git diff --quiet -- src scripts tests demos .agents/skills/heaven-style/scripts; then
     echo "error: formatting changed files. Review and re-stage them, then commit again." >&2

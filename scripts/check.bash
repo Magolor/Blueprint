@@ -27,7 +27,9 @@ fi
 
 run_python scripts/docs.py check
 run_python .agents/skills/heaven-style/scripts/index.py --check
-run_python scripts/template_sync.py check-source
+if [[ -f ".blueprint-template.yaml" ]]; then
+    run_python scripts/template_sync.py check-source
+fi
 bash scripts/flake.bash --ci
 
 CONTRACT_TESTS=(
@@ -36,6 +38,9 @@ CONTRACT_TESTS=(
     tests/test_heaven_style_scan.py
     tests/test_template_sync.py
 )
+if [[ -f ".blueprint-template.yaml" ]]; then
+    CONTRACT_TESTS+=(tests/test_rename.py)
+fi
 
 if [[ "${MODE}" == "full" ]]; then
     bash scripts/test.bash

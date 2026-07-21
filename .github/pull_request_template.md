@@ -1,12 +1,12 @@
 ## Summary
 
-<!-- What changed and why? For template work, note whether downstream projects should react. -->
+<!-- What changed and why? -->
 
-Canonical task: <!-- docs/tasks.yaml ID, external tracker URL, or "direct request" -->
+Work authority: <!-- operational task ID, or a direct/external maintenance reference -->
 
 ## Type of change
 
-- [ ] Template maintenance / health
+- [ ] Project or template maintenance / health
 - [ ] CI or scripts
 - [ ] Docs or README sync
 - [ ] Dependencies or packaging
@@ -26,6 +26,7 @@ Canonical task: <!-- docs/tasks.yaml ID, external tracker URL, or "direct reques
 - [ ] Closed/superseded legacy guidance and refreshed generated indexes
 - [ ] Translation follow-up noted separately if needed
 
+<!-- blueprint-template-only:start -->
 ## Downstream impact
 
 <!-- Delete this section if not applicable. -->
@@ -33,3 +34,4 @@ Canonical task: <!-- docs/tasks.yaml ID, external tracker URL, or "direct reques
 - [ ] Safe for projects created with **Use this template**
 - [ ] Adapted changes were reviewed in HeavenBase and `.blueprint-sync.yaml` was refreshed
 - [ ] Requires downstream projects to rerun `scripts/rename.bash`, update URLs, or change setup steps
+<!-- blueprint-template-only:end -->

@@ -2,12 +2,12 @@
 
 - Status: Superseded
 - Created: 2026-07-20
-- Target: HeavenBase `0.1.2.0`, current `dev-refactor` line
+- Historical target: HeavenBase `0.1.2.0`; the current route is owned by HeavenBase on its default branch
 - Scope: Replace source-tree-privileged component discovery with one persisted, source-neutral component catalog while preserving the current consumer-facing identifier/configuration model.
 - Depends on: `docs/plans/2026-07-20-lego-style-extension-parity.md`
 - Path convention: All source and test paths below are relative to the HeavenBase repository root.
 
-This Blueprint-local planning copy is no longer active. HeavenBase owns the accepted, current route in [ADR 0011](https://github.com/Magolor/HeavenBase/blob/dev-refactor/docs/resources/architecture/adr/0011-standalone-registry-and-lego-resolution.md); future task state belongs to HeavenBase's canonical queue.
+This Blueprint-local planning copy is no longer active. HeavenBase owns the accepted route in [ADR 0011](https://github.com/Magolor/HeavenBase/blob/master/docs/resources/architecture/adr/0011-standalone-registry-and-lego-resolution.md); future task state belongs to HeavenBase's canonical queue.
 
 ## Outcome
 

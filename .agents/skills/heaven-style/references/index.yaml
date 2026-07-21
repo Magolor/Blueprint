@@ -6,7 +6,7 @@ skill:
   description: Heaven-style code and architecture guide for general Python package development and TypeScript repositories,
     with conditional conventions for HeavenBase-lineage projects. Use when writing, reviewing, designing architecture, refactoring,
     or aligning tests/docs; apply repository policy first, then shared architecture and the matched language rules.
-  source_digest: sha256:437c7b2baf7504be219f2ae7f802cdb59cfd8458eb4fef23204c116bf51601c4
+  source_digest: sha256:f95d2e98411853b0181a63c2e15555ba1b635a13b317409b449681e7c651934e
 entrypoints:
   default: SKILL.md
   rules: references/rules/overview.md

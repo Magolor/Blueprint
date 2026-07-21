@@ -104,7 +104,7 @@ Gather evidence before writing. Prefer live connectors; fall back to local git a
 
 ### 1. Repo and environment
 
-1. Read `AGENTS.md`, the docs authority map, canonical task queue, and development log.
+1. Read `AGENTS.md`, the docs authority map, the declared task authority when the repository is operational, and the development log.
 2. Note package version, default branch, release/compatibility policy, runtime pins, lockfile, and command entrypoints from `AGENTS.md` plus the repository manifest (`pyproject.toml`, `package.json`, or equivalent).
 3. Skim top-level source/package layout and public entry points—Python facades/`__init__.py` or TypeScript `exports`/entry modules/`tsconfig`—mapping layers rather than every file.
 
@@ -123,7 +123,7 @@ Gather evidence before writing. Prefer live connectors; fall back to local git a
 
 ### 4. Status and issues
 
-1. Read the repository's one canonical task queue first; plans, GitHub, and Linear are subordinate links or explicit mirrors unless policy declares one external tracker canonical.
+1. Determine whether the repository is operational or a template source. Read the operational repository's one canonical task authority first; a template source keeps any consumer queue starter inert and uses only its declared maintenance authority.
 2. Use Linear when linked: active milestones, issue evidence, blockers, rolling status comments, and design threads.
 3. Use GitHub/`gh` when linked: open PRs, failing checks, review threads, and recent merges; read the one development log for local handoff evidence.
 4. On auth or project-pressure failures, use [../failures/auth-secrets.md](../failures/auth-secrets.md) and [../failures/linear-pressure.md](../failures/linear-pressure.md).
@@ -134,7 +134,7 @@ Produce a short **current-state brief** (half page max):
 
 - What the system is for, in one sentence.
 - Layer map or module boundaries (table or diagram).
-- Top mismatches between the canonical queue, docs, goals, external trackers, and code.
+- Top mismatches between the declared task authority, docs, goals, external trackers, and code.
 - Constraints and non-goals already recorded.
 - Open questions that block a design decision.
 
@@ -154,7 +154,7 @@ Use a periodic review when the project has a cadence, reaches a release boundary
 8. **Actions** - classify recommendations as **now**, **next**, **defer**, or **waive**. Avoid broad rewrites unless the evidence shows repeated change cost.
 9. **Next trigger** - record the next review trigger or cadence only when the project actually uses one.
 
-Deliverable: an **architecture review** with scope, evidence, findings, prioritized actions, verification expectations, and docs/task/issue updates. Store it only where repository policy keeps current engineering truth or auditable evidence; actionable follow-up becomes one canonical queue item.
+Deliverable: an **architecture review** with scope, evidence, findings, prioritized actions, verification expectations, and docs/task/issue updates. Store it only where repository policy keeps current engineering truth or auditable evidence; actionable follow-up enters the operational repository's canonical authority, or the template source's declared maintenance authority when it has no live queue.
 
 ## Doc organization and cleanup
 

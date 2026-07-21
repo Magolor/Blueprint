@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 import subprocess
 from pathlib import Path
 
@@ -18,7 +19,22 @@ SPEC.loader.exec_module(template_sync)
 
 def _run_git(root: Path, *args: str) -> None:
     """Run one fixture Git command."""
-    subprocess.run(["git", *args], cwd=root, check=True, capture_output=True, text=True)
+    env = dict(os.environ)
+    for name in (
+        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+        "GIT_COMMON_DIR",
+        "GIT_DIR",
+        "GIT_GRAFT_FILE",
+        "GIT_IMPLICIT_WORK_TREE",
+        "GIT_INDEX_FILE",
+        "GIT_NO_REPLACE_OBJECTS",
+        "GIT_OBJECT_DIRECTORY",
+        "GIT_PREFIX",
+        "GIT_SHALLOW_FILE",
+        "GIT_WORK_TREE",
+    ):
+        env.pop(name, None)
+    subprocess.run(["git", *args], cwd=root, env=env, check=True, capture_output=True, text=True)
 
 
 def _make_repositories(tmp_path: Path) -> tuple[Path, Path, dict[str, object]]:

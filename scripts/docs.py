@@ -20,8 +20,10 @@ REQUIRED_FILES = (
     "README.en.md",
     "docs/README.md",
     "docs/DEVLOG.md",
-    "docs/tasks.yaml",
 )
+TEMPLATE_POLICY_FILE = ".blueprint-template.yaml"
+TEMPLATE_QUEUE_FILE = "docs/tasks.template.yaml"
+OPERATIONAL_QUEUE_FILE = "docs/tasks.yaml"
 LEGACY_DOC_DIRS = ("docs/progress",)
 LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 TASK_ID_RE = re.compile(r"^[A-Z][A-Z0-9]*-[0-9]{3,}$")
@@ -99,11 +101,16 @@ def _validate_links(root: Path, errors: list[str]) -> None:
                 errors.append(f"LINK_MISSING: {rel_source} -> {raw_target}")
 
 
-def _validate_structure(root: Path, errors: list[str]) -> None:
-    """Validate the four documentation surfaces and retired paths."""
-    for relative in REQUIRED_FILES:
+def _validate_structure(root: Path, template_mode: bool, errors: list[str]) -> None:
+    """Validate documentation surfaces and the template/operational boundary."""
+    queue_file = TEMPLATE_QUEUE_FILE if template_mode else OPERATIONAL_QUEUE_FILE
+    for relative in (*REQUIRED_FILES, queue_file):
         if not (root / relative).is_file():
             errors.append(f"SURFACE_MISSING: {relative}")
+    if template_mode and (root / OPERATIONAL_QUEUE_FILE).exists():
+        errors.append(f"TEMPLATE_LIVE_QUEUE: {OPERATIONAL_QUEUE_FILE} is not allowed in template mode")
+    if not template_mode and (root / TEMPLATE_QUEUE_FILE).exists():
+        errors.append(f"OPERATIONAL_TEMPLATE_QUEUE: retire {TEMPLATE_QUEUE_FILE} after instantiating the live queue")
     for relative in LEGACY_DOC_DIRS:
         if (root / relative).exists():
             errors.append(f"LEGACY_SURFACE: retire {relative} into docs/DEVLOG.md")
@@ -130,7 +137,7 @@ def _git_files(root: Path, prefix: str) -> list[str]:
     return [line for line in result.stdout.splitlines() if line]
 
 
-def _validate_devlog(root: Path, task_ids: set[str], errors: list[str]) -> None:
+def _validate_devlog(root: Path, task_ids: set[str], template_mode: bool, errors: list[str]) -> None:
     """Validate the rolling development log shape and ordering."""
     path = root / "docs" / "DEVLOG.md"
     if not path.is_file():
@@ -163,6 +170,10 @@ def _validate_devlog(root: Path, task_ids: set[str], errors: list[str]) -> None:
         return
     for value in entries[0][1]:
         normalized = value.strip().strip("`")
+        if template_mode:
+            if normalized.lower() != "none":
+                errors.append("TEMPLATE_DEVLOG_NEXT: the newest template DEVLOG entry must use '- Next: none'")
+            continue
         if normalized.lower() == "none":
             continue
         references = set(re.findall(r"[A-Z][A-Z0-9]*-[0-9]{3,}", normalized))
@@ -172,14 +183,14 @@ def _validate_devlog(root: Path, task_ids: set[str], errors: list[str]) -> None:
             errors.append(f"DEVLOG_TASK_MISSING: {task_id}")
 
 
-def _validate_tasks(root: Path, errors: list[str]) -> list[dict[str, object]]:
-    """Validate and return the canonical active task queue."""
-    path = root / "docs" / "tasks.yaml"
+def _validate_tasks(root: Path, relative: str, *, inert: bool, errors: list[str]) -> list[dict[str, object]]:
+    """Validate and return an operational queue or inert template."""
+    path = root / relative
     if not path.is_file():
         return []
     data = _load_yaml(path, errors)
     if not isinstance(data, dict):
-        errors.append("QUEUE_ROOT: docs/tasks.yaml must contain a mapping")
+        errors.append(f"QUEUE_ROOT: {relative} must contain a mapping")
         return []
     if data.get("schema") != QUEUE_SCHEMA:
         errors.append(f"QUEUE_SCHEMA: schema must be {QUEUE_SCHEMA}")
@@ -189,6 +200,8 @@ def _validate_tasks(root: Path, errors: list[str]) -> list[dict[str, object]]:
     if not isinstance(tasks, list):
         errors.append("QUEUE_TASKS: tasks must be a list")
         return []
+    if inert and tasks:
+        errors.append(f"TEMPLATE_QUEUE_NOT_INERT: {relative} must contain tasks: []")
     queue_updated = _as_date(data.get("updated"), "queue.updated", errors)
     seen: set[str] = set()
     normalized: list[dict[str, object]] = []
@@ -250,6 +263,8 @@ def _validate_tasks(root: Path, errors: list[str]) -> list[dict[str, object]]:
         links = task.get("links", [])
         if isinstance(links, list):
             for link in links:
+                if not isinstance(link, str):
+                    continue
                 if link.startswith(("http://", "https://")):
                     continue
                 target = (root / link).resolve()
@@ -306,7 +321,7 @@ def _validate_parent_cycles(tasks: dict[str, dict[str, object]], errors: list[st
             current = parent
 
 
-def _validate_plan_coverage(root: Path, tasks: list[dict[str, object]], errors: list[str]) -> None:
+def _validate_plan_coverage(root: Path, tasks: list[dict[str, object]], template_mode: bool, errors: list[str]) -> None:
     """Keep plans subordinate to exactly one active queue item."""
     links: dict[str, list[str]] = {}
     for task in tasks:
@@ -325,10 +340,17 @@ def _validate_plan_coverage(root: Path, tasks: list[dict[str, object]], errors: 
             continue
         status = match.group(1)
         owners = links.get(rel, [])
-        if status in {"Planned", "In progress", "Blocked"} and len(owners) != 1:
-            errors.append(f"PLAN_QUEUE: {rel} with status {status} needs exactly one queue owner")
-        elif status in {"Planned", "In progress", "Blocked"}:
-            active_plans.setdefault(owners[0], []).append(rel)
+        if status in {"Planned", "In progress", "Blocked"}:
+            if template_mode:
+                task_match = re.search(r"^- Task:\s*(.+?)\s*$", path.read_text(encoding="utf-8"), re.MULTILINE)
+                if not task_match:
+                    errors.append(f"PLAN_AUTHORITY: {rel} needs one direct-request or external-tracker reference")
+                elif TASK_ID_RE.fullmatch(task_match.group(1).strip().strip("`")):
+                    errors.append(f"PLAN_TEMPLATE_TASK: {rel} must not invent a local queue task ID")
+            elif len(owners) != 1:
+                errors.append(f"PLAN_QUEUE: {rel} with status {status} needs exactly one queue owner")
+            else:
+                active_plans.setdefault(owners[0], []).append(rel)
         if status in {"Done", "Superseded"} and owners:
             errors.append(f"PLAN_CLOSED_QUEUED: {rel} -> {', '.join(owners)}")
         if status not in {"Planned", "In progress", "Blocked", "Done", "Superseded"}:
@@ -374,11 +396,13 @@ def validate(root: Path, *, today: date | None = None) -> tuple[list[str], list[
     """Return deterministic contract errors and normalized active tasks."""
     root = root.resolve()
     errors: list[str] = []
-    _validate_structure(root, errors)
-    tasks = _validate_tasks(root, errors)
+    template_mode = (root / TEMPLATE_POLICY_FILE).is_file()
+    _validate_structure(root, template_mode, errors)
+    queue_file = TEMPLATE_QUEUE_FILE if template_mode else OPERATIONAL_QUEUE_FILE
+    tasks = _validate_tasks(root, queue_file, inert=template_mode, errors=errors)
     task_ids = {str(task["id"]) for task in tasks}
-    _validate_devlog(root, task_ids, errors)
-    _validate_plan_coverage(root, tasks, errors)
+    _validate_devlog(root, task_ids, template_mode, errors)
+    _validate_plan_coverage(root, tasks, template_mode, errors)
     _validate_scratch(root, today or date.today(), errors)
     _validate_links(root, errors)
     return sorted(set(errors)), tasks
@@ -405,13 +429,20 @@ def main() -> int:
     tasks = subparsers.add_parser("tasks", help="Print the canonical active task queue")
     tasks.add_argument("--ready", action="store_true", help="Show only dependency-free ready tasks")
     args = parser.parse_args()
-    errors, queue = validate(args.root, today=getattr(args, "today", None))
+    root = args.root.resolve()
+    template_mode = (root / TEMPLATE_POLICY_FILE).is_file()
+    errors, queue = validate(root, today=getattr(args, "today", None))
     if errors:
         for error in errors:
             print(error, file=sys.stderr)
         return 1
     if args.command == "tasks":
-        _print_tasks(queue, ready_only=args.ready)
+        if template_mode:
+            print("Template source has no live task queue; instantiate a concrete project first.")
+        else:
+            _print_tasks(queue, ready_only=args.ready)
+    elif template_mode:
+        print("Documentation contract is valid (template source; no live task queue).")
     else:
         print(f"Documentation contract is valid ({len(queue)} active task(s)).")
     return 0
