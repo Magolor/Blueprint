@@ -13,7 +13,7 @@ brew update
 brew upgrade
 brew cleanup
 brew doctor
-brew bundle dump --force --file ~/Developer/Setup/assets/Brewfile.current
+brew bundle dump --force --file <machine-inventory-root>/Brewfile.current
 
 uv tool upgrade --all
 uv cache prune
@@ -34,7 +34,7 @@ docker image prune
 docker volume ls
 ```
 
-Review `~/Developer/Setup/assets/Brewfile.current` before using it to update `~/Developer/Setup/assets/Brewfile`. The current file is an inventory artifact, not automatic authority.
+Review `<machine-inventory-root>/Brewfile.current` before using it to update the machine-owned desired Brewfile. The current file is an inventory artifact, not automatic authority.
 
 ## Project dependency routine
 
@@ -60,7 +60,7 @@ Do not update Dockerized databases as part of the monthly routine unless there i
 When an update is needed:
 
 ```zsh
-cd ~/Developer/Containers/compose/databases
+cd <compose-root>/databases
 docker compose ps
 docker compose logs --tail=100
 docker compose pull <service-name>

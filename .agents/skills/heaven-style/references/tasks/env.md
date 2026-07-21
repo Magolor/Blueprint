@@ -14,7 +14,7 @@ related_rules: [overview, environment, docs, review]
 
 ## Goal
 
-Maintain a developer machine environment without turning local setup choices into universal Heaven-style rules. Use this task for host toolchains, shell environment policy, package-manager ownership, machine setup docs, command handoffs, and requested machine-maintenance execution.
+Maintain a developer machine environment without turning machine-specific choices into universal Heaven-style rules. Use this task for host toolchains, shell environment policy, package-manager ownership, machine setup docs, command handoffs, and requested machine-maintenance execution.
 
 ## Routing
 

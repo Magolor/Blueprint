@@ -29,7 +29,7 @@ Use SOLID as a boundary check, not as ceremony. Classes, modules, and packages s
 - **OCP (Open/Closed):** add behavior through registered implementations, strategy objects, adapters, or class-owned metadata instead of editing central conditionals.
 - **LSP (Liskov Substitution):** make every subclass honor the base contract for construction, lifecycle, errors, and return types. Represent differences as explicit capability flags or typed overrides.
 - **ISP (Interface Segregation):** keep the base interface to required common behavior; split optional capabilities into subclass, protocol, adapter, or registry families.
-- **DIP (Dependency Inversion):** make high-level flows depend on base classes, protocols, registries, and config. Concrete providers should register themselves and keep provider-specific metadata close to the provider.
+- **DIP (Dependency Inversion):** make high-level flows depend on base classes, protocols, registries, and config. Concrete providers publish descriptors through the family registration contract and keep provider-specific metadata close to the provider; high-level policy does not import them merely to make them discoverable.
 
 ## Avoid
 
@@ -88,47 +88,33 @@ Every new export kind edits the central function.
 **Recommended pattern:**
 
 ```python
-from collections.abc import Callable
-from heavenbase.utils.registry_identity import SpecRegistry
+from typing import Protocol
 
-Exporter = Callable[[dict[str, object]], bytes]
-_EXPORTERS = SpecRegistry("exporter identifier")
 
-class ExporterSpec:
-    identifier = "exporter"
-    aliases: tuple[str, ...] = ()
-
-    @classmethod
-    def register(cls) -> "ExporterSpec":
-        return _EXPORTERS.register(cls.identifier, cls(), aliases=cls.aliases, replace=True)
-
+class Exporter(Protocol):
     def dumps(self, row: dict[str, object]) -> bytes: ...
 
-class JsonExporter(ExporterSpec):
-    identifier = "json"
-    aliases = ("js",)
 
-    def dumps(self, row: dict[str, object]) -> bytes:
-        return dumps_json(row)
+# Registration/install phase: bundled and external exporters use this same descriptor.
+catalog.register(
+    kind="exporter",
+    identifier="json",
+    entry_point="acme_json:JsonExporter",
+    aliases=("js",),
+    provenance={"origin": "system"},
+)
 
-class CsvExporter(ExporterSpec):
-    identifier = "csv"
 
-    def dumps(self, row: dict[str, object]) -> bytes:
-        return dumps_csv(row)
-
-JsonExporter.register()
-CsvExporter.register()
-
-def export(row: dict[str, object], exporter: str | ExporterSpec | None = None) -> bytes:
-    if exporter is None:
-        exporter = CM_HVNB.get("export.default", default="json")
-    if isinstance(exporter, str):
-        exporter = _EXPORTERS.load(exporter)
-    return exporter.dumps(row)
+def export(row: dict[str, object], exporter: str = "json") -> bytes:
+    implementation: Exporter = catalog.load("exporter", exporter)
+    return implementation.dumps(row)
 ```
 
-New exporters register by canonical identifier and optional aliases without changing the dispatch path.
+New exporters publish a descriptor without changing the dispatch path. The `json` descriptor uses no privileged loader because it is bundled; moving it to another distribution changes registration provenance/location, not consumer code. The catalog, resolver, persistence, trust, and lifecycle contract belongs to [extension points](../../project/extension.md), not this SOLID example.
+
+### OCP/ISP: Open Capability Vocabularies
+
+When independent extensions may introduce new capability kinds, keep the base protocol stable and make capability identity an independently registered descriptor. If adding one optional feature requires a new central field, base method, switch branch, and serialization entry, the design has an open/closed and interface-segregation smell. Read [Open capability vocabulary](../../../examples/code/open-capability-vocabulary.md) for the compact bad-smell/good-smell comparison. Keep intentionally closed vocabularies as enums or discriminated unions.
 
 ### LSP: Liskov Substitution
 
@@ -244,4 +230,4 @@ Logical types stay logical. Backend-specific storage policy depends on the logic
 
 ## Related rules
 
-Also apply [model.md](model.md) for public mental model, [oop.md](oop.md) for method vocabulary, [files.md](files.md) for ownership-based layout, [clean.md](clean.md) for abstraction cost, [extension.md](../../project/extension.md) for registries, [error.md](error.md) for capability and contract failures, [arch-design.md](../../../tasks/arch-design.md) for architecture design/review tasks, and [architect.md](../../../workflows/architect.md) for design-only workflows.
+Also apply [Open capability vocabulary](../../../examples/code/open-capability-vocabulary.md) for the reusable capability smell comparison, [model.md](model.md) for public mental model, [oop.md](oop.md) for method vocabulary, [files.md](files.md) for ownership-based layout, [clean.md](clean.md) for abstraction cost, [extension.md](../../project/extension.md) for registries, [error.md](error.md) for capability and contract failures, [arch-design.md](../../../tasks/arch-design.md) for architecture design/review tasks, and [architect.md](../../../workflows/architect.md) for design-only workflows.

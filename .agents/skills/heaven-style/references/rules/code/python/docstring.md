@@ -33,7 +33,7 @@ Every publicly exposed function, method, classmethod, staticmethod, generator, a
 - For `None` returns, write `None: This function does not return a value.` or a more specific side-effect statement.
 - Document `Raises` when callers can trigger or handle the exception. Prefer project exception names or contextual `raise_mismatch` behavior over broad exception families.
 - Use `Warnings`, `Notes`, or `Examples` when they change safe usage, explain important caveats, or show realistic public flows.
-- Keep examples short, runnable in spirit, and aligned with public imports such as `import heavenbase as hb`.
+- Keep examples short, runnable in spirit, and aligned with the target package's supported public facade, such as `import acme as pkg`.
 
 ## Argument descriptions
 
@@ -102,14 +102,14 @@ def render_report(path: str, *, title: str | None = None) -> Report:
 
 Use the target documentation renderer's markup. When the repo has no local convention, prefer Markdown inside Google-style docstrings because modern auto-documentation stacks such as mkdocstrings and pdoc parse Google-style sections while rendering Markdown-oriented prose.
 
-- Use single backticks for inline identifiers, values, env vars, paths, and short code spans: `ProfileSpec`, `None`, `CM_HVNB`, and `config/default.yml`.
+- Use single backticks for inline identifiers, values, env vars, paths, and short code spans: `ProfileSpec`, `None`, `APP_CONFIG`, and `config/default.yml`.
 - Use fenced code blocks in `Examples`, with a language when useful. This is the default for Markdown-oriented API docs because it preserves syntax highlighting and reads like normal documentation:
 
 ````python
 Examples:
     ```python
-    ws = hb.HeavenBase.load("shop")
-    ws.register(Product)
+    project = pkg.Project.load("shop")
+    project.register(Product)
     ```
 ````
 

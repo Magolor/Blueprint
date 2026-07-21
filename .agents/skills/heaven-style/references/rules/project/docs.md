@@ -46,4 +46,4 @@ Docs, examples, generated artifacts, architecture notes, sibling docs repos, and
 
 ## Related rules
 
-Also apply [test.md](test.md) when examples need verification, [review.md](review.md) for completion reporting, and [../../tasks/doc-sync.md](../../tasks/doc-sync.md) for docs workflow.
+Also apply [test.md](test.md) when examples need verification, [review.md](review.md) for completion reporting, [Python docstrings](../code/python/docstring.md) or [TypeScript API documentation](../code/typescript/docs.md) for the matched API-comment surface, and [../../tasks/doc-sync.md](../../tasks/doc-sync.md) for docs workflow.

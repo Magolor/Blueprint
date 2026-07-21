@@ -6,38 +6,42 @@ blocking: true
 order: 55
 category: code-quality
 keywords: [helper function, temporary helper, wrapper, small function, code cleanliness, abstraction]
-description: Use when adding helper functions, wrappers, temporary transforms, adapters, or deciding inline logic versus shared utilities.
+description: Use when adding Python helper functions, wrappers, temporary transforms, adapters, or deciding inline logic versus shared utilities.
 ---
 
 # Helper cleanliness
 
 ## Core rule
 
-Do not introduce small temporary helper functions that only rename a one-line transform or hide a tiny local block. Every helper must justify its abstraction cost.
+Do not introduce small temporary helpers that only rename a one-line transform or hide a tiny local block. Every helper must justify its abstraction cost through ownership, repeated use, policy, validation, observability, or a meaningful transformation boundary.
 
 ## Apply when
 
 - Code adds private helpers, wrappers, adapter functions, one-line transforms, or local utility modules.
-- A helper could instead be inline or promoted to `heavenbase.utils`.
+- Behavior could remain inline, use a direct standard-library/dependency API, or move to the repository's declared shared owner.
 
 ## Do
 
-- Use `heavenbase.utils` for common behavior.
+- Use the target repository's existing shared utility when it clearly owns the behavior.
+- Otherwise prefer a direct standard-library or established dependency call over a speculative wrapper.
 - Keep specialized one-liners inline where they are used.
-- Use private helpers for specialized large blocks when a name and docstring clarify the boundary.
-- Propose a shared utility when missing behavior is broadly reusable.
+- Use a private helper for a specialized larger block when a name, type contract, and short docstring clarify the boundary.
+- Propose a shared utility only when multiple real consumers need the same stable policy.
 
 ## Avoid
 
-- Helpers that only rename a comprehension or function call.
-- Local utility modules full of generic stdlib wrappers.
-- Docstrings that restate trivial helper bodies.
+- Helpers that only rename a comprehension, constructor, or function call.
+- Local utility modules full of generic wrappers.
+- Adding a platform dependency solely to obtain a convenience helper.
+- Docstrings that merely restate trivial helper bodies.
 
 Use this decision order:
 
-1. Common behavior: use `heavenbase.utils`; if missing, propose adding a reusable utility there.
-2. Specialized one-liner or small local block: keep it inline where the behavior is used.
-3. Specialized large block: a private helper is allowed, with a clear name, type hints, and a docstring explaining the transformation boundary.
+1. Repository-owned shared behavior: use the declared owner.
+2. Direct standard-library/dependency behavior: call it directly.
+3. Specialized one-liner or small local block: keep it inline.
+4. Specialized larger block: use one focused private helper.
+5. Repeated stable policy across consumers: promote it to the shared owner.
 
 ## Example
 
@@ -47,26 +51,23 @@ Use this decision order:
 def _convert_to_lists(rows: list[tuple[str, int]]) -> list[list[object]]:
     return [list(row) for row in rows]
 
-def _flatten_list_of_lists(lol: list[list[object]]) -> list[object]:
-    return [item for sublist in lol for item in sublist]
 
-payload = _convert_to_lists(rows)
-flattened_payload = _flatten_list_of_lists(payload)
+def _flatten(rows: list[list[object]]) -> list[object]:
+    return [item for row in rows for item in row]
 ```
 
 **Recommended pattern:**
 
 ```python
-from heavenbase.utils import lflat
+from itertools import chain
+
 
 payload = [list(row) for row in rows]
-flattened_payload = lflat(payload)
+flattened_payload = list(chain.from_iterable(payload))
 ```
 
-For common conversions, prefer a shared utility, e.g., `heavenbase.utils.lflat`. If a utility is very common but missing, propose adding it to `heavenbase.utils` instead of creating a one-off helper.
-
-Large specialized helpers are acceptable only when the name and docstring preserve context better than inline code.
+When the target repository already owns a shared flattening contract, use that contract instead. Do not add HeavenBase or another platform merely for this operation.
 
 ## Related rules
 
-Also apply [util.md](util.md) for shared helpers, [name.md](name.md) for helper names, and [py.md](py.md) for compact inline expressions.
+Also apply [util.md](util.md) for shared-helper ownership, [name.md](name.md) for helper names, [files.md](files.md) for helper placement, and [py.md](py.md) for compact inline expressions.

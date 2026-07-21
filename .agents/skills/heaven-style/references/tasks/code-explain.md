@@ -7,7 +7,7 @@ order: 35
 keywords: [explain code, explain module, architecture walkthrough, data flow, how does this work, compare changes]
 triggers: [explain, walkthrough, how does, architecture, dataflow, compare code, module question]
 description: Use when explaining HeavenBase architecture, modules, data flow, feature behavior, or code changes.
-related_rules: [overview, docs, model, oop, files, extension, clean]
+related_rules: [overview, docs, model, oop, files, extension, interfaces, clean]
 ---
 
 # Code Explain Task

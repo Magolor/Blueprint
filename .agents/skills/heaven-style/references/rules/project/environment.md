@@ -5,24 +5,28 @@ enabled: true
 blocking: true
 order: 95
 category: project
-keywords: [rtk, uv, AGENTS.md, scripts/_env.bash, bash wrapper, python path, venv, sync-env.bash, sync wrapper, command prefix, coding agent]
-description: Use when running shell commands, choosing Python/uv executables, adding Bash wrappers, or diagnosing wrong-environment failures for coding agents.
+keywords: [rtk, uv, Bun, package manager, lockfile, AGENTS.md, scripts/_env.bash, bash wrapper, python path, venv, sync-env.bash, package script, command prefix, coding agent]
+description: Use when running shell commands, choosing the repository's Python or TypeScript environment, adding wrappers or package scripts, or diagnosing wrong-environment failures for coding agents.
 ---
 
 # Agent environment and commands
 
 ## Core rule
 
-Read repo `AGENTS.md` first. Heaven-lineage repos are `uv`-first: run work through repo Bash wrappers that source `scripts/_env.bash`. When the session provides `rtk`, prefix the **entire** agent shell command with it. For Python in uv-first repos, that normally means repo wrappers or `rtk uv run python`, not `rtk python`; bare PATH Python can resolve to broken system or Conda shims. Do not bypass wrappers with bare `python`, `pytest`, `black`, `flake8`, or ad-hoc `pip install` when the repo declares `scripts/*.bash`.
+Read repo `AGENTS.md`, runtime/package metadata, lockfile, and CI first. Preserve the repository's coherent environment. When the session provides `rtk`, prefix the **entire** agent shell command with it.
 
-Dependency source of truth: **`requirements*.txt`**, with `pyproject.toml` referencing those files. Install priority when setup is unavoidable outside wrappers: **uv → pip (`requirements*.txt`) → pyproject (`pip install -e ".[dev]"`) → conda (`environment-*.yml`) → poetry (`poetry.lock`)**.
+Python Heaven-lineage repos are `uv`-first: run work through repo Bash wrappers that source `scripts/_env.bash`. That normally means repo wrappers or `rtk uv run python`, not `rtk python`; bare PATH Python can resolve to broken system or Conda shims. Do not bypass wrappers with bare `python`, `pytest`, `black`, `flake8`, or ad-hoc `pip install` when the repo declares `scripts/*.bash`.
+
+TypeScript repositories are metadata-first: use the checked-in package manager, one lockfile, pinned local tools, and declared package scripts. For a new repo with no contrary policy, use Bun and the detailed [TypeScript environment rule](../code/typescript/environment.md). Do not convert an existing pnpm/npm/Yarn project or introduce a second lockfile as incidental work.
+
+For the Blueprint/HeavenBase Python scaffold, dependency source of truth is **`requirements*.txt`**, with `pyproject.toml` referencing those files. Its install priority when setup is unavoidable outside wrappers is **uv → pip (`requirements*.txt`) → pyproject (`pip install -e ".[dev]"`) → conda (`environment-*.yml`) → poetry (`poetry.lock`)**. This paragraph does not apply to a TypeScript package.
 
 ## Apply when
 
 - Starting implementation, verification, release, sync, lint, test, benchmark, or docs-generation work.
 - Adding or reviewing repo Bash wrappers or CI command examples.
-- A coding agent chooses shell commands, Python executables, or environment setup steps.
-- Commands fail with missing modules, wrong interpreter, or `uv` not found.
+- A coding agent chooses shell commands, Python/Bun/Node executables, package managers, or environment setup steps.
+- Commands fail with missing modules, wrong interpreter/runtime, lockfile drift, or a missing tool.
 
 ## Do
 
@@ -38,6 +42,9 @@ Dependency source of truth: **`requirements*.txt`**, with `pyproject.toml` refer
 - Source `scripts/_env.bash` in new Bash wrappers and call `resolve_uv`, `run_python`, or `run_uv_python` instead of duplicating interpreter lookup.
 - Honor repo Python preference env vars when hooks or CI need `uv` first: `REPO_PYTHON_PREFERENCE`, `HEAVENBASE_PYTHON_PREFERENCE`, or `BLUEPRINT_PYTHON_PREFERENCE` set to `uv-first`.
 - Report the exact wrapper, `uv` path, and Python resolution used when env failures block progress.
+- For TypeScript, use the scripts declared in `package.json`; in a Bun repo, prefer `rtk bun ci` for frozen installation and `rtk bun run <script>` for standing gates.
+- Pin the TypeScript runtime and tool versions through repository metadata and CI. Use project-local tools; do not rely on global TypeScript, ESLint, Prettier, `ts-node`, or test runners.
+- In a new Bun repo, commit only `bun.lock`, pin the executable Bun release in the repo/CI setup, and keep `packageManager` aligned. Use the repository's declared version manager only when Node compatibility is required.
 
 ## Avoid
 
@@ -46,8 +53,9 @@ Dependency source of truth: **`requirements*.txt`**, with `pyproject.toml` refer
 - Hard-coded `python`/`uv` lookup ladders copied into every Bash script.
 - Assuming `rtk` replaces repo wrappers; `rtk` wraps the outer command, it does not replace `bash scripts/test.bash`.
 - Treating heaven-style skill-maintenance scripts as target-repo commands.
+- Mixed JavaScript lockfiles, `bunx`/`npx` downloads in standing scripts or CI, global-tool assumptions, or a package-manager migration hidden inside feature work.
 
-## Command ladder
+## Python command ladder
 
 ```text
 AGENTS.md
@@ -58,7 +66,17 @@ AGENTS.md
           -> repo .venv or uv-managed env
 ```
 
-## `_env.bash` contract
+For TypeScript:
+
+```text
+AGENTS.md + package.json + committed lockfile + CI runtime pin
+  -> rtk (when session provides it)
+    -> declared package manager
+      -> repository package scripts
+        -> local formatter / linter / typecheck / test / build
+```
+
+## Python `_env.bash` contract
 
 Shared helpers in `scripts/_env.bash`:
 
@@ -71,10 +89,11 @@ New repo wrappers should set `ROOT`, `cd` to it, `source "${ROOT}/scripts/_env.b
 ## Exceptions
 
 - **Skill maintenance:** scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` from a known-good shell; prefer `rtk uv run python` in agent sessions.
-- **CI:** GitHub Actions may call `uv sync` and `bash scripts/...` directly without `rtk`.
+- **Python CI:** GitHub Actions may call `uv sync` and `bash scripts/...` directly without the agent-only `rtk` prefix.
 - **Non-uv legacy repos:** follow that repo's `AGENTS.md`; do not force `uv` where the repo is not `uv`-first.
+- **Existing TypeScript repos:** follow the coherent committed manager/runtime; Bun is the new-repo fallback, not an automatic migration mandate.
 
-## Example
+## Blueprint/Python example
 
 **Anti-pattern:**
 
@@ -100,6 +119,13 @@ rtk bash scripts/benchmark.bash
 rtk bash scripts/release.bash
 ```
 
+A new Bun-based TypeScript repo normally exposes one aggregate package script:
+
+```bash
+rtk bun ci
+rtk bun run check
+```
+
 ## Related rules
 
-Also apply [format.md](format.md) for lint/format wrapper details, [test.md](test.md) for pytest markers and evidence policy, and [../../failures/env.md](../../failures/env.md) when commands still fail after the wrapper ladder is used.
+Also apply [format.md](format.md) for lint/format wrapper details, [test.md](test.md) for verification policy, [../code/typescript/environment.md](../code/typescript/environment.md) for Bun/compiler/package details, and [../../failures/env.md](../../failures/env.md) when commands still fail after the wrapper ladder is used.

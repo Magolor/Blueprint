@@ -16,7 +16,7 @@ Use this surface when the deliverable is **design and documentation**, not code.
 - Organize, deduplicate, or retire stale docs before a major effort.
 - Design a new module or extension boundary before anyone writes implementation code.
 - Review architecture health periodically or before a major release, refactor, provider/backend expansion, or repeated defect pattern.
-- Draft a multi-slice refactor plan with registry seams, migration steps, and verification gates.
+- Draft a multi-slice refactor plan with variation seams, migration steps, and verification gates.
 - Update short-, mid-, or long-term goals to match current code and roadmap reality.
 - Produce an API standard table or cross-module interface contract for review.
 - Write a step-by-step execution plan that an average engineer or agent can follow without rediscovering architecture in chat.
@@ -38,20 +38,20 @@ Every architect artifact must align with the Heaven Style principles in `SKILL.m
 | Principle | Architect check |
 |-----------|-----------------|
 | Minimal mental model | Can an average reader reconstruct the design from one page? |
-| Registries over branches | Does the plan extend through registration APIs, not central `if` chains? |
-| Shared infrastructure first | Are utilities/config routed through `heavenbase.utils` and `CM_HVNB`? |
-| Break and fix, no shims | Does the plan update all call sites in-place without permanent v1/v2 APIs? |
-| Compact, explicit Python | Do proposed APIs favor guard clauses, canonical OOP verbs, `raise_mismatch`? |
+| Lego-style extension parity | Can a bundled implementation move outside the host package without changing consumer syntax, dispatch, validation, or tests? |
+| Open registries, closed unions | Does an open ecosystem extend through registration while a closed protocol stays exhaustive? |
+| Shared infrastructure by ownership | Does the design use the target repository's declared infrastructure, or direct language/dependency APIs when no owner exists, without importing another project's platform by imitation? |
+| Compatibility is deliberate | Are owned call sites updated in-place and published migrations aligned with the repository support policy, with removal conditions for shims? |
+| Compact, explicit code | Do APIs use direct flow, ownership-shaped objects/functions, typed boundaries, and contextual failures in the target language? |
 | Docs are part of the code | Will architecture pages, goals, and examples stay verifiable against source? |
 
-Load rule files when the design touches their surface:
+Select rules by target language; load both groups only for a real interop boundary:
 
-- Public API shape: `model`, `oop`, `name`, `types`, `docstring`
-- Module/package layout: `files`, `clean`
-- SOLID boundary and dependency diagnostics: [solid](../rules/code/python/solid.md)
-- Extension seams: `extension`, `compat`
+- Python public API/implementation: `model`, `oop`, `name`, `types`, `docstring`, `files`, `clean`, [solid](../rules/code/python/solid.md), and `compat` when applicable.
+- TypeScript architecture/implementation: `ts-architecture`, `ts-types`, `ts-modules`, `ts-async`, `ts-docs`, and `ts-environment`.
+- Extension seams in either language: `extension`, plus the matched language architecture rule.
 - Docs and goals: `docs`
-- Storage/query behavior: `sql`, `error`
+- Python storage/query behavior: `sql`, `error`
 
 For HeavenBase-lineage repos, read `docs/resources/architecture/mental-model.md` (or the project equivalent) before proposing cross-module interfaces.
 
@@ -69,10 +69,10 @@ Architecture is a continuous design activity, not a one-time document phase. Use
 | Collaboration | Are user, issue, roadmap, or maintainer concerns named instead of hidden behind generic architecture claims? |
 | Useful documentation | Do diagrams and tables clarify decisions without becoming a substitute for code truth? |
 
-Use [SOLID](../rules/code/python/solid.md), package principles, and patterns as diagnostic tools, not slogans:
+Use [Python SOLID](../rules/code/python/solid.md), [TypeScript architecture](../rules/code/typescript/architecture.md), package principles, and patterns as diagnostic tools, not slogans:
 
 - **SRP** (Single Responsibility) and Common Closure: group responsibilities by reason to change.
-- **OCP** (Open/Closed) and Heaven-style registries: extend behavior through registration APIs instead of reopening stable planners.
+- **OCP** (Open/Closed): use registration for genuinely open provider/plugin families and exhaustive variants for compiler-known closed sets instead of reopening stable policy for every implementation.
 - **LSP** (Liskov Substitution) and **ISP** (Interface Segregation): keep public contracts substitutable and optional capability surfaces separate from required common behavior.
 - **DIP** (Dependency Inversion), Stable Dependencies, and Stable Abstractions: high-level policy depends on abstractions; low-level details depend inward.
 - ADP, REP, and Common Reuse: avoid dependency cycles, release reused units coherently, and avoid forcing consumers to depend on unrelated classes.
@@ -95,7 +95,7 @@ Also check package and dependency direction:
 
 - Core business rules and high-level policies must not depend on databases, provider SDKs, UI/CLI adapters, generated artifacts, or external APIs.
 - Volatile details depend on stable abstractions; stable modules expose abstractions when many callers depend on them.
-- Dependency cycles are architecture findings. Break them in a slice plan or document an explicit waiver.
+- Cross-layer/package cycles and initialization-order-dependent runtime cycles are architecture findings. A proven intrinsic local cycle needs explicit ownership and a fitness test; otherwise break it in a slice.
 - Modules that change together belong together; modules reused together need coherent docs, tests, and release boundaries.
 
 ## Discovery workflow
@@ -105,8 +105,8 @@ Gather evidence before writing. Prefer live connectors; fall back to local git a
 ### 1. Repo and environment
 
 1. Read `AGENTS.md`, `docs/README.md`, and the docs authority map.
-2. Note package version, default branch, release policy, and command wrappers from `pyproject.toml` and `AGENTS.md`.
-3. Skim `src/<package>/` top-level layout and `__init__.py` public exports — map layers, not every file.
+2. Note package version, default branch, release/compatibility policy, runtime pins, lockfile, and command entrypoints from `AGENTS.md` plus the repository manifest (`pyproject.toml`, `package.json`, or equivalent).
+3. Skim top-level source/package layout and public entry points—Python facades/`__init__.py` or TypeScript `exports`/entry modules/`tsconfig`—mapping layers rather than every file.
 
 ### 2. Docs inventory
 
@@ -117,7 +117,7 @@ Gather evidence before writing. Prefer live connectors; fall back to local git a
 ### 3. Codebase signals (breadth-first)
 
 1. Read mental-model and extension-layout docs when present.
-2. Scan registry/extension entry points: `register_*`, `extensions/`, `backends/`, `handlers/`, public facade modules.
+2. Scan variation entry points: registries/plugins/providers for open families; discriminated variants/handlers for closed protocols; public facade or package entry modules.
 3. Sample tests and examples that encode intended behavior; treat them as contracts.
 4. Note compatibility re-exports, TODO markers, and duplicated planners — these often drive refactor plans.
 
@@ -146,7 +146,7 @@ Use a periodic review when the project has a cadence, reaches a release boundary
 
 1. **Scope** - name the package, module family, feature slice, release train, or whole-repo boundary under review.
 2. **Comparison point** - cite the last review, last release, baseline branch, roadmap item, or current state if no previous review exists.
-3. **Evidence** - inspect architecture docs, current goals, latest progress, public exports, dependency entry points, registry seams, tests, examples, open issues, and recent PRs/commits when available.
+3. **Evidence** - inspect architecture docs, current goals, latest progress, public exports, dependency entry points, open-registry or closed-variant seams, tests, examples, open issues, and recent PRs/commits when available.
 4. **Change pressure** - list what actually changed: user requests, new backends/providers, schema/storage behavior, defects, onboarding pain, or repeated code-review findings.
 5. **Smell matrix** - score rigidity, fragility, immobility, viscosity, needless complexity, needless repetition, and opacity with concrete file/doc/test evidence.
 6. **Dependency matrix** - identify inward dependencies, cycles, unstable dependencies, detail leakage into policy, and extension seams that require central edits.
@@ -177,11 +177,11 @@ For a new module or extension, produce a design doc with this structure:
 1. **Problem and success criteria** — user-visible outcome and measurable done state.
 2. **Non-goals** — explicit exclusions to prevent scope creep.
 3. **Layer placement** — which architectural layer owns the module; what it may import; what must not import it.
-4. **Public surface** — classes, functions, CLI commands, registry hooks; prefer `heavenbase as hb` in examples.
+4. **Public surface** — classes, functions, CLI commands, and variation hooks. Examples use the target package's supported public facade and extension-author entry points.
 5. **API standard table** — see template below.
-6. **Data and control flow** — read/write paths, registry interactions, config keys via `CM_HVNB`.
-7. **Extension seam** — which `register_*` API owns new behavior; no central routing edits.
-8. **Migration / break-and-fix** — rename map, call-site sweep strategy, forbidden shims.
+6. **Data and control flow** — read/write paths, variation dispatch, and the target repository's matched configuration owner; direct settings/spec objects are valid when no shared manager exists.
+7. **Variation seam** — Registry API for an open family or discriminated/exhaustive contract for a closed set; no concrete-name routing in high-level policy. For independently extensible families, document descriptor persistence, source-independent loading, provenance, conflict policy, and the built-in extraction fitness test.
+8. **Migration / compatibility** — rename map, owned call-site sweep, external consumers, repository support policy, and removal conditions for temporary shims.
 9. **Tests and examples** — behavior contracts agents must implement.
 10. **Docs touch list** — mental-model, reference pages, goals, progress note, Mintlify pages.
 11. **Slices** — ordered implementation slices with acceptance criteria and verification commands.
@@ -191,11 +191,11 @@ Add an **Agile feedback gates** section before handoff: tests, demos, review che
 
 ### API standard table template
 
-Use one row per public symbol. Keep names aligned with [../rules/code/python/oop.md](../rules/code/python/oop.md) and [../rules/code/python/name.md](../rules/code/python/name.md).
+Use one row per public symbol. Select [Python OOP/naming](../rules/code/python/oop.md) or [TypeScript architecture/types](../rules/code/typescript/architecture.md) according to the target language.
 
-| Symbol | Kind | Layer | Inputs | Returns | Raises | Registry seam | Doc page | Test anchor |
-|--------|------|-------|--------|---------|--------|---------------|----------|-------------|
-| `register_foo` | function | extensions | `name: str`, `builder: Callable` | `None` | `ValueError` on duplicate | `ext.register_foo` | `reference/foo.md` | `tests/test_foo.py::test_register` |
+| Symbol | Kind | Layer | Inputs | Returns | Failures | Variation seam | Doc page | Test anchor |
+|--------|------|-------|--------|---------|----------|----------------|----------|-------------|
+| `registerFoo` | function | composition | validated ID, builder | disposer | duplicate registration | open registry owned by app scope | `reference/foo.md` | registration contract suite |
 
 Add columns only when they reduce ambiguity for implementers. Do not duplicate full signatures if a single module file will be the source of truth — the table is the contract checklist.
 
@@ -223,15 +223,15 @@ For cross-module refactors, produce a plan doc with:
 - [ ] Observable outcome.
 
 **Verification:**
-- `rtk bash scripts/test.bash <target>`
-- `rtk bash scripts/flake.bash --ci --paths <paths>`
+- `rtk <target-repo focused test command>`
+- `rtk <target-repo static/format/type gate>`
 
 **Docs:** files to update in the same slice or explicitly deferred.
 
 **Non-goals:** what this slice must not do.
 ```
 
-5. **Break-and-fix sweep** — ordered delete/rename steps; no parallel old/new APIs unless waived.
+5. **Migration sweep** — ordered delete/rename steps for owned callers; policy-required external compatibility has a named consumer, test, owner, and removal condition.
 6. **Rollback posture** — git revert boundaries per slice, not big-bang undeployable plans.
 
 Hand implementation slices to [../tasks/code.md](../tasks/code.md) and rule-heavy execution to [developer.md](developer.md).
@@ -257,7 +257,7 @@ Align `docs/goals/` (or project equivalent) with evidence from discovery.
 
 ### Standing non-goals
 
-- Keep a short permanent list (no second planner, no central routing branches, no permanent shims) when the repo follows HeavenBase lineage.
+- Keep a short permanent list (no second planner, no concrete-name routing for open families, no unowned permanent shims) when the repo follows HeavenBase lineage.
 
 Deliverable: a **goals diff** — proposed edits to `roadmap.md`, `current.md`, or `docs/goals/README.md` with rationale per bullet.
 
@@ -266,7 +266,7 @@ Deliverable: a **goals diff** — proposed edits to `roadmap.md`, `current.md`, 
 The final architect artifact for major work is an **execution plan** readable by average engineers and average-intelligence LLM agents. Requirements:
 
 1. **Numbered steps** — each step is one clear action; no compound steps hiding multiple file edits.
-2. ** Preconditions** — branch, issue link, env sync (`rtk bash scripts/sync-env.bash`), docs read list.
+2. ** Preconditions** — branch, issue link, target-repo environment install/sync command from `AGENTS.md`, and docs read list.
 3. **File paths** — absolute or repo-root-relative paths for every edit target.
 4. **Code shape hints** — registry call, class skeleton, or config key — not full implementations unless the step is trivial.
 5. **Verification after every slice** — exact `rtk` + wrapper commands from `AGENTS.md`.
@@ -324,7 +324,9 @@ Also include an agile review summary: change pressure, smell/dependency findings
 
 - Implementation: [../tasks/code.md](../tasks/code.md)
 - Architecture design/review task: [../tasks/arch-design.md](../tasks/arch-design.md)
-- SOLID boundary rule: [../rules/code/python/solid.md](../rules/code/python/solid.md)
+- Python SOLID boundary rule: [../rules/code/python/solid.md](../rules/code/python/solid.md)
+- TypeScript architecture and SOLID translation: [../rules/code/typescript/architecture.md](../rules/code/typescript/architecture.md)
+- TypeScript environment and verification: [../rules/code/typescript/environment.md](../rules/code/typescript/environment.md)
 - Full-rule coding/refactor route: [developer.md](developer.md)
 - Explanation for newcomers: [../tasks/code-explain.md](../tasks/code-explain.md)
 - Docs sync after shipping: [../tasks/doc-sync.md](../tasks/doc-sync.md)

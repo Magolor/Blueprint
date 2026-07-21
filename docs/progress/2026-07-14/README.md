@@ -1,0 +1,28 @@
+# 2026-07-14 Progress
+
+## Heaven-style TypeScript rules
+
+- Type: survey / docs / architecture
+- Links: `docs/plans/2026-07-14-typescript-rules.md`; `docs/reports/surveys/2026-07-14-typescript-rules-survey.md`; `.agents/skills/heaven-style/`
+- Summary: Reviewed the existing heaven-style architecture and current primary TypeScript/Bun/Node/typescript-eslint/Biome documentation. Added a six-rule TypeScript surface (`ts-architecture`, `ts-types`, `ts-modules`, `ts-async`, `ts-docs`, `ts-environment`), made shared project/task/workflow routing language-aware, bumped the skill from `0.1.1.6` to `0.1.1.8`, regenerated `references/index.yaml`, and refreshed the canonical global install.
+- Decisions: Target-repository metadata and compatibility policy win; shared language-neutral architecture follows; `ts-*` owns TypeScript mechanics and excludes Python-only utilities/docstrings/stubs/pytest rules. Open provider/plugin families use scoped registries, while closed AST/protocol/state sets use exhaustive discriminated variants. New unspecified TypeScript repos are Bun-first with one lockfile, pinned local tools/runtime, deterministic CI, strict TypeScript, Biome by default, and typed ESLint only for demonstrated semantic rules. Existing coherent package-manager/runtime contracts are preserved. Generic cross-language candidates remain review-only; none was promoted into Python code rules.
+- Verification: `rtk uv run python .agents/skills/heaven-style/scripts/install.py`; `index.py --check`; `scan.py` (5 files, no banned imports); `python -m py_compile` for four maintenance scripts; relative Markdown target check; `rtk bash scripts/flake.bash --ci`; targeted skill-script flake; `rtk bash scripts/test.bash` (expected no-tests success); `rtk bash scripts/sync-env.bash --check`; `rtk bash scripts/sync-readme.bash --check`; `rtk git diff --check`. All passed after quoting TSDoc tags in YAML frontmatter.
+- Next: Review the cross-language candidate table in the survey. Decide which `TS included` draft rules to keep and whether any candidate should later be promoted into shared/Python rules; do not change Python-wide policy until that review is explicit.
+
+## Source-neutral skill policy
+
+- Type: docs / architecture
+- Links: `.agents/skills/heaven-style/references/tasks/skill-update.md`; `.agents/skills/heaven-style/references/workflows/editor.md`; `docs/reports/surveys/2026-07-14-typescript-rules-survey.md`
+- Summary: Removed private/reference-repository attribution, absolute local checkout paths, machine-specific setup provenance, observed local versions, package/framework internals, and implementation-debt notes from the TypeScript artifacts.
+- Decisions: Distributed skill text and Blueprint docs retain only self-contained patterns/anti-patterns, repo-owned contracts, and primary public specifications. Explicit HeavenBase API, configuration, version, docs-sync, and packaged `assets/heavenbase-reference/` workflows remain because those are owned integration surfaces rather than external-checkout provenance.
+- Verification: Final `0.1.1.8` skill install and canonical/installed index checks passed. Zero-match scans passed for source names, private checkout paths, machine-specific setup provenance, source-specific package/framework terms, and stale machine-owner commands. Relative links, scanner, `py_compile`, full and skill-targeted flake, expected no-tests wrapper, environment/README drift checks, canonical/installed skill comparison, diff check, and whitespace check all passed.
+- Next: Keep this source-neutrality gate in future skill maintenance and review cross-language rules without recording private/local source provenance.
+
+## Service interface architecture rule
+
+- Type: docs / architecture / skill maintenance
+- Links: `.agents/skills/heaven-style/references/rules/project/interfaces.md`; `docs/plans/2026-07-14-service-interface-rule.md`; [HeavenBase dashboard branch](https://github.com/Magolor/HeavenBase/tree/feat/dashboard)
+- Summary: Added a blocking `interfaces` rule for packages provided as services and bumped heaven-style from `0.1.1.8` to `0.1.1.9`. The rule separates the public Python SDK, `api/` orchestration and REST/OpenAPI contract, and thin CLI/GUI/MCP/TUI adapters; routes ordinary coding, review, architecture, explanation, and skill-maintenance work to the new rule; and distinguishes a real service `api/` package from the exposure-only `api.py` files banned by Python file-organization guidance.
+- Decisions: Core features remain importable through a small, preferably OOP Python SDK. Interfaces depend inward through `interfaces -> api -> core`, while local callers may use the transport-neutral API service in-process and remote callers use the HTTP/OpenAPI client. Python CLIs declare commands once in a modular registry, compile to Typer, Click, and argparse, default to Typer, and share Rich presentation. Minimal Python GUIs use the HeavenBase dashboard pattern (Starlette-compatible ASGI/Uvicorn, JSON API, packaged zero-build ES modules); serious releasable desktop apps use React/TypeScript plus Tauri v2/Rust.
+- Verification: Canonical index regeneration and global skill install; `index.py --check`; scanner (5 files, no banned imports); `py_compile` for four maintenance scripts; 52-file relative Markdown target check; canonical/global `cmp` for `SKILL.md` and the new rule; targeted and full flake; expected no-tests wrapper; environment/README drift checks; diff and whitespace checks. All passed.
+- Next: Apply the rule to the next real service-package design or refactor and add stricter fitness checks only when implementation evidence reveals a repeated failure mode.

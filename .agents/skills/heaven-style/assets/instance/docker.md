@@ -1,8 +1,7 @@
 # Local Docker Usage
 
-This machine uses `~/Developer/Setup/assets/docker/control.bash` through the shell
-helper `ds` for the default local Docker stacks. The prepared Compose projects live
-under `~/Developer/Containers/compose/`.
+This machine exposes the shell helper `ds` for the default local Docker stacks.
+The prepared Compose projects live under a machine-owned Compose root.
 
 Use `ds` for normal stack lifecycle work because it prepares the stack assets,
 creates expected local folders, applies database profiles, removes orphan
@@ -12,15 +11,9 @@ where needed.
 Use raw `docker` or `docker compose` for inspection, low-level debugging, and quick
 restarts of containers that already exist.
 
-Use the setup stage to reproduce images from an empty local cache. The default
-stage pulls default-stack images; the full-profile switch pulls every
-Docker-hosted database profile, including heavy and amd64-only services.
-
-```bash
-cd ~/Developer/Setup
-bash scripts/7-00-docker.bash
-SETUP_DOCKER_DATABASE_FULL_PROFILES=1 bash scripts/7-00-docker.bash
-```
+Use the machine-owned Docker bootstrap command to reproduce images and prepared
+Compose assets from an empty local cache. Keep that owner outside this guide;
+do not copy its private path or implementation here.
 
 ## Default Stacks
 
@@ -62,7 +55,7 @@ docker restart databases-postgres databases-mysql databases-redis databases-mong
 Use raw Compose commands when debugging from the prepared stack directory.
 
 ```bash
-cd ~/Developer/Containers/compose/databases
+cd <compose-root>/databases
 docker compose ps
 docker compose logs --tail=100
 docker compose restart
@@ -70,14 +63,14 @@ docker compose up -d --remove-orphans
 ```
 
 ```bash
-cd ~/Developer/Containers/compose/hermes
+cd <compose-root>/hermes
 docker compose ps
 docker compose logs --tail=100 hermes
 docker compose restart hermes
 ```
 
 ```bash
-cd ~/Developer/Containers/compose/llm
+cd <compose-root>/llm
 docker compose ps
 docker compose logs --tail=100
 docker compose restart
@@ -128,12 +121,10 @@ ds databases --restart --include-heavy
 ds databases --restart --include-amd64
 ```
 
-After removing Setup-managed containers or images, the reproducible full-profile
-database path is:
+After removing managed containers or images, rerun the machine-owned Docker
+bootstrap, then start the required profiles:
 
 ```bash
-cd ~/Developer/Setup
-SETUP_DOCKER_DATABASE_FULL_PROFILES=1 bash scripts/7-00-docker.bash
 ds databases --restart --all-profiles --include-heavy --include-amd64
 ```
 
@@ -190,7 +181,7 @@ image refresh. For PostgreSQL major versions, dump, recreate, and restore instea
 of blindly changing the image tag on an existing volume.
 
 ```bash
-cd ~/Developer/Containers/compose/databases
+cd <compose-root>/databases
 docker compose ps
 docker compose logs --tail=100
 docker compose pull <service-name>

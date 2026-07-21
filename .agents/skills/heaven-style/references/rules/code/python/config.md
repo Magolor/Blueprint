@@ -5,153 +5,114 @@ enabled: true
 blocking: true
 order: 20
 category: code-quality
-keywords: [hard-coded, magic number, literals, CM_HVNB, resources, default, model, timeout, batch size]
-description: Use when code introduces defaults, tunables, prompt or resource paths, model/backend settings, or disputed literals.
+keywords: [hard-coded, magic number, literals, configuration owner, resources, default, model, timeout, batch size, CM_HVNB]
+description: Use when Python code introduces defaults, tunables, prompt or resource paths, model/backend settings, or disputed literals.
 ---
 
 # Config and resources
 
 ## Core rule
 
-Tunable values live in `CM_HVNB` and package resources by default. Important user knobs stay visible in public signatures with `None` defaults, then resolve from config in the body.
+Configuration belongs to the component or repository that owns the behavior. Stable library facts may remain constants or typed defaults in code; deployment-, project-, environment-, or user-tunable values belong in the repository's declared configuration system or package resources.
 
-## Constants versus hyperparameters
+Important caller choices stay visible in public signatures. Resolve omitted values once at the owning boundary into a validated runtime spec; downstream execution should not repeatedly reinterpret raw optionals or read ambient config.
 
-Constants are stable developer facts and may live in code: supported mode names, protocol field names, sentinel strings, fixed enum values, or mathematical identities.
+Do not add `CM_HVNB`, HeavenBase, or another configuration framework to an unrelated package solely to follow this skill. When a HeavenBase-lineage repository explicitly declares `CM_HVNB` as the owner, use it for HeavenBase-owned defaults and scopes.
 
-Hyperparameters are values a project, deployment, benchmark, user, or caller may tune: model names, provider names, gateway routes, embedding dimensions, batch sizes, timeouts, retry counts, paths, thresholds, cache sizes, ports, and prompt text. These must come from config or resources.
+## Constants versus tunables
 
-Do not mention this distinction in short menus; use it when reviewing a disputed literal.
+Constants are stable developer facts: protocol field names, format markers, mathematical identities, fixed sentinels, or deliberately closed enum values.
 
-## Config ownership
-
-Use the config manager that owns the behavior. HeavenBase is shared infrastructure, so basic utilities, logging, serialization, LLM, DB, and workspace behavior should normally route through `CM_HVNB`. App overrides should scope the owning config, for example `with CM_HVNB.scoped("my_app")`. Use a separate app config manager only for a truly separate app-specific config tree.
+Tunables are choices a deployment, project, benchmark, user, or caller may change: provider/model names, routes, dimensions, batch sizes, timeouts, retries, paths, thresholds, ports, cache sizes, and prompt/template text. Store them in the owning config or resource surface and validate them before execution.
 
 ## Apply when
 
-- Code adds model names, providers, gateway routes, embedding dimensions, batch sizes, timeouts, retry counts, thresholds, cache sizes, ports, paths, prompt text, SQL, or template defaults.
-- Code needs package resources or package home/user-state paths.
-- A literal may be either a stable protocol constant or a deployment/user-tunable value.
+- Code adds defaults, paths, prompts, templates, provider/backend/model choices, timeouts, retries, thresholds, ports, SQL, or cache sizes.
+- A literal may be either a stable invariant or a deployable choice.
+- Several layers read the same raw environment/config value or repeat fallback logic.
+- Code needs package resources or writable application-state paths.
 
 ## Do
 
-- Keep tunable defaults in `CM_HVNB` or package resources.
-- Keep important public knobs in signatures as `None`, then resolve from config.
-- Coerce config values to the needed runtime type after reading them.
-- Use sentinel values when callers may intentionally pass `None`.
-- Use comma-separated path parts with `CM_HVNB.pj`.
+- Identify the repository's config owner from `AGENTS.md`, manifests, nearby source, and tests.
+- Model related settings as an immutable typed config/spec when that reduces repeated interpretation.
+- Keep important public overrides explicit; use `None` or a dedicated sentinel only when omission has distinct meaning.
+- Validate and coerce config values once, then pass resolved values to lower layers.
+- Load packaged read-only assets through `importlib.resources` or the repository's declared resource API.
+- Keep writable user/application state outside installed package resources and resolve it through the owning environment/config policy.
+- Keep secrets out of committed defaults and rendered diagnostics.
 
 ## Avoid
 
-- Hard-coded deployable defaults in public signatures.
-- Hidden important parameters that users cannot override.
-- Slash-packed path strings in `pj`.
-- App-specific config managers for HeavenBase-owned shared infrastructure.
+- Hard-coded deployable choices scattered through execution code.
+- Reading environment variables or global config in many downstream functions.
+- Making every implementation detail configurable without real change pressure.
+- Hiding important caller choices behind ambient global state.
+- Treating package-relative filesystem paths as stable when distributions may use another loader.
+- Adding a second configuration manager for behavior already owned by the repository's existing one.
 
 ## Example
 
 **Anti-pattern:**
 
 ```python
-def embed(text: str, model: str = "deepseek-v4-flash", batch_size: int = 32) -> list[float]:
-    ...
-```
-
-**Recommended pattern:**
-
-```python
-from heavenbase.utils import CM_HVNB
-
-def embed(
-    text: str,
-    model: str | None = None,
-    batch_size: int | None = None,
-    temperature: float | None = None,
-) -> list[float]:
-    model = str(model or CM_HVNB.get("heavenbase.llm.embedding.model", default="deepseek-v4-flash"))
-    batch_size = int(batch_size if batch_size is not None else CM_HVNB.get("heavenbase.llm.embedding.batch_size", default=32))
-    temperature = float(temperature if temperature is not None else CM_HVNB.get("heavenbase.llm.embedding.temperature", default=1.0))
-    ...
-```
-
-Example config keys such as `heavenbase.llm.embedding.*` are **illustrative**. They show access patterns, not guaranteed shipped defaults. Verify keys against the target repo's config tree, bootstrap files, and tests before documenting or relying on them.
-
-Temporarily keep `Union[...]` instead of `|` only when Python 3.9 compatibility is required by the target repo; see [types](types.md).
-
-## Access patterns
-
-- Use `CM_HVNB.get("dotted.key", default=...)` when a fallback is intended.
-- Use positional fallback for native `dict.get`: `data.get("active", False)`. Native `dict.get` does not accept `default=`.
-- Coerce types after reading config: `int(...)`, `str(...)`, `bool(...)`.
-- Join paths with comma parts: `CM_HVNB.pj("cache", f"{name}.json", abs=True)`.
-- Use `&` for package resources and `%` for package home/user state when the project defines those aliases.
-- Store prompts, templates, SQL, and default YAML under package resources.
-- For LLM, embedding, database, backend, or gateway defaults, keep provider/model/route/dimension choices in config resources and test the concrete route before documenting support.
-
-## Path and resource example
-
-**Anti-pattern:**
-
-```python
-path = CM_HVNB.pj("cache/items.json")
-prompt = open("src/heavenbase/resources/prompts/embed.txt").read()
-```
-
-**Recommended pattern:**
-
-```python
-from heavenbase.utils import CM_HVNB, load_txt
-
-path = CM_HVNB.pj("cache", "items.json", abs=True)
-prompt = load_txt(CM_HVNB.pj("&", "prompts", "embed.txt"))
-```
-
-`&` means package resources. `%` means package home or user state root when the project defines it.
-
-## Provider default example
-
-**Anti-pattern:**
-
-```python
-import heavenbase as hb
-
 def embed(text: str) -> list[float]:
-    return hb.LLM(preset="openai_embed").embed(text)
+    model = os.environ.get("EMBED_MODEL", "embedding-model")
+    batch_size = int(os.environ.get("EMBED_BATCH_SIZE", "32"))
+    return _embed(text, model=model, batch_size=batch_size)
 ```
+
+Every call reinterprets ambient strings and hides the knobs.
 
 **Recommended pattern:**
 
 ```python
-import heavenbase as hb
-from heavenbase.utils import CM_HVNB
+from dataclasses import dataclass
 
-def embed(text: str, preset: str | None = None) -> list[float]:
-    preset = preset or str(CM_HVNB.get("heavenbase.llm.embedding.preset", default="openai_embed"))
-    return hb.LLM(preset=preset).embed(text)
+
+@dataclass(frozen=True)
+class EmbedConfig:
+    model: str
+    batch_size: int
+
+
+def embed(text: str, *, config: EmbedConfig) -> list[float]:
+    if config.batch_size <= 0:
+        raise ValueError("batch_size must be greater than 0")
+    return _embed(text, model=config.model, batch_size=config.batch_size)
 ```
+
+The application boundary owns environment/file/default resolution into `EmbedConfig`; the library function consumes one validated contract.
+
+## Package resource example
+
+```python
+from importlib.resources import files
+
+
+prompt = files("acme.resources").joinpath("prompts/embed.txt").read_text(encoding="utf-8")
+```
+
+Use the repository's resource helper instead when it explicitly owns this policy.
 
 ## Sentinel example
 
-**Anti-pattern:**
-
 ```python
-def fetch(url: str, tag: str | None = None) -> bytes:
-    tag = tag or "default"
+_UNSET = object()
+
+
+def fetch(url: str, tag: str | None | object = _UNSET) -> bytes:
+    if tag is _UNSET:
+        tag = DEFAULT_FETCH_CONFIG.tag
     ...
 ```
 
-**Recommended pattern:**
+Use a sentinel only when callers must be able to pass `None` intentionally.
 
-```python
-from typing import Union
-from heavenbase.utils import CM_HVNB
+## HeavenBase profile
 
-def fetch(url: str, tag: Union[str, None, Ellipsis] = ...) -> bytes:
-    if tag is ...:
-        tag = CM_HVNB.get("heavenbase.http.default_tag", default=None)
-    ...
-```
+In a repository that explicitly adopts HeavenBase infrastructure, `CM_HVNB` may own shared defaults and scoped overrides, and its resource/path helpers may replace the generic examples above. Verify keys and aliases against that target repository's config tree and tests; illustrative keys are not shipped contracts.
 
 ## Related rules
 
-Also apply [util.md](util.md) for path/file helpers, [types.md](types.md) for `Union` compatibility, [name.md](name.md) for config key naming, and [format.md](../../project/format.md) for wrapper commands.
+Also apply [util.md](util.md) for path/resource helpers, [types.md](types.md) for typed config contracts, [name.md](name.md) for config key naming, and [format.md](../../project/format.md) for repository commands.

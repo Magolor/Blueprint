@@ -59,9 +59,9 @@ Use `save(path)` only for writing a file/artifact owned by the object, such as `
 | Display | `to_str`, `__str__` delegates to `to_str` |
 | UI/API projection | `to_view` |
 
-Use `from_dict` for object/row instances built from data. Use `from_schema` when the input describes a class/type/schema rather than one row, for example `hb.Entity.from_schema({...})`.
+Use `from_dict` for object/row instances built from data. Use `from_schema` when the input describes a class/type/schema rather than one row, for example `pkg.Entity.from_schema({...})`.
 
-Use `load` as the class-level retrieval verb for public objects that can be reopened from a registry, cache, store, or configured default, for example `hb.HeavenBase.load("shop")`, `Prompt.load("name")`, or `BackendType.load("sqlite")`. If a class supports both registry lookup and file loading, make file loading explicit with `path=`/`file=` or `from_path`/`from_file`; never infer registry-vs-file meaning from a bare string.
+Use `load` as the class-level retrieval verb for public objects that can be reopened from a registry, cache, store, or configured default, for example `Project.load("shop")`, `Prompt.load("name")`, or `BackendType.load("sqlite")`. If a class supports both registry lookup and file loading, make file loading explicit with `path=`/`file=` or `from_path`/`from_file`; never infer registry-vs-file meaning from a bare string.
 
 ## Collections
 
@@ -85,13 +85,13 @@ Use `register` when the operation makes an object discoverable in a database, wo
 ws.register(Entity)
 capsule.register()
 toolkit.register()
-HeavenBase.load("shop")
+Project.load("shop")
 # pseudocode — use the repo's handler registration API
 register_handler(...)
 register_backend(...)
 ```
 
-Do not use `save` for registry writes. Registry-oriented classes should expose OOP class/instance methods such as `HeavenBase.load`, `HeavenBase.register`, `Capsule.register`, `Toolkit.register`, and `Capsule.verify`, not free-function front doors like `get_workspace`, `register_workspace`, or `verify_manifest`.
+Do not use `save` for registry writes. Registry-oriented classes should expose OOP class/instance methods such as `Project.load`, `Project.register`, `Artifact.register`, `Toolkit.register`, and `Artifact.verify`, not free-function front doors like `get_project`, `register_project`, or `verify_manifest`.
 
 ## CRUD and search
 

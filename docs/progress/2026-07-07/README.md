@@ -4,7 +4,7 @@
 
 - Type: docs
 - Links: `.agents/skills/heaven-style/references/design/gui-style.md`, `.agents/skills/heaven-style/SKILL.md`
-- Summary: Initialized the Heaven-style `references/design/` surface with a framework-neutral GUI style guide for future frontend, desktop, dashboard, and app-shell work. The guide generalizes the ParaDev UI style direction, preserves the three-mode theme token contract, and records local/reference evidence from Attu, Ollama, oMLX, and Codex-style workbench UI.
+- Summary: Initialized the Heaven-style `references/design/` surface with a framework-neutral GUI style guide for future frontend, desktop, dashboard, and app-shell work. The guide preserves the three-mode theme token contract and links only public visual references.
 - Decisions: Keep detailed GUI rules out of `SKILL.md`; route future GUI work to `references/design/gui-style.md`. Treat "Materialism" as a local Heaven-style term for calm physical surfaces, not as Google Material Design.
 - Verification: `rtk uv run python .agents/skills/heaven-style/scripts/install.py`; `rtk uv run python .agents/skills/heaven-style/scripts/index.py`; `rtk uv run python .agents/skills/heaven-style/scripts/index.py --check`; `rtk uv run python .agents/skills/heaven-style/scripts/scan.py .agents/skills/heaven-style/scripts`; `rtk uv run python -m py_compile .agents/skills/heaven-style/scripts/index.py .agents/skills/heaven-style/scripts/install.py .agents/skills/heaven-style/scripts/sync.py .agents/skills/heaven-style/scripts/scan.py`; `rtk bash scripts/flake.bash --ci --paths .agents/skills/heaven-style/scripts`; `rtk bash scripts/test.bash` (expected no tests found); `rtk git diff --check`.
 - Next: Review and commit the Heaven-style `0.1.1.6` GUI design reference update.

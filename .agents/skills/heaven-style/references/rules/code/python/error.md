@@ -15,7 +15,7 @@ description: Use when validating supported values, handling exceptions, logging 
 
 Raise with context. Catch only at defined boundaries such as CLI, HTTP handlers, workers, and integration adapters. Use project logging helpers; gate verbose output on debug config.
 
-For unsupported choices, prefer `raise_mismatch` when the utility exists. HeavenBase's version supports stable suggestions, configurable modes (`ignore`, `match`, `warn`, `exit`, `raise`), case sensitivity, normalizers, and contextual comments.
+For unsupported choices, use the target repository's validated lookup/error helper when it exists; otherwise raise a focused standard or project exception with the invalid value and supported choices. `raise_mismatch` is a conditional HeavenBase-lineage helper, not a generic Python requirement.
 
 ## Apply when
 
@@ -26,7 +26,7 @@ For unsupported choices, prefer `raise_mismatch` when the utility exists. Heaven
 ## Do
 
 - Raise contextual exceptions at the point where invalid state is known.
-- Use `raise_mismatch` for supported-value checks when available.
+- Use the repository's supported-value helper when it exists; otherwise validate directly and raise a focused exception.
 - Catch exceptions only at boundary layers and preserve cause/context.
 - Use logging helpers instead of `print`.
 
@@ -56,17 +56,20 @@ def parse_job(payload: bytes, mode: str) -> dict[str, object]:
 **Recommended pattern:**
 
 ```python
-from heavenbase.utils import loads_json, raise_mismatch
+import json
+
 
 def parse_job(payload: bytes, mode: str) -> dict[str, object]:
-    mode = raise_mismatch(MODES, mode, name="job mode")
-    data = loads_json(payload)
+    if mode not in MODES:
+        choices = ", ".join(sorted(MODES))
+        raise ValueError(f"unknown job mode {mode!r}; expected one of: {choices}")
+    data = json.loads(payload)
     if not isinstance(data, dict):
         raise TypeError(f"job payload must decode to dict, got {type(data).__name__}")
     return data
 ```
 
-Prioritize logical error handling over exception handling whenever possible, use or implement heavenabse error utils rather than system error handling. Don't overthink and don't guard over the very common non-logic errors. If docstring or definitions makes assumption about the input, don't guard over the assumption unless its only about literal.
+Validate untrusted boundaries and domain invariants where the code has enough knowledge to produce a useful failure. Do not surround ordinary internal operations with speculative guards; typed/internal preconditions may remain documented contracts when all callers are owned and verified.
 
 ## Related rules
 

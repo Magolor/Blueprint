@@ -23,27 +23,35 @@ For **design-only** work — doc organization, module designs, architecture revi
 4. Read the target repo `AGENTS.md`, command wrappers, config defaults, public docs, architecture notes, and nearby implementation patterns.
 5. Map each planned change to rule IDs and identify any waiver before implementation starts.
 6. Choose minimal diffs that preserve behavior unless the task explicitly asks for a behavior change.
-7. Define verification before editing: scanner, `rtk` + `uv`-backed lint/format/test wrappers (`scripts/flake.bash`, `scripts/test.bash`, `scripts/sync-env.bash --check`), targeted tests, examples, docs generators, and issue-status updates.
+7. Define verification before editing from the target metadata/toolchain: repository static/format/type/test/build/package gates, targeted tests, examples, docs generators, and issue-status updates. Python uses the repository's declared scanner, environment manager, and wrappers; TypeScript uses its checked package manager/scripts and `ts-environment`.
 
 ## Linear milestone loop
 
-Use this loop for large HeavenBase stabilization work:
+Use this loop for large stabilization or migration work:
 
 1. Read the Linear issue, comments, linked issues, attached plan files, and previous review artifacts.
 2. Convert the objective into slices with acceptance criteria, explicit non-goals, and verification gates.
 3. Implement one slice at a time; after each slice, run a focused probe/test and update the local plan.
-4. Review the diff, fix confirmed findings, and rerun targeted validation before broad flake/test.
+4. Review the diff, fix confirmed findings, and rerun targeted validation before broader repository verification.
 5. Sync docs, examples, generated docs, and Linear issue status before reporting completion.
 
 ## Full-rule reading
 
-Load all code-quality rules for public APIs, shared utilities, or broad refactors:
+For Python public APIs, shared utilities, or broad refactors, load:
 
-- `util`, `config`, `types`, `docstring`, `oop`, `model`, `solid`, `name`, `files`, `py`, `clean`, `error`, `sql`, `compat`
+- `util`, `config`, `types`, `docstring`, `oop`, `model`, `solid`, `name`, `files`, `py`, `clean`, `error`, `sql`
+
+Load `compat` only for a rename, deprecation, schema migration, predecessor-name cleanup, or repository that explicitly adopts the HeavenBase lineage compatibility profile.
+
+For TypeScript public APIs, packages, services, or broad refactors, load:
+
+- `ts-architecture`, `ts-types`, `ts-modules`, `ts-async`, `ts-docs`, `ts-environment`
+
+Load both language groups only when a real interop boundary crosses them.
 
 Load project rules when the task touches release readiness:
 
-- `environment`, `format`, `test`, `docs`, `review`, `extension`
+- `environment`, `format`, `test`, `docs`, `review`, `extension`, `interfaces`
 
 Load task playbooks when their triggers match:
 
@@ -59,15 +67,16 @@ Load task playbooks when their triggers match:
 Load failure playbooks when commands repeatedly fail:
 
 - [../failures/env.md](../failures/env.md) for Python, Conda, shell, and PATH failures.
+- [../rules/code/typescript/environment.md](../rules/code/typescript/environment.md) for Bun/Node, lockfile, compiler, or TypeScript package-script failures.
 - [../failures/network-proxy.md](../failures/network-proxy.md) for CLI/API network or proxy failures.
 - [../failures/auth-secrets.md](../failures/auth-secrets.md) for MCP, provider, Linear, Tavily, LLM API key, token, or GraphQL fallback issues.
 - [../failures/linear-pressure.md](../failures/linear-pressure.md) for Linear project issue pressure, blocked issue creation, or comment compression.
 
 ## Philosophy
 
-Heaven Style is portable across developments, but HeavenBase is the shared infrastructure layer. Default to `heavenbase`, `heavenbase.utils`, and `CM_HVNB` for utilities, config, logging, serialization, shell execution, IDs, LLM, DB, workspace, and MCP behavior. Downstream packages may add thin domain wrappers, but wrappers should call HeavenBase utilities rather than reimplementing stdlib access.
+Heaven Style is portable across repositories and languages. In Python, use the target repository's declared utility, configuration, database, logging, and error owners; when none exists, prefer direct standard-library or established dependency APIs over speculative wrappers. Never add HeavenBase merely to satisfy the skill. Repositories that explicitly adopt HeavenBase may use `heavenbase`, `heavenbase.utils`, and `CM_HVNB` for their owned concerns. In TypeScript, use repository-owned platform/config boundaries and host capabilities; do not import Python utility mechanics or create a generic helper layer without demonstrated reuse.
 
-Prefer a single canonical API over compatibility branches. Prefer explicit config ownership over hidden globals. Prefer small, composable public surfaces with stable vocabulary over alternate-name-heavy APIs.
+Prefer one canonical API within the repository's recorded compatibility policy. Prefer explicit config ownership over hidden globals. Prefer small, composable public surfaces with stable vocabulary over alternate-name-heavy APIs.
 
 ## Planning output
 

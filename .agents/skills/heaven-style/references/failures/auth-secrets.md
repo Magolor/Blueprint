@@ -11,7 +11,7 @@ description: Use when MCP tools, CLIs, Linear/Tavily, GraphQL, or LLM providers 
 
 ## Pattern
 
-MCP calls, provider SDKs, CLIs, GraphQL calls, or LLM integrations fail repeatedly because auth appears expired, a token/API key is missing from the process env, or the active shell did not load the expected secrets. Linear is common and important, but this also applies to Tavily, LLM providers, GitHub, OpenRouter, DeepSeek, Portkey, and other local development integrations.
+MCP calls, provider SDKs, CLIs, GraphQL calls, or LLM integrations fail repeatedly because auth appears expired, a token/API key is missing from the process env, or the active shell did not load the expected secrets. Linear is common and important, but this also applies to Tavily, LLM providers, GitHub, OpenRouter, Portkey, and other local development integrations.
 
 ## Response
 

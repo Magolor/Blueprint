@@ -28,7 +28,7 @@ Install priority: **uv -> pip (requirements) -> pyproject -> conda -> poetry**.
 - Treat the `heavenbase` requirement in `requirements.txt` as a normal PyPI runtime dependency.
 - Use `scripts/sync-env.bash --heavenbase-source` only as a temporary local source override for HeavenBase development; it may fail when the sibling checkout, network, proxy, or Git credentials are unavailable.
 - Keep the package version in `src/blueprint/version.py`; `pyproject.toml` reads it dynamically.
-- **Versioning:** `MAJOR.MINOR.PATCH.N[devK]` (currently `0.1.1.6`), aligned with HeavenBase when version bumps are intentional. Optional `devK` marks in-development snapshots.
+- **Versioning:** `MAJOR.MINOR.PATCH.N[devK]` (currently `0.1.2.0`), aligned with HeavenBase when version bumps are intentional. Optional `devK` marks in-development snapshots.
 - Keep `README.en.md` as the canonical English README source. `README.md` is generated from it.
 - For package-resource README copies, use `scripts/sync-readme.bash --resource-target <import_name>` or `scripts/sync-env.bash --readme-resource-target <import_name>`.
 - Maintain translated docs such as `README.zh.md` through `.agents/skills/heaven-style/references/tasks/doc-trans.md`, not during ordinary English doc sync. Use `.agents/skills/heaven-style/references/tasks/doc-sync.md` for canonical English docs.

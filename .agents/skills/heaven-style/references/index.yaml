@@ -1,14 +1,11 @@
 skill: heaven-style
-version: 0.1.1.6
-description: Heaven-style code and architecture guide for Python-first repos in the
-    HeavenBase lineage. Use when writing, reviewing, designing architecture, refactoring,
-    or aligning tests/docs for downstream packages, HeavenBase maintenance, or shared
-    infrastructure code; enforce HeavenBase utilities over stdlib, CM_HVNB config
-    for shared infrastructure, modern type annotations, comprehensive Google-style
-    public API docstrings, canonical OOP vocabulary, short names, raise_mismatch,
-    SQL/resource discipline, architecture-review artifacts, code-review artifacts,
-    and repo lint/test gates.
-generated_at: '2026-07-07T04:05:57Z'
+version: 0.1.2.0
+description: Heaven-style code and architecture guide for general Python package development
+    and TypeScript repositories, with conditional conventions for HeavenBase-lineage
+    projects. Use when writing, reviewing, designing architecture, refactoring, or
+    aligning tests/docs; apply repository policy first, then shared architecture and
+    the matched language rules.
+generated_at: '2026-07-20T07:34:50Z'
 generator: scripts/index.py
 references:
     rules:
@@ -44,8 +41,10 @@ references:
         - logging
         - print
         - open
-        description: Use when code touches paths, files, serialization, shell commands,
-            hashing, logging, temp files, IDs, or stdlib utility imports.
+        - standard library
+        - shared utility
+        description: Use when Python code touches paths, files, serialization, shell
+            commands, hashing, logging, temp files, IDs, or shared utility ownership.
         path: references/rules/code/python/util.md
     -   id: config
         title: Config and resources
@@ -57,14 +56,15 @@ references:
         - hard-coded
         - magic number
         - literals
-        - CM_HVNB
+        - configuration owner
         - resources
         - default
         - model
         - timeout
         - batch size
-        description: Use when code introduces defaults, tunables, prompt or resource
-            paths, model/backend settings, or disputed literals.
+        - CM_HVNB
+        description: Use when Python code introduces defaults, tunables, prompt or
+            resource paths, model/backend settings, or disputed literals.
         path: references/rules/code/python/config.md
     -   id: types
         title: Type annotations
@@ -251,8 +251,8 @@ references:
         - small function
         - code cleanliness
         - abstraction
-        description: Use when adding helper functions, wrappers, temporary transforms,
-            adapters, or deciding inline logic versus shared utilities.
+        description: Use when adding Python helper functions, wrappers, temporary
+            transforms, adapters, or deciding inline logic versus shared utilities.
         path: references/rules/code/python/clean.md
     -   id: error
         title: Errors
@@ -285,7 +285,8 @@ references:
         - ddl
         - migration
         - raw sql
-        description: Use when code touches database queries, raw SQL, migrations,
+        - database layer
+        description: Use when Python code touches database queries, raw SQL, migrations,
             DDL, binds, SQLAlchemy, ORM, or SQL resources.
         path: references/rules/code/python/sql.md
     -   id: compat
@@ -314,18 +315,21 @@ references:
         keywords:
         - rtk
         - uv
+        - Bun
+        - package manager
+        - lockfile
         - AGENTS.md
         - scripts/_env.bash
         - bash wrapper
         - python path
         - venv
         - sync-env.bash
-        - sync wrapper
+        - package script
         - command prefix
         - coding agent
-        description: Use when running shell commands, choosing Python/uv executables,
-            adding Bash wrappers, or diagnosing wrong-environment failures for coding
-            agents.
+        description: Use when running shell commands, choosing the repository's Python
+            or TypeScript environment, adding wrappers or package scripts, or diagnosing
+            wrong-environment failures for coding agents.
         path: references/rules/project/environment.md
     -   id: format
         title: Imports and formatting
@@ -338,10 +342,14 @@ references:
         - line length
         - flake
         - black
+        - Biome
+        - ESLint
         - repo script
+        - package script
         - wrapper
-        description: Use when running or reviewing formatters, linters, import order,
-            line length, generated compatibility files, or command wrappers.
+        description: Use when running or reviewing Python or TypeScript formatters,
+            linters, import order, generated compatibility files, or repository command
+            entry points.
         path: references/rules/project/format.md
     -   id: test
         title: Tests and examples
@@ -351,18 +359,23 @@ references:
         category: project
         keywords:
         - pytest
+        - Bun test
         - unit test
+        - contract test
+        - property test
+        - type test
         - fast test
         - full test
         - test marker
+        - packed consumer
         - runnable example
-        - demo script
         - coverage
         - happy path
         - edge case
         - error path
-        description: Use when adding or reviewing behavior tests, runnable examples,
-            smoke checks, integration evidence, or LLM/provider tests.
+        description: Use when adding or reviewing Python or TypeScript behavior tests,
+            runnable examples, type/contract/property checks, package smoke tests,
+            integration evidence, or provider tests.
         path: references/rules/project/test.md
     -   id: docs
         title: Docs and generated content
@@ -391,14 +404,50 @@ references:
         keywords:
         - plugin
         - extension api
+        - lego-style extension
+        - extension parity
         - registry
+        - persisted registry
+        - entry point
+        - manifest
+        - discovery
         - capability registration
-        - layering
         - provider
         - backend
-        description: Use when adding providers, backends, handlers, plugins, capabilities,
-            registries, planners, or extension APIs.
+        - builtin
+        - remote extension
+        description: Use when adding or reviewing open extension families, registries,
+            plugin manifests, discovery/load paths, providers, backends, handlers,
+            strategies, capabilities, or built-in/external parity.
         path: references/rules/project/extension.md
+    -   id: interfaces
+        title: Service interface architecture
+        enabled: true
+        blocking: true
+        order: 135
+        category: project
+        keywords:
+        - service architecture
+        - Python SDK
+        - API layer
+        - REST
+        - OpenAPI
+        - async API
+        - parallel requests
+        - CLI
+        - GUI
+        - MCP
+        - TUI
+        - Typer
+        - Click
+        - argparse
+        - Rich
+        - CLIRegistry
+        - Tauri
+        - thin wrapper
+        description: Use when a package is provided as a service or exposes SDK, API,
+            CLI, GUI, MCP, TUI, dashboard, or desktop-app surfaces.
+        path: references/rules/project/interfaces.md
     -   id: review
         title: Review checklist
         enabled: true
@@ -416,6 +465,149 @@ references:
         description: Use for PR, diff, module, branch, or Linear review, severity-marked
             findings, review artifacts, follow-up, or explicit waivers.
         path: references/rules/project/review.md
+    -   id: ts-architecture
+        title: TypeScript architecture
+        enabled: true
+        blocking: true
+        order: 210
+        category: code-quality
+        keywords:
+        - TypeScript architecture
+        - SOLID
+        - registry
+        - discriminated union
+        - capability
+        - adapter
+        - strategy
+        - composition root
+        - lifecycle
+        - Bun
+        description: Use when designing or reviewing TypeScript modules, public APIs,
+            services, adapters, providers, registries, strategies, capabilities, or
+            lifecycle boundaries.
+        path: references/rules/code/typescript/architecture.md
+    -   id: ts-types
+        title: TypeScript types and language shape
+        enabled: true
+        blocking: true
+        order: 220
+        category: code-quality
+        keywords:
+        - TypeScript strict
+        - unknown
+        - any
+        - assertion
+        - discriminated union
+        - branded type
+        - readonly
+        - satisfies
+        - exactOptionalPropertyTypes
+        - runtime validation
+        description: Use when adding or reviewing TypeScript types, public signatures,
+            external data, unions, identifiers, config shapes, assertions, or strict
+            compiler options.
+        path: references/rules/code/typescript/types.md
+    -   id: ts-modules
+        title: TypeScript modules and packages
+        enabled: true
+        blocking: true
+        order: 230
+        category: code-quality
+        keywords:
+        - TypeScript files
+        - ESM
+        - package exports
+        - index.ts
+        - barrel
+        - workspace
+        - subpath exports
+        - moduleResolution
+        - dynamic import
+        - sideEffects
+        description: Use when adding or reviewing TypeScript files, package boundaries,
+            imports, exports, workspaces, barrels, optional integrations, build output,
+            or published artifacts.
+        path: references/rules/code/typescript/modules.md
+    -   id: ts-async
+        title: TypeScript async, errors, and resources
+        enabled: true
+        blocking: true
+        order: 240
+        category: code-quality
+        keywords:
+        - TypeScript promise
+        - no-floating-promises
+        - AbortSignal
+        - error cause
+        - dispose
+        - async lifecycle
+        - callback exception
+        - subprocess security
+        - teardown
+        description: Use when TypeScript code handles promises, callbacks, events,
+            cancellation, errors, subprocesses, resources, concurrency, startup, or
+            teardown.
+        path: references/rules/code/typescript/async.md
+    -   id: ts-docs
+        title: TypeScript API documentation
+        enabled: true
+        blocking: true
+        order: 250
+        category: code-quality
+        keywords:
+        - TSDoc
+        - JSDoc
+        - TypeScript public API
+        - '@param'
+        - '@returns'
+        - '@throws'
+        - module comment
+        - documentation examples
+        - generated docs
+        description: Use when adding or reviewing TypeScript public exports, package
+            entry points, JSDoc/TSDoc, examples, generated catalogs, or declaration-facing
+            documentation.
+        path: references/rules/code/typescript/docs.md
+    -   id: ts-environment
+        title: TypeScript environment and toolchain
+        enabled: true
+        blocking: true
+        order: 260
+        category: code-quality
+        keywords:
+        - Bun
+        - bun.lock
+        - packageManager
+        - TypeScript
+        - tsconfig
+        - Biome
+        - ESLint
+        - ESM
+        - NodeNext
+        - CI
+        - dependency audit
+        - trustedDependencies
+        description: Use when creating or changing a TypeScript repository, package
+            metadata, lockfile, compiler configuration, scripts, linting, testing,
+            dependency policy, runtime selection, or CI commands.
+        path: references/rules/code/typescript/environment.md
+    examples:
+    -   id: example-open-capability-vocabulary
+        title: Open capability vocabulary
+        enabled: true
+        order: 10
+        keywords:
+        - code smell
+        - design smell
+        - capability
+        - registry
+        - open extension
+        - OCP
+        - ISP
+        - plugin architecture
+        description: Read when an extensible family keeps gaining hard-coded feature
+            fields, feature-specific methods, switches, or unvalidated extra dictionaries.
+        path: references/examples/code/open-capability-vocabulary.md
     design:
     -   id: gui-style
         title: GUI style
@@ -550,11 +742,18 @@ references:
         - error
         - sql
         - compat
+        - ts-architecture
+        - ts-types
+        - ts-modules
+        - ts-async
+        - ts-docs
+        - ts-environment
         - environment
         - format
         - test
         - docs
         - extension
+        - interfaces
         path: references/tasks/code.md
     -   id: code-review
         task_kind: code-review
@@ -595,11 +794,18 @@ references:
         - error
         - sql
         - compat
+        - ts-architecture
+        - ts-types
+        - ts-modules
+        - ts-async
+        - ts-docs
+        - ts-environment
         - environment
         - format
         - test
         - docs
         - extension
+        - interfaces
         path: references/tasks/code-review.md
     -   id: doc-sync
         task_kind: doc-sync
@@ -725,6 +931,7 @@ references:
         - oop
         - files
         - extension
+        - interfaces
         - clean
         path: references/tasks/code-explain.md
     -   id: env
@@ -809,8 +1016,15 @@ references:
         - docstring
         - files
         - clean
-        - extension
         - compat
+        - ts-architecture
+        - ts-types
+        - ts-modules
+        - ts-async
+        - ts-docs
+        - ts-environment
+        - extension
+        - interfaces
         - test
         - environment
         path: references/tasks/arch-design.md
@@ -832,19 +1046,30 @@ references:
         - stabilize heaven-style
         - TAL-215
         - TAL-231
-        description: Use when maintaining heaven-style rules, tasks, workflows, scripts,
-            indexes, versions, or failure patterns.
+        description: Use when maintaining heaven-style Python or TypeScript rules,
+            tasks, workflows, scripts, indexes, versions, evidence, or failure patterns.
         related_rules:
         - overview
         - util
         - config
+        - files
+        - clean
+        - error
+        - sql
+        - solid
+        - extension
         - docs
         - review
         - environment
         - format
         - test
-        - clean
-        - solid
+        - ts-architecture
+        - ts-types
+        - ts-modules
+        - ts-async
+        - ts-docs
+        - ts-environment
+        - interfaces
         path: references/tasks/skill-update.md
     -   id: manager
         task_kind: manager
@@ -952,8 +1177,8 @@ scripts:
     description: Generate sanitized local-machine instance notes.
 -   path: scripts/scan.py
     name: scan
-    description: Scan Python files for stdlib imports banned by heaven-style util
-        rule.
+    description: Scan HeavenBase-adopting repo files for imports covered by its utility
+        layer.
 -   path: scripts/sync.py
     name: sync
     description: Clone or refresh the HeavenBase reference tree under assets/.

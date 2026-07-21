@@ -7,7 +7,7 @@ order: 38
 keywords: [architecture design, architecture review, periodic architecture review, module design, refactor plan, dependency review, agile design, SOLID, SRP, OCP, LSP, ISP, DIP, design smells, design doc]
 triggers: [arch-design, architecture design, design architecture, architecture review, design review, periodic architecture review, module design, refactor plan, ADR]
 description: Use when designing or reviewing architecture, module boundaries, dependency direction, extension seams, refactor plans, or periodic architecture health using agile design principles before implementation.
-related_rules: [overview, docs, review, model, oop, solid, types, docstring, files, clean, extension, compat, test, environment]
+related_rules: [overview, docs, review, model, oop, solid, types, docstring, files, clean, compat, ts-architecture, ts-types, ts-modules, ts-async, ts-docs, ts-environment, extension, interfaces, test, environment]
 ---
 
 # Arch Design Task
@@ -32,7 +32,7 @@ Use agile design as a control loop, not a big upfront phase:
 - Keep the design simple but refactorable. Avoid both needless abstraction and convenient shortcuts that make future change harder.
 - Treat tests, CI, and refactoring as architectural fitness functions. A design is not agile if changes cannot be made safely.
 - Use design patterns only to manage real variation, dependency, or collaboration pressure already visible in the evidence.
-- Use [solid.md](../rules/code/python/solid.md) for SRP, OCP, LSP, ISP, and DIP boundary checks when class, module, backend, provider, strategy, registry, or dependency direction is part of the design.
+- Use [Python SOLID](../rules/code/python/solid.md) or [TypeScript architecture](../rules/code/typescript/architecture.md) for SRP, OCP, LSP, ISP, and DIP boundary checks according to the target language.
 - Keep documentation light but durable. Use diagrams and tables when they clarify decisions; never let them substitute for tests or code truth.
 
 ## Architecture Review Checklist
@@ -53,9 +53,10 @@ Then check dependency health:
 
 - Core policy and domain behavior must not depend on low-level details such as database drivers, web/CLI adapters, file systems, provider SDKs, or generated artifacts.
 - Stable packages should expose abstractions; volatile details should depend on those abstractions.
-- Dependency cycles are blockers unless explicitly waived with a plan to break them.
+- Cross-layer/package cycles and initialization-order-dependent runtime cycles are blockers. A proven intrinsic local cycle needs explicit ownership and a fitness test; otherwise plan a break.
 - Modules that change together should live together; modules reused together should be released and documented together.
-- Public extension points should use registration APIs instead of central planner/router branches.
+- Open extension families should use registration APIs instead of concrete-name routing; closed protocols should use exhaustive variants rather than a mutable registry.
+- An open family that promises independent extensions should make bundled and external implementations traverse the same persisted catalog, resolver, loader, validation, lifecycle, public surface, and contract suite. Origin is metadata, not a privileged path.
 - SOLID findings should name the exact principle abbreviation: **SRP** for reason-to-change boundaries, **OCP** for extension without reopening stable planners, **LSP** for substitutable contracts, **ISP** for optional capability surfaces, and **DIP** for dependency direction.
 
 ## Output Modes

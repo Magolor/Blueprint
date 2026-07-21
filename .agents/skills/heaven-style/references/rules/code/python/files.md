@@ -13,7 +13,7 @@ description: Use when adding or reviewing Python files, package folders, public 
 
 ## Core rule
 
-Organize files by ownership and feature locality. A reader should find the code for one feature by opening one folder, not by chasing same-feature files across top-level buckets, export helpers, and generic registries.
+Organize files by ownership and feature locality. A reader should find the code for one feature or extension by opening one cohesive folder or distribution, not by chasing same-feature files across top-level buckets, export helpers, and generic registries. Folder placement owns code; it must not become discovery truth for an open extension family.
 
 Prefer short one-word file and folder names. Use a two-word name only for an established domain phrase such as `user_auth`, `text_index`, or `jsonl`. Re-examine any file name with three or more words, any obscure abbreviation, and any file name that repeats parent-folder context.
 
@@ -29,10 +29,11 @@ Prefer short one-word file and folder names. Use a two-word name only for an est
 ## Do
 
 - Keep all code for the same feature under the owning folder.
-- Group multiple built-in implementations as sibling modules under their family folder, for example `storage/sqlite.py`, `storage/postgres.py`, and `providers/openai.py`.
+- Keep each independently extensible implementation as a cohesive bundle containing its manifest/descriptor, implementation, configuration schema, assets, tests, docs, and migrations where practical. Bundled implementations use the same bundle and Registry path as external ones.
+- Group small internal implementations as sibling modules only when the family is not promised as an independently installable extension surface.
 - Promote a feature to a subfolder when it has several real internal parts; keep those parts inside that folder.
 - Use `base.py` for package-local base classes and contracts.
-- Use `registry.py` for durable registration and discovery behavior.
+- Use `registry.py` for the family-owned catalog/resolver facade or durable registration and discovery behavior; concrete extension inventory belongs in extension descriptors, not in a privileged import list.
 - Use `utils.py` for exposable local helper functions that belong to this package but are not broad shared-infrastructure utilities.
 - Use `_utils.py` for internal helper functions shared inside one package. Whether a helper deserves to exist is governed by [clean.md](clean.md).
 - Use a generic implementation filename such as `client.py`, `adapter.py`, or `handler.py` only when the folder name already provides the domain context.
@@ -44,7 +45,7 @@ Prefer short one-word file and folder names. Use a two-word name only for an est
 ## Avoid
 
 - Top-level buckets such as `builtin.py`, `families.py`, `type_registry.py`, `helpers.py`, `common.py`, or `misc.py` when the code has a clearer owning module.
-- Sidecar exposure files such as `exports.py`, `_exports.py`, `api.py`, `public.py`, or `facade.py` inside one package. Use `__init__.py`; if the exposure surface is large, add nested folders with their own `__init__.py`.
+- Sidecar exposure files such as `exports.py`, `_exports.py`, `api.py`, `public.py`, or `facade.py` inside one package. Use `__init__.py`; if the exposure surface is large, add nested folders with their own `__init__.py`. A service package's `api/` boundary is different: it is valid when it owns real orchestration and transport contracts under the [service interface rule](../../project/interfaces.md), never when it only re-exports symbols.
 - Public-looking internal helpers such as `config.py` when the module is only helper code; prefer `_utils.py`. Keep `config.py` for true config models, schemas, defaults, or resource loading.
 - Broad `def __getattr__(name: str) -> Any: ...` stubs for a known finite public API. List the exact exports in `__init__.pyi` instead.
 - `.pyi` files for ordinary eager exports when inline annotations plus `py.typed` already give type checkers a clear public interface.
@@ -52,6 +53,8 @@ Prefer short one-word file and folder names. Use a two-word name only for an est
 - File names that repeat parent context, such as `storage_type_registry.py` inside `storage/`.
 - Obscure, inconsistent, or long names such as `tokidxrt.py`, `search_strategy_token_index_runtime_manager.py`, or mixed pairs like `token_index.py` plus `vectorStrategy.py`.
 - Many tiny files that split one concept by function name rather than by ownership.
+- Built-in-only folders, package scans, or `__init__.py` import lists that act as the discovery mechanism for an open extension family.
+- Manifests, schemas, assets, and migrations scattered into central host-package buckets when one extension owns them.
 
 ## Standard Package Shape
 
@@ -64,6 +67,7 @@ src/acme/feature/
   py.typed          # optional: top-level package marker when distributing typed code
   base.py           # contracts, base classes, protocols (optional but usually present)
   registry.py       # registration/discovery when the feature has extensions (optional)
+  manifest.py       # extension descriptor/schema when this is an extension bundle (optional)
   types.py          # type definitions (optional)
   utils.py          # exposable local helpers (optional)
   _utils.py         # internal shared helpers (optional)
@@ -79,6 +83,8 @@ src/acme/feature/
 ```
 
 Do not create every file by default. Start with `__init__.py` plus the smallest owning module; add `__init__.pyi`, top-level `py.typed`, `base.py`, `registry.py`, `utils.py`, `_utils.py`, or subfolders only when the code has that role.
+
+For an open family, the same physical layout may appear inside the host repository, another installed distribution, or a registered local bundle. Consumers resolve the descriptor through the authoritative Registry; they do not infer origin or eligibility from the folder path.
 
 ## Example
 
@@ -266,7 +272,9 @@ The package root owns registry behavior; implementation families own concrete im
 - When `__init__.py` uses `__getattr__` for known lazy public exports, does an adjacent `__init__.pyi` describe those exports for type checkers?
 - Are exposable local helpers in `utils.py` and internal shared helpers in `_utils.py`?
 - Are file names short, contextual, and free of repeated parent-folder words?
+- Can a bundled extension move to an external distribution without changing consumer imports, configuration, or runtime dispatch?
+- Does folder locality keep one extension coherent without becoming a built-in-only discovery mechanism?
 
 ## Related rules
 
-Also apply [name.md](name.md) for symbol and module naming, [clean.md](clean.md) for helper boundaries, [model.md](model.md) for public surface size, [extension.md](../../project/extension.md) for adapter/provider registration, and [compat.md](compat.md) for break-and-fix moves without shims.
+Also apply [name.md](name.md) for symbol and module naming, [clean.md](clean.md) for helper boundaries, [model.md](model.md) for public surface size, [extension.md](../../project/extension.md) for adapter/provider registration, [interfaces.md](../../project/interfaces.md) for service SDK/API/interface layers, and [compat.md](compat.md) for break-and-fix moves without shims.

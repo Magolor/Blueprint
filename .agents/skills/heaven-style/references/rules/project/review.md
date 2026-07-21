@@ -37,30 +37,30 @@ Reviews are findings-first, severity-marked, and grounded in file/line evidence 
 
 ## Criteria
 
-- **Code quality:** Heaven style, repo conventions, `heavenbase.utils`, config ownership, type hints, naming, and canonical OOP vocabulary.
-- **Modularity:** clean boundaries, clear ownership, layering, and extension through registered providers/handlers rather than shortcuts.
+- **Code quality:** Heaven architecture, repository conventions, and the matched language rules for utilities, configuration, types, naming, and public API shape.
+- **Modularity:** clean boundaries, clear ownership, layering, registries for genuinely open extensions, and exhaustive variants for closed protocols rather than central shortcuts.
 - **Brevity:** minimal readable implementation; no avoidable boilerplate, duplicated branches, over-abstracted helpers, or unnecessary files.
 - **Ease of use:** straightforward mental model for users and developers; no parallel APIs, confusing flags, or alternate-name-heavy surfaces.
-- **Cleanliness:** no ad-hoc hacks, backward-compat leftovers, dead code, debug prints, stale placeholders, or unused artifacts.
-- **Docstrings:** publicly exposed functions, methods, and major feature APIs have full type hints plus detailed Google-style docstrings with `Args`, `Returns` or `Yields`, and relevant `Raises`, warnings, notes, examples, or literal-option references.
-- **Robustness:** invalid input, security issues, corner cases, swallowed errors, resource leaks, races, and unsafe fallbacks are handled.
-- **Migration alignment:** predecessor functionality remains available through the new cleaner API; see [../code/python/compat.md](../code/python/compat.md).
-- **Sync:** tests, docs, HeavenBase docs, architecture markdown, generated artifacts, examples in the relevant rules, and Linear issue state match the code.
+- **Cleanliness:** no ad-hoc hacks, unapproved compatibility leftovers, dead code, debug prints, stale placeholders, or unused artifacts.
+- **API documentation:** public surfaces follow the matched language documentation rule: Python uses [docstring](../code/python/docstring.md), while TypeScript uses [TypeScript API documentation](../code/typescript/docs.md).
+- **Robustness:** invalid input, security issues, unowned promises, corner cases, swallowed errors, resource leaks, races, and unsafe fallbacks are handled.
+- **Migration alignment:** follow the repository's recorded release/compatibility policy. Apply [Python compatibility](../code/python/compat.md) only to matching Python/predecessor migrations.
+- **Sync:** tests, docs, relevant sibling/external docs, architecture markdown, generated artifacts, rule examples, and issue state match the code.
 
 ## Severity
 
 - `P0`: blocking correctness, security, data loss, or deployability issue.
 - `P1`: likely bug, broken public contract, missing critical validation, or serious test/doc mismatch.
-- `P2`: maintainability, modularity, coverage, docstring, or sync issue that should be addressed before declaring done.
+- `P2`: maintainability, modularity, coverage, API-documentation, or sync issue that should be addressed before declaring done.
 - `P3`: polish, naming nuance, optional cleanup, or future improvement.
 
 ## Finding Template
 
 ```text
-- [ ] P1 `config` `test` path/to/file.py:42
-  Problem: Model default is hard-coded in a public API and has no error-path test.
-  Impact: Downstream projects cannot override it through CM_HVNB and regressions are hard to catch.
-  Fix: Route the default through CM_HVNB and add happy/edge/error coverage.
+- [ ] P1 `configuration` `test` path/to/file:42
+  Problem: A deployable default is hard-coded outside the repository's configuration owner and has no failure-path test.
+  Impact: Downstream deployments cannot override it consistently and regressions are hard to catch.
+  Fix: Route the default through the repository configuration owner and add happy/edge/failure coverage.
   User annotation:
 ```
 

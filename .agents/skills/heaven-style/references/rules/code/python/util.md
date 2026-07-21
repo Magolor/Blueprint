@@ -5,139 +5,89 @@ enabled: true
 blocking: true
 order: 10
 category: code-quality
-keywords: [json, yaml, pickle, pathlib, os.path, subprocess, shutil, hashlib, logging, print, open]
-description: Use when code touches paths, files, serialization, shell commands, hashing, logging, temp files, IDs, or stdlib utility imports.
+keywords: [json, yaml, pickle, pathlib, os.path, subprocess, shutil, hashlib, logging, print, open, standard library, shared utility]
+description: Use when Python code touches paths, files, serialization, shell commands, hashing, logging, temp files, IDs, or shared utility ownership.
 ---
 
 # Utility layer
 
 ## Core rule
 
-Use HeavenBase as the shared utility foundation for all developments. For covered concerns, import from `heavenbase` or `heavenbase.utils`: paths, file I/O, serialization, shell commands, hashing, logging, deterministic IDs, and common typing/dataclass boilerplate.
+Use the utility layer that the target repository explicitly owns. If no coherent shared owner exists, use Python's standard library or an established dependency directly. Do not add HeavenBase, a platform package, or a project-local wrapper merely to satisfy heaven-style.
 
-Project-local utility wrappers are allowed only when they add domain behavior; they should call HeavenBase utilities rather than reimplementing stdlib access. Code inside HeavenBase utilities may use stdlib to implement the helpers.
+Create or promote a shared helper only when it owns real policy or multiple proven consumers need identical behavior. A thin wrapper that only renames `Path`, `json`, `subprocess`, `logging`, or another direct API adds indirection without ownership.
 
-Before importing stdlib for app code, search HeavenBase utilities for an existing helper.
+In a HeavenBase-lineage repository that explicitly adopts its infrastructure, `heavenbase.utils` is the declared owner for its covered paths, files, serialization, shell, logging, hashing, and ID concerns. That is a conditional repository profile, not a requirement for arbitrary Python packages.
 
 ## Apply when
 
-- App code reads or writes files, paths, package resources, temp files, or user-state paths.
-- App code serializes JSON/YAML/pickle/text/base64/hex payloads.
-- App code runs shell commands, copies/deletes files, hashes values, logs, or creates deterministic IDs.
+- Code reads or writes files, paths, package resources, temp files, or user-state paths.
+- Code serializes JSON/YAML/pickle/text/base64/hex payloads.
+- Code runs shell commands, copies/deletes files, hashes values, logs, or creates IDs.
+- A change proposes a generic helper module or a new dependency for utility behavior.
 
 ## Do
 
-- Import shared helpers from `heavenbase.utils`.
-- Use `CM_HVNB.pj` or `pj` for path assembly.
-- Use `load_*`, `dump_*`, `loads_*`, and `dumps_*` for serialization.
-- Use `cmd`, `copy_*`, `delete_*`, hash helpers, ID helpers, and `get_logger` where available.
+- Read `AGENTS.md`, nearby imports, and repository docs to identify an existing utility owner before adding another path.
+- Use normal `pathlib`, `json`, `logging`, `hashlib`, `subprocess`, `shutil`, `tempfile`, `uuid`, and `importlib.resources` APIs when the repository has no contrary abstraction.
+- Prefer a mature dependency when it supplies a substantial validated contract the standard library does not.
+- Keep domain behavior in the owning package even when it delegates low-level work to a shared utility.
+- Promote a helper only when reuse, validation, policy, observability, or error semantics justify a stable abstraction.
+- Use the repository's logging policy instead of `print` in library code.
 
 ## Avoid
 
-- Direct `json`, `yaml`, `pickle`, `pathlib`, `os.path`, `subprocess`, `shutil`, `hashlib`, or `print` in app/library code for covered behavior.
-- Project-local wrappers that only rename stdlib calls.
-- Manual `open(..., encoding=...)` when a shared text/file helper exists.
+- Adding HeavenBase or another platform dependency solely for convenience helpers.
+- Project-local wrappers that only rename one standard-library or dependency call.
+- A catch-all `helpers.py`, `common.py`, or `utils.py` with no clear package owner.
+- Manual encoding, unsafe shell strings, or ad-hoc serialization when a direct safe API already exists.
+- Duplicating repository-owned path, resource, logging, serialization, or command policy.
 
 ## Example
 
 **Anti-pattern:**
 
 ```python
-import json
-import os
-import subprocess
-from pathlib import Path
-from typing import Any
+def join_data_path(root: str, name: str) -> str:
+    return str(Path(root) / "data" / f"{name}.json")
 
-def load_items(name: str) -> list[dict[str, Any]]:
-    path = os.path.join(os.getcwd(), "data", f"{name}.json")
-    subprocess.run(["touch", path], check=True)
-    with open(path, "r", encoding="utf-8") as file:
-        data = json.load(file)
-    return list(data.get("items", []))
+
+def read_json_file(path: str) -> dict[str, object]:
+    return json.loads(Path(path).read_text(encoding="utf-8"))
 ```
+
+These wrappers rename direct operations without adding policy.
 
 **Recommended pattern:**
 
 ```python
-from typing import Any
+import json
+from pathlib import Path
 
-from heavenbase.utils import CM_HVNB, cmd, load_json
 
-def load_items(name: str) -> list[dict[str, Any]]:
-    path = CM_HVNB.pj("data", f"{name}.json", abs=True)
-    cmd(["touch", path], check=True)
-    data = load_json(path)
+def load_items(root: Path, name: str) -> list[dict[str, object]]:
+    path = root / "data" / f"{name}.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
     return list(data.get("items", []))
 ```
 
-## Common patterns
+If several packages later need the same validation, resource lookup, logging, and error contract, promote that complete behavior to the repository's shared owner rather than wrapping each primitive separately.
 
-### Paths and resources
+## Ownership ladder
 
-```python
-from heavenbase.utils import CM_HVNB, load_txt
+1. Use an existing repository/platform utility when it clearly owns the concern.
+2. Otherwise use the standard library or an established dependency directly.
+3. Keep one-off domain transforms local and explicit.
+4. Introduce a shared helper only for repeated behavior with a stable policy boundary.
 
-prompt = load_txt(CM_HVNB.pj("&", "prompts", "agent.md"))
-cache_path = CM_HVNB.pj("%", "cache", "items.json", abs=True)
-```
-
-### Serialization
-
-```python
-from heavenbase.utils import dump_json, load_json
-
-data = load_json(path)
-dump_json(data, path)
-```
-
-### Shell
-
-```python
-from heavenbase.utils import cmd
-
-result = cmd(["git", "status", "--short"], include="out", check=True)
-```
-
-### Logging
-
-```python
-from heavenbase.utils import get_logger
-
-log = get_logger(__name__)
-log.info("indexed %s files", n_files)
-```
-
-### Hash and IDs
-
-```python
-from heavenbase.utils import hash_id, sha256hash
-
-object_id = hash_id("user", email)
-digest = sha256hash(payload)
-```
-
-## Covered replacements
-
-| Avoid in app code | Prefer |
-| --- | --- |
-| `os.path.join`, `os.makedirs`, `os.listdir`, `os.path.expanduser` | `pj`, `touch_dir`, `list_files`, `enum_files` (use `pj("~", ...)` for home paths) |
-| `os.environ` when no HB helper exists | acceptable for environment variable reads only |
-| `pathlib.Path` for app paths | `pj(..., abs=True)`, `get_file_dir`, `get_file_ext` |
-| `open` plus manual encoding | `load_txt`, `save_txt`, `append_txt` |
-| `json`, `yaml`, `pickle` | `load_*`, `dump_*`, `loads_*`, `dumps_*` |
-| manual base64/hex | `load_b64`, `dump_b64`, `load_hex`, `dump_hex` |
-| `subprocess`, `os.system` | `cmd` |
-| `shutil` | `copy_*`, `delete_*` |
-| `hashlib` | `md5hash`, `sha256hash`, `hash_id` |
-| local list-flatten helper | `lflat` |
-| `print` in libraries | `get_logger`, `configure_logs`, and debug config |
-| `uuid` for deterministic IDs | `hash_id` |
-| bare `requests.get` without project wrapper | package request helper when present |
-| `random` for reproducible tests | stable RNG helper when exported |
+For a repository that explicitly adopts HeavenBase utilities, the same ladder starts with `heavenbase.utils`; verify the exact helper against that repository rather than assuming every utility exists.
 
 ## Related rules
 
-Also apply [config.md](config.md) for config/resource paths, [types.md](types.md) for annotation style, and [clean.md](clean.md) for helper promotion decisions.
+Also apply [config.md](config.md) for config/resource ownership, [types.md](types.md) for annotation style, [clean.md](clean.md) for helper promotion decisions, and [files.md](files.md) for utility module placement.
 
-Verify with `rtk uv run python scripts/scan.py <paths>` from the skill root in agent sessions, or bare `python` only from a known-good shell.
+Blueprint's skill-maintenance scanner is a repository self-compliance check, not a generic Python-package gate:
+
+```bash
+rtk uv run python .agents/skills/heaven-style/scripts/scan.py .agents/skills/heaven-style/scripts
+```

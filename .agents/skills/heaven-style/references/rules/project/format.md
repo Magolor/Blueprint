@@ -5,43 +5,45 @@ enabled: true
 blocking: true
 order: 100
 category: project
-keywords: [import order, line length, flake, black, repo script, wrapper]
-description: Use when running or reviewing formatters, linters, import order, line length, generated compatibility files, or command wrappers.
+keywords: [import order, line length, flake, black, Biome, ESLint, repo script, package script, wrapper]
+description: Use when running or reviewing Python or TypeScript formatters, linters, import order, generated compatibility files, or repository command entry points.
 ---
 
 # Imports and formatting
 
 ## Core rule
 
-Use the repository's declared entrypoints (`scripts/flake.bash`, `Makefile`, `pyproject.toml`, or equivalent). Do not bypass wrappers with bare tools when wrappers exist. For `rtk`, `uv`, `AGENTS.md`, and `_env.bash` policy, apply [environment.md](environment.md) first.
+Use the repository's declared entrypoints (`scripts/flake.bash`, package scripts, `Makefile`, or equivalent). Do not bypass wrappers/scripts with bare or global tools. For `rtk`, environments, package managers, and wrapper policy, apply [environment.md](environment.md) first.
 
 ## Apply when
 
 - Running or reviewing formatting, linting, import order, line length, generated compatibility files, or command wrappers.
-- Deciding whether to call Black/Flake8/Pytest directly or through repo scripts.
+- Deciding whether to call Black/Flake8/Biome/ESLint directly or through repo scripts.
 
 ## Do
 
-- Use repo wrappers such as `scripts/flake.bash`, `scripts/test.bash`, or `Makefile` targets.
-- Keep tool configuration in `pyproject.toml` when supported.
-- Alphabetize imports within groups and remove unused imports.
+- In Python repos, use the repository's declared wrappers, package scripts, or `Makefile` targets; Blueprint and HeavenBase use `scripts/flake.bash` and `scripts/test.bash`.
+- Keep tool configuration in the repository's established owner (`pyproject.toml`, `package.json`, or a checked dedicated config) rather than adding duplicates.
+- For TypeScript, keep formatter and linter ownership explicit: prefer Biome for a new lightweight repo, and add type-aware ESLint only for rules that require the type graph. Do not make both tools own formatting or overlapping style rules.
+- Use the language's configured import organizer and remove unused imports. For Python without an organizer, alphabetize imports within the established groups.
 
 ## Avoid
 
 - Bare tools when wrappers exist.
-- New setup files such as `pytest.ini` or `setup.cfg` unless the tool cannot read `pyproject.toml`.
+- In Python, new setup files such as `pytest.ini` or `setup.cfg` unless the tool cannot read `pyproject.toml`.
 - Star imports except explicit project utility boilerplate where already established.
+- Global TypeScript tools, floating `bunx`/`npx` commands in standing gates, or simultaneous Biome/Prettier formatting.
 
 ## Example
 
-**Anti-pattern:**
+**Blueprint/Python anti-pattern:**
 
 ```bash
 black src
 pytest
 ```
 
-**Recommended pattern:**
+**Blueprint/Python recommended pattern:**
 
 ```bash
 rtk bash scripts/sync-env.bash
@@ -49,15 +51,24 @@ rtk bash scripts/flake.bash -a
 rtk bash scripts/test.bash
 ```
 
-## Import order
+In a Bun-based TypeScript repository, use its declared scripts, typically:
 
-1. Project utility re-exports.
-2. First-party submodules.
-3. Third-party packages.
-4. Stdlib that is not covered by HeavenBase utilities.
+```bash
+rtk bun run format:check
+rtk bun run lint
+rtk bun run typecheck
+```
 
-Alphabetize within groups. Remove unused imports. Avoid star imports except explicit utility boilerplate when the project already uses it.
+## Python import order
+
+Follow the repository's configured formatter/import sorter. When none exists, use the conventional groups:
+
+1. Standard library.
+2. Third-party packages.
+3. First-party/local packages.
+
+Alphabetize within groups, separate groups with one blank line, and remove unused imports. Do not reorder repository-mandated facade imports merely to copy another project's utility convention.
 
 ## Related rules
 
-Also apply [environment.md](environment.md) for `rtk`/`uv` command policy, [test.md](test.md) for test wrappers, and [util.md](../code/python/util.md) when import cleanup touches utility-covered stdlib.
+Also apply [environment.md](environment.md) for command policy, [test.md](test.md) for test entrypoints, [util.md](../code/python/util.md) when Python import cleanup touches utility-covered stdlib, and [TypeScript environment](../code/typescript/environment.md) when TypeScript tooling changes.

@@ -16,6 +16,8 @@ Heaven-style GUI work should feel like a quiet local workbench: minimal visible 
 
 This is not Google Material Design. "Materialism" here means the interface feels calmly physical: soft edges, subtle elevation, restrained panels, tactile state changes, and colors that stay close enough that the user can work for hours without visual fatigue.
 
+GUI architecture follows the [service interface rule](../rules/project/interfaces.md): graphical surfaces are thin API clients. Prefer the zero-build Python/ASGI local-workbench stack for a minimal GUI and React with TypeScript plus Tauri v2 for a serious releasable desktop app.
+
 ## Philosophy
 
 ### Minimalism
@@ -354,8 +356,5 @@ Every theme defines:
 
 ## Sources
 
-- ParaDev UI style guide: `/Users/magolor/Projects/ParaDev/ParaDev-3/docs/techstack/ui/style.md`.
-- ParaDev desktop theme implementation: `/Users/magolor/Projects/ParaDev/ParaDev-3/apps/desktop/src/styles/theme.css`.
-- Attu Data Explorer screenshot: `https://github.com/zilliztech/attu/blob/main/.github/images/v3/19-collection-search.png`.
-- Ollama desktop app announcement and screenshots: `https://ollama.com/blog/new-app`.
-- Local app bundle checks: `/Applications/Ollama.app`, `/Applications/oMLX.app`, and `/Applications/Attu.app`.
+- [Attu Data Explorer screenshot](https://github.com/zilliztech/attu/blob/main/.github/images/v3/19-collection-search.png)
+- [Ollama desktop app announcement and screenshots](https://ollama.com/blog/new-app)

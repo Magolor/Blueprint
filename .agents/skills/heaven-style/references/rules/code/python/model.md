@@ -31,7 +31,7 @@ Keep the public OOP interface as small as possible. For each functionality, expo
 - Prefer familiar Python protocols and industrial interfaces over invented mini-languages.
 - Keep one clear data container with structured attributes when extra wrapper classes add no behavior.
 - Use dedicated classes only for behavior, invariants, lifecycle, or recognized domain concepts.
-- Keep low-level registries and extension functions available only as implementation surfaces when needed; public docs and examples should start from `heavenbase as hb` and the owning object.
+- Keep the ordinary user front door domain-shaped and hide incidental Registry mechanics. Also expose one stable, documented extension-author contract for manifests, registration, inspection, and lifecycle; extension authors must not depend on private internals. Public docs and examples start from the target package's supported facade and owning object.
 - Use the reviewer gate for each public API change: the happy path must fit one short OOP sentence, such as "create the object, then call the lifecycle verb", "build the spec from a dict, then register it", or "load the named object, then mutate or query it".
 - Require a reviewer or architect justification when a new top-level function, nested helper, or constructor flag is easier to implement but harder to teach. The burden of proof is on the larger surface, not on the shorter OOP path.
 
@@ -41,7 +41,7 @@ Keep the public OOP interface as small as possible. For each functionality, expo
 - Constructor flags that hide follow-up actions, especially private-looking flags such as `_register_global=False`, `_set_default=True`, or `_isolated=False` in user-facing flows.
 - Nested functional pipelines such as `register_x(build_x(...))` when the same flow can be `X.from_dict(...).register()`.
 - Thin public classes that only rename one field.
-- Public examples that force users through `hb.ext.*`, registry internals, or helper factories before they see the core domain object.
+- Public examples that force users through `pkg.ext.*`, registry internals, or helper factories before they see the core domain object.
 - DSLs where dictionaries, ORM-style expressions, or ordinary Python would be clearer.
 
 ## Example
@@ -51,14 +51,14 @@ Keep the public OOP interface as small as possible. For each functionality, expo
 **Anti-pattern:**
 
 ```python
-ws = hb.HeavenBase("shop", preset="debug", _isolated=False, _register_global=False, _set_default=True)
+project = pkg.Project("shop", profile="debug", _isolated=False, _register_global=False, _set_default=True)
 ```
 
 **Recommended pattern:**
 
 ```python
-ws = hb.HeavenBase("shop", preset="debug")
-ws.set_default()
+project = pkg.Project("shop", profile="debug")
+project.set_default()
 ```
 
 Constructor flags are acceptable only for essential construction policy. Lifecycle actions such as becoming the default workspace should be ordinary verbs.
@@ -68,8 +68,8 @@ Constructor flags are acceptable only for essential construction policy. Lifecyc
 **Anti-pattern:**
 
 ```python
-hb.ext.register_profile(
-    hb.ext.profile_spec_from_mapping(
+pkg.ext.register_profile(
+    pkg.ext.profile_spec_from_mapping(
         {
             "name": "agent",
             "tools": ["query", "search"],
@@ -81,7 +81,7 @@ hb.ext.register_profile(
 **Recommended pattern:**
 
 ```python
-hb.ProfileSpec.from_dict(
+pkg.ProfileSpec.from_dict(
     {
         "name": "agent",
         "tools": ["query", "search"],
@@ -120,13 +120,13 @@ toolkit.register()
 **Anti-pattern:**
 
 ```python
-sku = hb.field(hb.ShortText, store_to="sql", compute_fn=normalize_sku, description="Stock keeping unit")
+sku = pkg.field(pkg.ShortText, store_to="sql", compute_fn=normalize_sku, description="Stock keeping unit")
 ```
 
 **Recommended pattern:**
 
 ```python
-sku = hb.field(hb.ShortText).store(to="sql").compute(normalize_sku).desc("Stock keeping unit")
+sku = pkg.field(pkg.ShortText).store(to="sql").compute(normalize_sku).desc("Stock keeping unit")
 ```
 
 Use chained methods when each step configures the same object and keeps the names discoverable in autocomplete.

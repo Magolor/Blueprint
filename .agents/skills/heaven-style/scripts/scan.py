@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scan Python files for stdlib imports banned by heaven-style util rule."""
+"""Scan HeavenBase-adopting repo files for imports covered by its utility layer."""
 
 from __future__ import annotations
 

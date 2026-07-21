@@ -31,14 +31,16 @@ Use this surface only when maintaining the `heaven-style` skill itself: editing 
    - `references/workflows/architect.md` for doc organization, module designs, refactor plans, goals updates, API standard tables, and pre-implementation execution plans.
    - `references/workflows/developer.md` for large refactors, public API design, and full-rule reading during implementation.
    - `references/workflows/editor.md` for skill maintenance.
-   - `references/rules/` for rule-selection, code/project rules, and focused anti/recommended examples.
+   - `references/rules/code/python/` for Python mechanics and `references/rules/code/typescript/` for TypeScript architecture/mechanics; `references/rules/project/` owns cross-language repository, service-interface, verification, and release rules and routes to the matched language surface.
+   - `references/examples/code/` for source-neutral good-smell/bad-smell comparisons that support multiple rules without becoming rules themselves.
    - `references/design/` for framework-neutral GUI, frontend, dashboard, desktop, and app-shell design references.
 2. Keep `references/tasks/` minimal. Default active tasks are `code.md`, `code-review.md`, `doc-sync.md`, `doc-trans.md`, `test-compress.md`, `code-explain.md`, `env.md`, `arch-design.md`, `manager.md`, and `skill-update.md`; add another task only for a stable, repeated workflow that cannot fit them.
 3. Use trigger-oriented YAML frontmatter. Use `description` and `keywords` for discovery; the Markdown body is normative.
-4. Keep examples inside their owning rule and list cross-checks in `Related rules`.
-5. Run `rtk uv run python scripts/install.py` from the Blueprint skill root after reference, design, or script changes to refresh the standard global install at `~/.agents/skills/heaven-style`. Use `rtk uv run python scripts/install.py --all-harnesses` when local Claude Code support should be refreshed too; it installs a Claude plugin bridge and does not write `~/.claude/skills/heaven-style`. Skill-maintenance scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` only from a known-good shell; prefer `rtk uv run python` in agent sessions. Target-repo work must still use `AGENTS.md` wrappers, `uv`, and `rtk` when available. When maintaining an embedded in-repo copy, use `rtk uv run python scripts/install.py --skip-sync` (or rely on the embedded auto-skip) and refresh the global install for reference assets.
-6. Run `rtk uv run python scripts/index.py --check` after install to confirm generated metadata is current.
-7. HeavenBase does not track an in-repo skill copy; it consumes the standard global install. Use `rtk uv run python scripts/install.py --mirror <path> --skip-global` only for repos that intentionally embed a copy.
+4. Keep brief examples inside their owning rule. Put reusable cross-rule smell comparisons in `references/examples/code/`, then link them directly from the relevant rule and `SKILL.md` route.
+5. Keep distributed skill text and Blueprint docs source-neutral: no private/reference-repository names, absolute local checkout paths, machine-specific setup sources or observed versions, or borrowed package/framework internals. Retain only generic patterns/anti-patterns, public primary references, and explicitly owned HeavenBase API/asset/version/docs workflows.
+6. Run `rtk uv run python scripts/install.py` from the Blueprint skill root after reference, design, or script changes to refresh the standard global install at `~/.agents/skills/heaven-style`. Use `rtk uv run python scripts/install.py --all-harnesses` when local Claude Code support should be refreshed too; it installs a Claude plugin bridge and does not write `~/.claude/skills/heaven-style`. Skill-maintenance scripts under `.agents/skills/heaven-style/scripts/` may use bare `python` only from a known-good shell; prefer `rtk uv run python` in agent sessions. Target-repo work follows its `AGENTS.md` and checked toolchain: `uv` for Heaven-lineage Python, the existing manager for TypeScript, and Bun only as the new-repo fallback. Prefix agent commands with `rtk` when available. When maintaining an embedded in-repo copy, use `rtk uv run python scripts/install.py --skip-sync` (or rely on the embedded auto-skip) and refresh the global install for reference assets.
+7. Run `rtk uv run python scripts/index.py --check` after install to confirm generated metadata is current.
+8. HeavenBase does not track an in-repo skill copy; it consumes the standard global install. Use `rtk uv run python scripts/install.py --mirror <path> --skip-global` only for repos that intentionally embed a copy.
 
 ## Commands
 
@@ -62,7 +64,7 @@ rtk uv run python .agents/skills/heaven-style/scripts/install.py --mirror <embed
 
 ## Self-compliance
 
-The skill must follow its own code-quality rules:
+The skill must follow its own code-quality rules. Its maintenance scripts are Python, so Python-only checks below do not become target-repo TypeScript rules:
 
 - Scripts use HeavenBase utilities where feasible.
 - Scripts pass `scripts/scan.py`.
@@ -71,7 +73,7 @@ The skill must follow its own code-quality rules:
 - `index.yaml` is generated, not hand-edited.
 - Task playbooks are few, active, and non-overlapping.
 - Failure playbooks are operational, narrow, and safe around secrets and local machine state.
-- Skill version follows `MAJOR.MINOR.PATCH.N[devK]` on the current heaven-style train (`0.1.1`); frontmatter `version` matches `src/heavenbase/version.py` on HeavenBase-aligned releases.
+- Skill version follows `MAJOR.MINOR.PATCH.N[devK]` on the current heaven-style train (`0.1.2`); frontmatter `version` matches `src/heavenbase/version.py` on HeavenBase-aligned releases. Preserve the exact version only when the user records an explicit no-bump waiver.
 
 ## Install behavior
 

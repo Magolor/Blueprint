@@ -7,7 +7,7 @@ order: 20
 keywords: [review code, review pr, review branch, review recent changes, style review, quality review, linear review]
 triggers: [review, code review, check this pr, review TAL, review branch, review changes]
 description: Use when reviewing code changes, modules, branches, PRs, recent diffs, or Linear-linked review work.
-related_rules: [overview, review, util, config, types, docstring, oop, model, solid, name, files, py, clean, error, sql, compat, environment, format, test, docs, extension]
+related_rules: [overview, review, util, config, types, docstring, oop, model, solid, name, files, py, clean, error, sql, compat, ts-architecture, ts-types, ts-modules, ts-async, ts-docs, ts-environment, environment, format, test, docs, extension, interfaces]
 ---
 
 # Code Review Task
@@ -15,6 +15,8 @@ related_rules: [overview, review, util, config, types, docstring, oop, model, so
 ## Goal
 
 Systematically review code changes, recent changes, a module, a branch, or a Linear issue against Heaven-style quality criteria.
+
+Select Python rules or `ts-*` rules according to the reviewed files; do not apply both language surfaces cumulatively unless the boundary genuinely crosses both.
 
 ## Scope Discovery
 
@@ -26,15 +28,15 @@ Systematically review code changes, recent changes, a module, a branch, or a Lin
 
 ## Review Criteria
 
-- Code quality: strictly follow Heaven style, naming, utility/config rules, and local repo conventions.
-- Modularity: prefer OOP code with clean ownership, stable boundaries, and registry/extension paths instead of planner or business-logic shortcuts.
+- Code quality: follow Heaven architecture, the matched language rules, and local repository conventions.
+- Modularity: put state/lifecycle on owning objects and stateless transforms in functions; keep stable boundaries, registries for open extension families, and exhaustive handling for closed variants.
 - Brevity: code should be as small as the behavior allows; flag boilerplate, duplicate logic, over-abstracted helpers, and unnecessary branches.
 - Ease of use: the mental model should be direct for users and developers without heavy cognitive burden.
-- Cleanliness: no ad-hoc hacks, backward-compatibility leftovers, dead code, stale placeholders, debug prints, or unused artifacts.
-- Docstrings: publicly exposed functions, methods, and major feature APIs need full type hints plus detailed Google-style docstrings with a one-line summary, `Args`, `Returns` or `Yields`, and relevant `Raises`, warnings, notes, or examples.
-- Robustness: look for vulnerabilities, invalid input paths, corner cases, swallowed exceptions, resource leaks, race conditions, and unsafe fallbacks.
-- Migration alignment: if the change replaces a predecessor package, follow [compat.md](../rules/code/python/compat.md) and verify supported behavior remains available through the new API.
-- Sync: docs, HeavenBase docs, architecture markdown, generated artifacts, tests, examples in the relevant rules, and Linear issue state should match the codebase.
+- Cleanliness: no ad-hoc hacks, unapproved compatibility leftovers, dead code, stale placeholders, debug prints, or unused artifacts.
+- API documentation: Python public APIs follow `docstring`; TypeScript published exports and stable seams follow `ts-docs`.
+- Robustness: look for vulnerabilities, invalid input paths, corner cases, swallowed exceptions, unowned promises, resource leaks, races, and unsafe fallbacks.
+- Migration alignment: follow the repository's recorded compatibility/release policy; apply [compat.md](../rules/code/python/compat.md) only to matching Python/predecessor migrations.
+- Sync: relevant docs, architecture markdown, generated artifacts, tests, rule examples, and issue state match the codebase; HeavenBase sibling-doc sync applies only when that surface changed.
 
 ## Findings Format
 

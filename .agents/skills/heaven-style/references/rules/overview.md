@@ -22,7 +22,17 @@ Each rule uses this body shape where practical:
 5. `Example` - focused `Anti-pattern:` and `Recommended pattern:` pairs when useful.
 6. `Related rules` - cross-rule checks.
 
-## Code-quality rules
+## Language selection
+
+Read the target repository's `AGENTS.md`, runtime/package metadata, and public compatibility policy first. Then apply the shared Heaven design philosophy plus exactly the language surface the change touches:
+
+- Python code uses `references/rules/code/python/` and the project rules.
+- TypeScript code uses `references/rules/code/typescript/` and the project rules. Checked JavaScript uses relevant parts only when the repository has an explicit `checkJs`/migration policy; do not enable `allowJs` incidentally. These rules translate Heaven's design intent and replace Python-only mechanics such as standard-library/import conventions, Google-style docstring sections, `__init__.pyi`, and pytest markers. Repository-specific Python helpers never transfer automatically.
+- Mixed-language boundaries use both language surfaces only where each side applies, plus an explicit serialized/runtime contract between them.
+
+Repository mechanics win when they are coherent and explicit. For new TypeScript repositories without contrary metadata, the TypeScript environment rule supplies the Bun-first default.
+
+## Python code-quality rules
 
 1. `util` - load for imports, file I/O, JSON/YAML/pickle/text, shell, logging, hashing, temp paths, or deterministic IDs.
 2. `config` - load for tunables, defaults, prompts, templates, resources, paths, model/provider/backend parameters, or disputed literals.
@@ -39,14 +49,30 @@ Each rule uses this body shape where practical:
 13. `sql` - load for database access, raw SQL, migrations, DDL, ORM use, and bind parameters.
 14. `compat` - load for renames, deprecations, migration shims, `v1/v2` splits, or config schema changes.
 
+## Code-design examples
+
+Examples teach reusable design intuition without adding another normative rule:
+
+1. `example-open-capability-vocabulary` - read [open capability vocabulary](../examples/code/open-capability-vocabulary.md) when an open extension family keeps gaining hard-coded feature fields, base methods, switches, or unvalidated escape hatches.
+
+## TypeScript code-quality rules
+
+1. `ts-architecture` - load for TypeScript services, public APIs, SOLID boundaries, registries versus unions, capabilities, adapters, strategies, composition roots, or lifecycle ownership.
+2. `ts-types` - load for strict compiler contracts, `unknown`, runtime validation, unions, branded identifiers, optionality, readonly ownership, assertions, or resolved configuration.
+3. `ts-modules` - load for `.ts`/`.tsx` layout, ESM, imports/exports, entry points, workspaces, optional integrations, generated code, or packed packages.
+4. `ts-async` - load for promises, cancellation, resource lifetime, startup/shutdown, callbacks, retries, subprocesses, or structured errors.
+5. `ts-docs` - load for published exports, TSDoc/JSDoc, declaration-facing semantics, examples, or generated API documentation.
+6. `ts-environment` - load for Bun/package-manager choice, lockfiles, compiler profiles, local tooling, formatter/linter ownership, dependencies, CI, or runtime compatibility.
+
 ## Project rules
 
-1. `environment` - load when running shell commands, choosing `uv`/Python, adding Bash wrappers, or fixing wrong-environment failures for coding agents.
+1. `environment` - load when running shell commands, selecting the repository's Python or TypeScript toolchain, adding wrappers/scripts, or fixing wrong-environment failures for coding agents.
 2. `format` - load when running or reviewing lint, format, import order, or repo command wrappers.
 3. `test` - load when adding behavior, tests, examples, smoke checks, provider routes, or LLM/MCP integration evidence.
 4. `docs` - load when changing user-facing APIs, Mintlify pages, sibling docs repos, generated artifacts, Linear status, release notes, or commits.
 5. `review` - load for PR/diff review, inline comments, waivers, or final quality gates.
-6. `extension` - load when adding plugin/provider/backend/handler capabilities to a registry-based project.
+6. `extension` - load when adding or reviewing any open plugin/provider/backend/handler family, Registry, manifest, entry point, resolver/loader, or bundled/external parity—even before a registry exists.
+7. `interfaces` - load when a package is provided as a service; when separating Python SDK, `api/`, CLI, GUI, MCP, or TUI layers; or when designing REST/OpenAPI, concurrent requests, modular Typer/Click/argparse CLIs, minimal Python GUIs, or React/Tauri desktop apps.
 
 Examples live inside their owning rules. Do not add a separate demo rule surface unless a future project has concrete evidence that search/routing works better with separate example files.
 
