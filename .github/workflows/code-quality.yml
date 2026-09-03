@@ -1,0 +1,34 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [python]
+  pull_request:
+    branches: [python]
+  workflow_dispatch:
+    inputs:
+      heaven_style_branches:
+        description: Space- or comma-separated branches that must contain identical heaven-style trees
+        required: false
+        default: python typescript
+
+permissions:
+  contents: read
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    env:
+      HEAVEN_STYLE_BRANCHES: ${{ inputs.heaven_style_branches || vars.HEAVEN_STYLE_BRANCHES || 'python typescript' }}
+      HEAVEN_STYLE_CURRENT_BRANCH: python
+      HEAVEN_STYLE_FETCH_REMOTE: origin
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+      - run: uv sync --all-extras --frozen
+      - run: bash scripts/check.bash full

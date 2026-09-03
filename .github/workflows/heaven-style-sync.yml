@@ -1,0 +1,27 @@
+name: Heaven Style Sync
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      branches:
+        description: Space- or comma-separated branches that must contain identical heaven-style trees
+        required: false
+        default: python typescript
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      HEAVEN_STYLE_BRANCHES: ${{ inputs.branches || vars.HEAVEN_STYLE_BRANCHES || 'python typescript' }}
+      HEAVEN_STYLE_CURRENT_BRANCH: ${{ github.event.pull_request.base.ref || github.ref_name }}
+      HEAVEN_STYLE_FETCH_REMOTE: origin
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Verify byte-identical heaven-style trees
+        run: bash scripts/check-skill-sync.bash
