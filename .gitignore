@@ -1,0 +1,57 @@
+# Operating systems and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.code-workspace
+
+# TypeScript and package tooling
+node_modules/
+dist/
+coverage/
+.venv/
+build/
+*.egg-info/
+*.tsbuildinfo
+*.log
+*.cache
+.cache/
+__pycache__/
+*.pyc
+
+# Local work and secrets
+/.temp/
+.env
+.env.*
+!.env.example
+.worktrees/
+worktrees/
+temp/
+tmp/
+scratch/
+secret/
+
+# Agent and editor runtime files
+QWEN.md
+GEMINI.md
+CLAUDE.local.md
+.claude/
+.windsurf/
+.opencode/
+.prompts/
+
+# Repo-local agent skills are source, not runtime data
+!.agents/
+!.agents/**
+.agents/**/__pycache__/
+.agents/**/*.pyc
+.agents/**/.DS_Store
+
+# Documentation scratch and demo runtime data
+!docs/scratch/
+!docs/scratch/**
+docs/scratch/local/
+docs/scratch/*.local.md
+!demos/.temp/
+demos/.temp/*
+!demos/.temp/.gitignore

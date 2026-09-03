@@ -1,0 +1,79 @@
+{
+  "name": "@magolor/blueprint",
+  "version": "0.1.2-3",
+  "blueprintVersion": "0.1.2.3",
+  "description": "A strict TypeScript starter for small SDK and CLI packages.",
+  "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "Magolor",
+    "email": "magolorcz@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Magolor/Blueprint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Magolor/Blueprint/issues"
+  },
+  "homepage": "https://github.com/Magolor/Blueprint#readme",
+  "keywords": [
+    "blueprint",
+    "starter",
+    "template",
+    "typescript",
+    "pnpm"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.21.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "bp": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -b tsconfig.build.json --force",
+    "check": "pnpm check:fast && pnpm package:check",
+    "check:fast": "pnpm readme:check && pnpm docs:check && pnpm skill:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test",
+    "container:check": "docker build -t blueprint:local . && docker run --rm blueprint:local --version",
+    "docs:check": "tsx scripts/docs.ts check",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "lint": "biome lint .",
+    "package:check": "pnpm build && publint && node scripts/test-package.mjs",
+    "readme:check": "node scripts/sync-readme.mjs --check",
+    "readme:sync": "node scripts/sync-readme.mjs",
+    "skill:check": "bash scripts/check-skill-sync.bash",
+    "tasks": "tsx scripts/docs.ts tasks",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.8",
+    "@types/node": "24.13.3",
+    "publint": "0.3.23",
+    "rimraf": "6.1.3",
+    "tsx": "4.23.12",
+    "typescript": "7.0.2",
+    "vitest": "4.1.10",
+    "yaml": "2.9.0"
+  }
+}

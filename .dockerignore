@@ -1,0 +1,12 @@
+.git
+.github
+.githooks
+.agents
+node_modules
+dist
+coverage
+.temp
+demos/.temp
+docs
+tests
+*.log
