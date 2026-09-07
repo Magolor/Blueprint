@@ -1,0 +1,10 @@
+node_modules/
+src/
+tests/
+scripts/
+docs/
+.agents/
+.github/
+.githooks/
+demos/
+assets/
