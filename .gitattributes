@@ -1,0 +1,18 @@
+# Keep source and automation files LF-first for macOS/Linux tooling.
+* text=auto eol=lf
+
+# Windows command launchers conventionally use CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets must not be line-normalized.
+*.gif binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.png binary
+*.webp binary
+*.zip binary
+*.gz binary
+*.whl binary
