@@ -1,12 +1,15 @@
 ---
-id: gui-theme-dystopia
-title: Dystopia palette
-description: Read for dystopia palette.
+name: gui-theme-dystopia
+description: Read before applying or verifying the Dystopia palette.
 ---
 
 # Dystopia palette
 
-### Dystopia
+## Summary
+
+Use the exact Dystopia token values below with the shared theme application rules.
+
+## Dystopia
 
 ```css
 .theme-dystopia {

@@ -1,10 +1,13 @@
 ---
-id: gui-space
-title: Typography and spacing
-description: Read for typography and spacing.
+name: gui-space
+description: Read before setting GUI typography, spacing, or density.
 ---
 
 # Typography and spacing
+
+## Summary
+
+Use typography and shared spacing to make groups and task regions clear without artificial emptiness.
 
 ## Typography, Spacing, And Density
 
@@ -42,3 +45,10 @@ Keep spacing tightest within a semantic group, larger between groups, and larges
 - Use `12px` to `16px` panel insets by default. A dense table may reach the panel edge when its header and row geometry provide the structure.
 - Target a `32px` default desktop control family. A named compact variant may be smaller for repeated data operations; touch surfaces enlarge the hit region toward `40px` to `44px` without making every visible control heavy.
 - Keep density consistent inside a task region. Do not mix airy cards, tiny table controls, and oversized marketing headings in one operational view.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** Related fields share a tight gap; the next task group has a larger gap.
+- **Anti-pattern:** Every field and unrelated task region has the same large gap.
+
+Spacing communicates relationships rather than decoration.

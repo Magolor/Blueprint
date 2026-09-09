@@ -1,10 +1,13 @@
 ---
-id: gui-work
-title: GUI work modes
-description: Read for GUI work modes.
+name: gui-work
+description: Read when choosing a GUI work mode.
 ---
 
 # GUI work modes
+
+## Summary
+
+Match the GUI procedure to maintenance, transfer, new work, demos, temporary artifacts, or review.
 
 ## Work Modes
 

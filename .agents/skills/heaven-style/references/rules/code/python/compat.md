@@ -1,22 +1,28 @@
 ---
-id: compat
-title: Compatibility shims
-blocking: true
+name: compat
 description: Change Python names, schemas, or compatibility promises.
 ---
 
 # Compatibility shims
 
-## Core rule
+## Summary
 
-Prefer one live API version. Rename freely. Update call sites in the same change.
+Keep one live API for owned or unreleased code. Preserve logical features while replacing obsolete interfaces and updating owned callers together. Stable packages and persisted formats follow the repository's declared support contract.
+
+## One live version
+
+Enforce one current owned API, configuration schema, and internal representation. Update owned callers together and delete obsolete paths; do not proactively preserve an old version. Supported canonical aliases belong to this same current API and share its implementation. They are not permission for parallel v1/v2 implementations.
+
+Published support or an explicit user requirement can justify a bounded compatibility adapter at the external boundary, with a named consumer and removal condition. It does not create a second internal version or permit silent loss of persisted data.
 
 ## Do
 
-- Update call sites to the cleaner API in the same change.
+- Update call sites, public exports, tests, examples, and current docs to the cleaner API in the same change.
 - Keep one config schema. Update defaults/bootstrap when keys change.
 - Put one-shot migrations under scripts or migrations.
 - Document explicit compatibility waivers when the user requires a layer.
+- Verify retained behavior through the current public entry. Remove tests that only preserve the retired interface; retain real behavioral regressions.
+- Give a required temporary shim a named consumer, owner, test, and removal condition. Keep it at the supported boundary; internal callers use the canonical API.
 
 ## Avoid
 
@@ -48,6 +54,6 @@ def api(value: str) -> str:
     ...
 ```
 
-Unless explicitly instructed, never consider migration from an older codebase or data source during coding, refactoring, or reviews. Keep only the cleanest, latest API. Do not even notify the user that the old API exists.
+Do not invent predecessor migrations or retain forwarding aliases merely because an old name existed. Under development, keep the accepted current API and migrate owned callers directly. Preserve required data and behavior; retiring code is not permission to discard stored data.
 
-This rule applies while the package is under development. Waive it for a stable-version project or when the user explicitly requests compatibility.
+Current guides describe the supported interface. Keep relevant migration or decision history in its declared owner. Stable-version projects, supported persisted formats, and explicit user compatibility requests retain their real support obligations; resolve those obligations rather than silently deleting the old path or hiding a required migration.

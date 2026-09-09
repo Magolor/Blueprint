@@ -1,13 +1,11 @@
 ---
-id: ts-async
-title: TypeScript async, errors, and resources
-blocking: true
+name: ts-async
 description: Own promises, cancellation, timeouts, resources, and asynchronous state.
 ---
 
 # TypeScript Async, Errors, and Resources
 
-## Core rule
+## Summary
 
 Async work has an owner, a cancellation path, an observed result, and completed teardown. Await or return every promise, or deliberately transfer it to an owner that contains its rejection. Errors preserve context and stable facts. Boundary code minimizes ambient authority.
 

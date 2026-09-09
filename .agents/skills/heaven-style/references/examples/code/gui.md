@@ -1,10 +1,15 @@
 ---
-id: example-local-gui-layout
-title: Local GUI layout
-description: Compare cohesive and workspace layouts for GUI hosts.
+name: example-local-gui-layout
+description: Read when placing GUI hosts and service interfaces in a repository.
 ---
 
 # Local GUI Layout
+
+## Summary
+
+Choose a cohesive layout or earned package boundaries while keeping GUI hosts separate from domain policy.
+
+## Scope
 
 This example demonstrates roles and dependency direction. It does not prescribe exact folder names, a desktop host, or one package topology.
 

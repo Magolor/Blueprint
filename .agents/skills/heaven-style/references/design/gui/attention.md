@@ -1,10 +1,13 @@
 ---
-id: gui-attention
-title: Attention
-description: Read for attention.
+name: gui-attention
+description: Read before choosing GUI attention and information hierarchy.
 ---
 
 # Attention
+
+## Summary
+
+Establish task importance through position, grouping, and typography before adding color or motion.
 
 ## Attention And Hierarchy
 
@@ -37,3 +40,10 @@ The hierarchy must remain understandable without color. Position, type, spacing,
 - **Tertiary:** metadata, uncommon settings, logs, appearance, help, and advanced detail.
 
 Organize a view into roughly three to five meaningful groups when that improves scanning. This is a cognitive-load heuristic, not a visual quota. A group exists because its contents share a decision or task, not because the page needs another container.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** One filled Run action; neutral appearance control.
+- **Anti-pattern:** Run, appearance, and help all pulse in bright accent.
+
+Persistent emphasis follows the task rather than competing controls.

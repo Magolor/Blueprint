@@ -1,12 +1,15 @@
 ---
-id: gui-theme-color
-title: Colorful palette
-description: Read for colorful palette.
+name: gui-theme-color
+description: Read before applying or verifying the Colorful palette.
 ---
 
 # Colorful palette
 
-### Color
+## Summary
+
+Use the exact Colorful token values below with the shared theme application rules.
+
+## Color
 
 ```css
 .theme-color {

@@ -1,12 +1,15 @@
 ---
-id: gui-theme-light
-title: Light palette
-description: Read for light palette.
+name: gui-theme-light
+description: Read before applying or verifying the Light palette.
 ---
 
 # Light palette
 
-### Light
+## Summary
+
+Use the exact Light token values below with the shared theme application rules.
+
+## Light
 
 ```css
 .theme-light {

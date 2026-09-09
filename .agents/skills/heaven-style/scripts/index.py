@@ -20,14 +20,15 @@ LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 REFERENCES = SKILL_ROOT / "references"
 INDEX_PATH = REFERENCES / "index.yaml"
-COLLECTIONS = ("rules", "examples", "design", "workflows", "tasks", "failures")
+COLLECTIONS = ("roles", "rules", "examples", "design", "workflows", "tasks", "failures")
 REQUIRED_FIELDS = {
-    "rules": ("id", "title", "description"),
-    "examples": ("id", "title", "description"),
-    "design": ("id", "title", "description"),
-    "workflows": ("id", "title", "description"),
-    "tasks": ("id", "task_kind", "description"),
-    "failures": ("id", "title", "description"),
+    "roles": ("name", "description"),
+    "rules": ("name", "description"),
+    "examples": ("name", "description"),
+    "design": ("name", "description"),
+    "workflows": ("name", "description"),
+    "tasks": ("name", "description"),
+    "failures": ("name", "description"),
 }
 
 
@@ -142,17 +143,15 @@ def _compact_entry(collection: str, path: Path, root: Path, metadata: dict[str, 
     }
     if collection == "rules":
         entry["family"] = metadata.get("category") or _rule_category(path, root)
-        if metadata.get("blocking") is True:
-            entry["blocking"] = True
     elif collection == "workflows" and metadata.get("audience"):
         entry["audience"] = metadata["audience"]
-    elif collection == "tasks" and metadata.get("task_kind") != metadata.get("id"):
+    elif collection == "tasks" and metadata.get("task_kind") and metadata["task_kind"] != metadata.get("name"):
         entry["kind"] = metadata["task_kind"]
     if metadata.get("enabled") is False:
         entry["enabled"] = False
     if metadata.get("default_exposed") is False:
         entry["default"] = False
-    return str(metadata["id"]), entry
+    return str(metadata["name"]), entry
 
 
 def _collect_references(root: Path, errors: list[str]) -> tuple[dict[str, dict[str, dict[str, object]]], list[Path]]:
@@ -175,24 +174,24 @@ def _collect_references(root: Path, errors: list[str]) -> tuple[dict[str, dict[s
                     errors.append(f"FIELD_MISSING: {relative}: {field}")
                 elif not isinstance(metadata[field], str):
                     errors.append(f"FIELD_TYPE: {relative}: {field} must be a string")
-            identifier = metadata.get("id")
+            identifier = metadata.get("name")
             if not isinstance(identifier, str) or not identifier.strip():
-                errors.append(f"ID_INVALID: {relative}")
+                errors.append(f"NAME_INVALID: {relative}")
                 continue
             if identifier in identifiers:
-                errors.append(f"ID_DUPLICATE: {identifier}: {identifiers[identifier]} and {relative}")
+                errors.append(f"NAME_DUPLICATE: {identifier}: {identifiers[identifier]} and {relative}")
                 continue
             identifiers[identifier] = relative
             if collection == "rules":
                 rules.add(identifier)
             if "enabled" in metadata and not isinstance(metadata["enabled"], bool):
                 errors.append(f"ENABLED_INVALID: {relative}")
-            for field in ("blocking", "default_exposed"):
+            for field in ("default_exposed",):
                 if field in metadata and not isinstance(metadata[field], bool):
                     errors.append(f"FIELD_TYPE: {relative}: {field} must be a boolean")
             if "order" in metadata and type(metadata["order"]) is not int:
                 errors.append(f"FIELD_TYPE: {relative}: order must be an integer")
-            for field in ("category", "audience", "status"):
+            for field in ("category", "audience", "status", "task_kind"):
                 if field in metadata and not isinstance(metadata[field], str):
                     errors.append(f"FIELD_TYPE: {relative}: {field} must be a string")
             for field in ("keywords", "triggers"):
@@ -291,7 +290,7 @@ def build_index(root: Path = SKILL_ROOT) -> dict[str, object]:
     projection_sources.extend(root / path for path in assets)
     counts = {collection: len(routes[collection]) for collection in COLLECTIONS}
     return {
-        "schema": "heaven-style-index/v2",
+        "schema": "heaven-style-index/v3",
         "skill": {
             "name": skill["name"],
             "version": version,
@@ -300,10 +299,12 @@ def build_index(root: Path = SKILL_ROOT) -> dict[str, object]:
         },
         "entrypoints": {
             "default": "SKILL.md",
-            "start": "references/workflows/start.md",
+            "start": "references/roles/README.md",
+            "workflows": "references/workflows/README.md",
+            "tasks": "references/tasks/README.md",
             "rules": "references/rules/overview.md",
-            "architect": "references/workflows/architect.md",
-            "editor": "references/workflows/editor.md",
+            "architect": "references/tasks/design/guide.md",
+            "editor": "references/tasks/edit/README.md",
         },
         "counts": counts,
         "routes": routes,

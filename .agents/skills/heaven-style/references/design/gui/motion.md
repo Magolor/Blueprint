@@ -1,10 +1,13 @@
 ---
-id: gui-motion
-title: Geometry and motion
-description: Read for geometry and motion.
+name: gui-motion
+description: Read before choosing GUI geometry or animation.
 ---
 
 # Geometry and motion
+
+## Summary
+
+Use shared geometry and motion to explain cause, continuity, or feedback. Preserve the same information with reduced motion.
 
 ## Geometry And Motion
 
@@ -30,3 +33,10 @@ Use `6px` for compact controls and chips. Use `8px` for panels and popovers. Use
 - Do not delay task completion for choreography. Avoid staggered reveals in operational interfaces.
 - Allow looping motion only for real ongoing progress, and keep it quiet. Stop it as soon as the state ends.
 - Provide a reduced-motion path with the same information and continuity, using immediate state changes or short fades.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** A drawer expands from its trigger; reduced motion reveals it immediately.
+- **Anti-pattern:** A drawer bounces while badges and the primary action pulse.
+
+Motion explains one transition without competing attention.

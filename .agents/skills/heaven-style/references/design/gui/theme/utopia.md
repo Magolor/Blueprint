@@ -1,12 +1,15 @@
 ---
-id: gui-theme-utopia
-title: Utopia palette
-description: Read for utopia palette.
+name: gui-theme-utopia
+description: Read before applying or verifying the Utopia palette.
 ---
 
 # Utopia palette
 
-### Utopia
+## Summary
+
+Use the exact Utopia token values below with the shared theme application rules.
+
+## Utopia
 
 ```css
 .theme-utopia {

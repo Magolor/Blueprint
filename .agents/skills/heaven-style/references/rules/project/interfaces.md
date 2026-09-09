@@ -1,15 +1,15 @@
 ---
-id: interfaces
-title: Service interface architecture
-blocking: true
+name: interfaces
 description: Separate SDK, application, transport, and user-interface responsibilities.
 ---
 
 # Service Interface Architecture
 
-## Core rule
+## Summary
 
 Name responsibilities before naming folders. When all roles exist, dependencies flow in this direction:
+
+## Principle
 
 ```text
 CLI / GUI / MCP / TUI / automation
@@ -74,6 +74,13 @@ Call this role `application/`, `service/`, `use-cases/`, `api/`, or a repository
 - Cross-package source-path imports that bypass published exports.
 - Mirrored TypeScript/Python cores maintained only for visual symmetry.
 - A desktop-host rule chosen from taste alone rather than product constraints.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** CLI and HTTP adapters call the same application operation.
+- **Anti-pattern:** CLI and HTTP callbacks each implement their own transaction and business rules.
+
+Transport mapping has separate ownership from shared policy.
 
 ## Sources
 

@@ -1,11 +1,15 @@
 ---
-id: ts-docs
-title: TypeScript API documentation
-blocking: true
-description: Write semantic public TSDoc and validate API documentation.
+name: ts-docs
+description: Read before documenting public TypeScript APIs.
 ---
 
 # TypeScript API documentation
+
+## Summary
+
+Use structured semantic TSDoc for public contracts with a short description. Explain caller-visible meaning that types alone cannot express.
+
+## Public contracts
 
 Published exports, stable extension seams, public functions/classes/methods, service interfaces, events, config schemas, and result types use semantic TSDoc in `/** ... */`. Follow Google TypeScript documentation conventions and the repository renderer. Types explain shape; prose explains caller-visible meaning and safe use.
 
@@ -14,7 +18,7 @@ Published exports, stable extension seams, public functions/classes/methods, ser
 - Public functions and methods have explicit return types. Document parameter/result roles, units, bounds, defaults, ownership, and side effects when the names and types do not establish them.
 - Explain caller-observable thrown/rejected errors, cancellation, disposal, mutation, ordering, retry/idempotency, and concurrency guarantees where relevant.
 - Public classes explain their object model and constructor/config role. Document constructor fields once.
-- Use supported `@param`, `@returns`, `@throws`, and `@example` tags when they add semantics or the repository generator requires them. Do not repeat TypeScript types or copy Python `Args:` sections.
+- Prefer supported `@param`, `@returns`, `@throws`, and `@example` tags to organize applicable caller facts consistently with TSDoc and the repository renderer. Keep the opening description short; omit empty or mechanically redundant tags unless the generator requires them. Do not repeat TypeScript types or copy Python `Args:` sections.
 - Keep facts on their owning declaration. Private algorithms, incidental order, and historical rationale are not public guarantees. Module-level purpose comments are optional when they help consumers.
 
 Read [semantics and tags](doc/format.md) for absence, snapshots, lifecycle, literals, or supported tags; [example](doc/example.md) for a caller-facing function; and [checks](doc/check.md) for generated docs or published-package gates. Use [implementation comments](comment.md) for internal explanation. Ordinary API edits need no documentation generator or extra gate.

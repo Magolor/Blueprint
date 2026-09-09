@@ -1,10 +1,13 @@
 ---
-id: project-interfaces-layout
-title: Service layouts
-description: Read for service layouts.
+name: project-interfaces-layout
+description: Read before choosing service packages or cross-language boundaries.
 ---
 
 # Service layouts
+
+## Summary
+
+Choose folders or packages from real ownership and consumption needs, not diagram symmetry.
 
 ## Physical layouts
 

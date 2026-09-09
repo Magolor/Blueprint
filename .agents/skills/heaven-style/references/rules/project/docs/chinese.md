@@ -1,11 +1,13 @@
 ---
-id: project-docs-chinese
-title: Simplified Chinese conventions
-description: Read for simplified chinese conventions.
-blocking: true
+name: project-docs-chinese
+description: Read before writing or translating Simplified Chinese documentation.
 ---
 
 # Simplified Chinese conventions
+
+## Summary
+
+Follow the repository glossary and use consistent Chinese punctuation and terminology.
 
 ## Simplified Chinese conventions
 

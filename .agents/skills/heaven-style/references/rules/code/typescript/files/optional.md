@@ -1,11 +1,13 @@
 ---
-id: ts-files-optional
-title: Optional TypeScript integrations
-description: Read for optional typescript integrations.
-blocking: true
+name: ts-files-optional
+description: Read before adding optional TypeScript integrations.
 ---
 
 # Optional TypeScript integrations
+
+## Summary
+
+Load optional integrations only on the selected path and distinguish missing packages from evaluation failures.
 
 ## Optional integrations
 

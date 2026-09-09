@@ -1,16 +1,21 @@
 ---
-id: project-docs-pair
-title: Bilingual file contract
-description: Read for bilingual file contract.
+name: project-docs-pair
+description: Read before creating or synchronizing an authored bilingual document pair.
 ---
 
 # Bilingual file contract
+
+## Summary
+
+Keep paired documents aligned in meaning, structure, and executable examples.
+Follow the repository’s language and format owners while preserving a clear
+Summary and searchable metadata on each page.
 
 ## Hard constraints
 
 These are non-negotiable for an authored bilingual pair unless its format owner declares a narrower exception:
 
-1. **YAML frontmatter:** both pages start with parseable YAML. Follow the repository's field schema; when none exists, use only a concise `description` that states what the page covers and when to read it unless the user approves more fields. This page-level fallback is not a corpus schema. Keep delimiters, key order, and key names aligned. Localize only values the schema treats as prose.
+1. **YAML frontmatter:** both pages start with parseable YAML. Follow the repository's field schema; when none exists, recommend `name` and a scenario-focused `description` using [searchable YAML](../../../tasks/docs/write.md#searchable-yaml). Additional structured fields may follow repository policy. This page-level fallback is not a corpus schema. Keep delimiters, key order, and key names aligned. Localize only values the schema treats as prose.
 2. **Total line parity:** both files have exactly the same number of physical lines.
 3. **Section line parity:** line counts match within every heading-bounded section and subsection, not only at file level.
 4. **One-to-one line map:** source line *N* maps to counterpart line *N*, including blank lines, frontmatter fields, component tags, code fences, table rows, list markers, and explicit break elements.

@@ -319,7 +319,9 @@ function markdownLinks(text: string): string[] {
 }
 
 function validateLinks(root: string, errors: string[]): void {
-  const candidates = ["README.en.md", "AGENTS.md", "CONTRIBUTING.md"].map((path) => resolve(root, path));
+  const candidates = readdirSync(root)
+    .filter((path) => path.endsWith(".md"))
+    .map((path) => resolve(root, path));
   candidates.push(...listMarkdown(resolve(root, "docs")));
   for (const source of candidates) {
     if (!existsSync(source)) continue;
@@ -368,7 +370,10 @@ function main(): number {
   }
   if (command === "tasks") {
     const readyOnly = arguments_.includes("--ready");
-    const selected = result.tasks.filter((task) => !readyOnly || (task.status === "ready" && !task.depends_on));
+    const selected = result.tasks.filter(
+      (task) =>
+        !readyOnly || (task.status === "ready" && (!Array.isArray(task.depends_on) || task.depends_on.length === 0)),
+    );
     if (selected.length === 0) console.log(readyOnly ? "No actionable tasks." : "Task queue is empty.");
     for (const task of selected)
       console.log(

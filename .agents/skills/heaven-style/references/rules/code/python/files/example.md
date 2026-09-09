@@ -1,11 +1,13 @@
 ---
-id: py-files-example
-title: Python layout examples
-description: Read for Python layout examples.
-blocking: true
+name: py-files-example
+description: Read when comparing Python feature layouts and exports.
 ---
 
 # Python layout examples
+
+## Summary
+
+Keep feature code under its owner and expose supported imports through the package front door.
 
 ## Example
 

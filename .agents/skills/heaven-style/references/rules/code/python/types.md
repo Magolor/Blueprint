@@ -1,13 +1,11 @@
 ---
-id: types
-title: Type annotations
-blocking: true
+name: types
 description: Annotate Python APIs and data shapes using supported language syntax.
 ---
 
 # Type annotations
 
-## Core rule
+## Summary
 
 Use current Python annotation style for new code unless the target repository pins an older runtime.
 

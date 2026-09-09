@@ -1,15 +1,15 @@
 ---
-id: test
-title: Tests and examples
-blocking: true
+name: test
 description: Design meaningful tests, integration evidence, and repository test tiers.
 ---
 
 # Tests and examples
 
-## Core rule
+## Summary
 
 Behavior changes need focused verification through the repository entry point. Start with targeted checks. Broaden them according to risk and repository-defined tiers/tags. Cover the happy path, one meaningful edge case, and one failure path unless the behavior makes one inapplicable and the waiver is explicit.
+
+## Principle
 
 TypeScript repos use their declared runner/scripts and [TypeScript environment](../code/typescript/env.md); package scripts, file/project boundaries, tags, type tests, and packed-consumer checks define their tiers. Python repositories use their declared pytest markers or test tiers. When introducing tiers, prefer a small daily set plus clearly named integration, provider, platform, slow, or release groups rather than one undifferentiated suite.
 

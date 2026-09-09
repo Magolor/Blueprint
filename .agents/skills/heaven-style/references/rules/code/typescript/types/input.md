@@ -1,11 +1,13 @@
 ---
-id: ts-types-input
-title: TypeScript input validation
-description: Read for TypeScript input validation.
-blocking: true
+name: ts-types-input
+description: Read before validating TypeScript input or using type assertions.
 ---
 
 # TypeScript input validation
+
+## Summary
+
+Validate external values from unknown and keep type escapes narrow and justified.
 
 ## External values stay unknown
 
@@ -38,8 +40,8 @@ The schema library is repository-owned; do not add a validation dependency when 
 - Use `@ts-expect-error` only for a deliberate negative type test or a documented upstream defect. Include a reason and keep the suppression on the exact line; do not use `@ts-ignore`.
 
 ```ts
-const DEFAULTS = {
-  mode: 'safe',
-  retries: 2,
-} as const satisfies AppDefaults
+const FORMAT_MARKERS = {
+  json: 'application/json',
+  text: 'text/plain',
+} as const satisfies Record<string, string>
 ```

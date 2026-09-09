@@ -35,7 +35,7 @@ try {
     ["--input-type=module", "--eval", 'import { VERSION } from "@magolor/blueprint"; console.log(VERSION);'],
     temporaryRoot,
   );
-  if (output !== "0.1.2.3") {
+  if (output !== "0.2.0-alpha.1") {
     throw new Error(`installed package reported unexpected version ${output}`);
   }
   run(packageManager, ["exec", "bp", "--version"], temporaryRoot);

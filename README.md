@@ -1,15 +1,23 @@
+---
+name: blueprint
+description: Read to create a project from the TypeScript Blueprint template.
+---
+
 # Blueprint
 
-Blueprint is a strict TypeScript starter for a small SDK and command-line package. It uses one pnpm package and one public module boundary.
+English | [简体中文](README.zh.md)
 
-Blueprint version `0.1.2.3` maps to npm version `0.1.2-3`. The SDK and `bp --version` report the Blueprint version.
+## Summary
+
+Blueprint is a strict TypeScript starter with one SDK, a thin CLI, and Heaven Style agent guidance. This branch contains the current `0.2.0-alpha.1` template.
+
+[![CI](https://github.com/Magolor/Blueprint/actions/workflows/code-quality.yml/badge.svg?branch=typescript)](https://github.com/Magolor/Blueprint/actions/workflows/code-quality.yml) [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Alpha](https://img.shields.io/badge/version-0.2.0--alpha.1-orange.svg)](CHANGELOG.md)
 
 ## Start
 
-Requirements:
+For this upstream checkout, fetch both product branches before running the full gate. For a new template repository or extracted archive, complete “Create your project” first, including the upstream-only parity setting.
 
-- Node.js 24 or newer.
-- The pnpm version in `package.json#packageManager`.
+Use Node.js 24 or newer and the pnpm version declared in `package.json`.
 
 ```bash
 pnpm install --frozen-lockfile
@@ -17,89 +25,52 @@ pnpm check
 pnpm exec bp --help
 ```
 
-Use the SDK:
+Use the public SDK from the built or installed package:
 
 ```ts
 import { getProjectInfo } from "@magolor/blueprint";
 
-const info = getProjectInfo({
-  project: { name: "My Project" },
-  cli: { output: "text" },
-});
-
-console.log(info);
+console.log(getProjectInfo());
 ```
 
-The function validates, detaches, and freezes its result. `loadConfig()` reads `BLUEPRINT_PROJECT_NAME` and `BLUEPRINT_OUTPUT` when an application needs environment input.
+The result contains the project name, version, and output format. Configuration is validated and immutable. `BLUEPRINT_PROJECT_NAME` and `BLUEPRINT_OUTPUT` configure CLI output; the supported formats are `text` and `json`.
 
-## Architecture
+## Create your project
 
-| Path | Responsibility |
+1. Create a repository from the template and choose the required product branch.
+2. Replace package, import, CLI, author, and repository identities in the manifest, source, tests, and root documents.
+3. Replace upstream policy in `AGENTS.md` and `BLUEPRINT.md`; update citation, contact details, badges, and release ownership.
+4. Keep Heaven Style unchanged during product renaming. Remove the two-branch parity gate if your project does not maintain that shared-tree contract.
+5. Refresh the lockfile and generated README, then run the full check command above.
+
+## Folder ownership
+
+| Path | Purpose |
 | --- | --- |
-| `src/index.ts` | Public SDK exports. |
-| `src/project.ts` | Stateless project information and version identity. |
-| `src/config.ts` | Configuration validation and immutable snapshots. |
-| `src/cli.ts` | Closed CLI grammar and SDK adaptation. |
-| `tests/` | Behavior and contract tests. |
-| `scripts/` | Documentation, package, release, and sync tools. |
-| `docs/` | Engineering guidance and task state. |
-| `.agents/skills/heaven-style/` | Canonical Heaven Style source. |
+| `src/` | One native SDK and CLI package. |
+| `tests/` | Public behavior, failure paths, and tooling contracts. |
+| `scripts/` | Repository checks, generation, and release preparation. |
+| `docs/` | Engineering guidance, one task queue, and development evidence. |
+| `.agents/skills/heaven-style/` | Canonical shared agent guidance. |
 
-Blueprint remains one package. Add a workspace only after a real package, runtime, consumer, or release boundary appears.
-
-## Start a downstream project
-
-1. Create a repository from the template.
-2. Change the package name, description, repository links, author, and CLI name in `package.json`.
-3. Replace the placeholder project identity in `src/config.ts` and user examples.
-4. Rewrite `AGENTS.md` and `BLUEPRINT.md` for the real project.
-5. Keep the Heaven Style source unchanged unless you intend to update the shared skill.
-6. Run `pnpm install`, `pnpm readme:sync`, and `pnpm check`.
-
-Do not run a repository-wide replacement through `.agents/skills/heaven-style/`.
-
-## Commands
-
-```bash
-pnpm tasks --ready
-pnpm check:fast
-pnpm check
-pnpm build
-pnpm package:check
-pnpm readme:sync
-```
-
-`pnpm check` validates documentation, skill parity, format, lint, types, tests, package metadata, and the packed artifact.
-
-Build the runtime container with:
-
-```bash
-pnpm container:check
-```
-
-## Product branches
-
-- `typescript` is the active product line and hosted default.
-- `python` is the Python compatibility line.
-- The Heaven Style tree must be byte-identical on both branches.
-- The remote contains no other long-lived product branch.
-
-Run `bash scripts/check-skill-sync.bash` to compare committed skill trees. Use `HEAVEN_STYLE_BRANCHES` to replace the default branch set.
+Add folders or packages only for real responsibilities. Empty template directories do not require an application framework, database, GUI, or service.
 
 ## Heaven Style
 
-Blueprint owns the embedded Heaven Style skill. Install its standard local copy with:
+Install or replace the standard local skill with the following command. The TypeScript template uses uv only for this standalone Python helper.
 
 ```bash
-python3 .agents/skills/heaven-style/scripts/install.py
+uv run --no-project --with PyYAML==6.0.3 python .agents/skills/heaven-style/scripts/install.py
 ```
 
-Use `--all-harnesses` only when you need every supported local bridge. Do not create duplicate plain-skill copies.
+The default destination is `~/.agents/skills/heaven-style`. Use `--all-harnesses` when the Claude plugin bridge is needed.
 
-## Documentation and release
+## Releases and project information
 
-Start engineering work at [`docs/README.md`](docs/README.md). `docs/tasks.yaml` is the only live task queue. `docs/DEVLOG.md` records closeout evidence.
+`typescript` is the hosted default; `python` is the Python starter. Their Heaven Style trees are identical. Python packages use the equivalent version `0.2.0a1`.
 
-The owning product branch dispatches its release workflow. A local commit is not publication. A push or registry release is publication and needs explicit authority.
+Use [release preparation](docs/resources/release.md) for verified template archives. Preparing an archive does not publish a package or GitHub release.
 
-Blueprint uses the [MIT License](LICENSE).
+See [Contributing](CONTRIBUTING.md), [Support](SUPPORT.md), [Security](SECURITY.md), [Code of conduct](CODE_OF_CONDUCT.md), [Changelog](CHANGELOG.md), and [Acknowledgements](ACKNOWLEDGEMENTS.md). Citation metadata is in [CITATION.cff](CITATION.cff); the project uses the [MIT License](LICENSE).
+
+The [engineering guide](docs/README.md) owns the documentation map. `docs/tasks.yaml` is the only live queue.

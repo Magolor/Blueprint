@@ -1,12 +1,15 @@
 ---
-id: gui-theme-dark
-title: Dark palette
-description: Read for dark palette.
+name: gui-theme-dark
+description: Read before applying or verifying the Dark palette.
 ---
 
 # Dark palette
 
-### Dark
+## Summary
+
+Use the exact Dark token values below with the shared theme application rules.
+
+## Dark
 
 ```css
 .theme-dark {

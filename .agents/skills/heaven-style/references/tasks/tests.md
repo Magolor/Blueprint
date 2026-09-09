@@ -1,13 +1,19 @@
 ---
-id: test-compress
+name: test-compress
+description: Read before reducing or reorganizing a test suite.
 task_kind: test-compress
 status: active
-description: Reduce test cost and duplication while preserving behavior contracts.
 ---
 
 # Test Compress Task
 
-Before analysis or edits, complete [required code reading](../workflows/read.md), including the full applicable language and shared project trees.
+## Summary
+
+Compress redundant tests while retaining supported behavior, durable regressions, and meaningful failure coverage.
+
+## Required reading
+
+Before analysis or edits, complete [required code reading](../rules/project/read.md), including the full applicable language and shared project trees.
 
 ## Goal
 

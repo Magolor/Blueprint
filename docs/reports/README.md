@@ -17,3 +17,5 @@ docs/reports/<family>/YYYY-MM-DD-<scope>-<kind>.md
 Each report must state its status, scope, trigger, evidence, findings, limits, follow-up owner, and staleness trigger.
 
 Use `Draft`, `Current`, `Actioned`, or `Superseded`. Put actionable follow-up in one queue task. Keep reports non-normative until an authority accepts their conclusions.
+
+Use the [review](../../.agents/skills/heaven-style/assets/templates/review.md), [survey](../../.agents/skills/heaven-style/assets/templates/survey.md), or [general report](../../.agents/skills/heaven-style/assets/templates/report.md) template. Each starts with the result and retains the metadata above.

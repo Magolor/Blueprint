@@ -1,10 +1,15 @@
 ---
-id: example-open-capability-vocabulary
-title: Open capability vocabulary
-description: Compare closed capability fields with genuinely open extension contracts.
+name: example-open-capability-vocabulary
+description: Read when new capabilities force central interface or dispatch edits.
 ---
 
 # Open capability vocabulary
+
+## Summary
+
+Keep an independently extensible capability vocabulary open without growing the shared base for every feature. Closed vocabularies stay closed.
+
+## Boundary test
 
 Use this example when third parties may add new kinds of optional behavior. The design test is simple:
 

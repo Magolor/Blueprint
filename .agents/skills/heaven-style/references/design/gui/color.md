@@ -1,10 +1,13 @@
 ---
-id: gui-color
-title: Color application
-description: Read for color application.
+name: gui-color
+description: Read before applying theme tokens or building theme controls.
 ---
 
 # Color application
+
+## Summary
+
+Apply semantic colors to their intended roles and verify contrast in the rendered interface. Keep theme controls consistent and accessible.
 
 ## Theme Application
 
@@ -25,9 +28,9 @@ Token names define attention roles. They do not guarantee that every possible pa
 
 ### Theme Controls
 
-The default standard GUI control is a compact three-position slide switch: Light, Warm, and Dystopia (the Dark position), in that order. Use the `.theme-dystopia` DeepSeek Dark atmosphere for the third position rather than the separate GitHub Soft Dark theme. Use the Tabler sun, flame, and moon icons for these positions. Dystopia borrows Dark's moon only in this compact control because it occupies the dark-mode position. Give every icon a visible or programmatic label. The control must expose the selected state through text, shape, or position as well as color. It must support keyboard focus and arrow/Home/End navigation. It must avoid layout shifts or decorative motion when the mode changes.
+The default standard GUI control is a compact three-position slide switch: Light, Warm, and Dystopia (the Dark position), in that order. Use the `.theme-dystopia` palette for the third position rather than the separate GitHub Soft Dark theme. Use the Tabler sun, flame, and moon icons for these positions. Dystopia borrows Dark's moon only in this compact control because it occupies the dark-mode position. Give every icon a visible or programmatic label. The control must expose the selected state through text, shape, or position as well as color. It must support keyboard focus and arrow/Home/End navigation. It must avoid layout shifts or decorative motion when the mode changes.
 
-An optional icon-labeled dropdown may expose the full six-mode palette: Light (Ollama White Grayscale), Colorful (Ollama White), Warm (Anthropic), Dark (GitHub Soft Dark), Utopia (DeepSeek Light), and Dystopia (DeepSeek Dark). Use this canonical mapping:
+An optional icon-labeled dropdown may expose the full six-mode palette: Light (Ollama White Grayscale), Colorful (Ollama White), Warm (Anthropic), Dark (GitHub Soft Dark), Utopia (cool light), and Dystopia (cool dark). Use this canonical mapping:
 
 | Theme | Tabler icon | Bundled SVG |
 | --- | --- | --- |
@@ -58,3 +61,10 @@ Use these assets or the matching icons from the Tabler library. Keep the `24×24
 - Soft fills and borders may group content, but they are not the only boundary for focus, selection, or a control. Add structure, spacing, text, or a solid edge.
 - Meet WCAG AA in the rendered composition: at least `4.5:1` for normal text, `3:1` for large text, and `3:1` for necessary control and focus boundaries. Preserve meaning at high zoom, reduced motion, and without color.
 - Add a narrowly scoped accessibility role token when necessary rather than changing the canonical palette. Document its single role and keep it visually subordinate to the principal accent.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** A failed row shows an error label and icon with the danger role.
+- **Anti-pattern:** An unlabeled red row is the only indication of failure.
+
+Color reinforces meaning; it does not carry the only signal.

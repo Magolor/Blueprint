@@ -1,11 +1,13 @@
 ---
-id: ts-env-compiler
-title: TypeScript compiler profiles
-description: Read for TypeScript compiler profiles.
-blocking: true
+name: ts-env-compiler
+description: Read before changing TypeScript compiler or module profiles.
 ---
 
 # TypeScript compiler profiles
+
+## Summary
+
+Align strict compiler checks with the actual runtime, module resolver, and emitted artifact.
 
 ## Compiler baseline
 
