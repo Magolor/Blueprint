@@ -1,11 +1,15 @@
 ---
-id: docstring
-title: Docstrings
-blocking: true
-description: Write public Python Google-style docstrings and complete annotations.
+name: docstring
+description: Read before documenting public Python APIs.
 ---
 
 # Python API documentation
+
+## Summary
+
+Document public Python contracts with complete annotations and Google-style docstrings. Keep tiny private helpers free of boilerplate.
+
+## Public contracts
 
 Public functions, methods, classmethods, staticmethods, generators, plugin hooks, CLI/API entrypoints, and major feature APIs require complete annotations and Google-style docstrings. This includes symbols exposed through facades, `__all__`, examples, or stable extension points. A substantial private helper that acts as a feature boundary follows the same rule; tiny private helpers need no boilerplate.
 

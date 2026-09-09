@@ -1,10 +1,13 @@
 ---
-id: gui-review
-title: GUI review
-description: Read for GUI review.
+name: gui-review
+description: Read before reviewing or maintaining rendered GUI behavior.
 ---
 
 # GUI review
+
+## Summary
+
+Compare supported states before and after a change. Repair shared patterns and verify task clarity, continuity, and access.
 
 ## Maintenance And Review
 

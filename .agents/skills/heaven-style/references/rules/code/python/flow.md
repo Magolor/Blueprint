@@ -1,15 +1,19 @@
 ---
-id: py
-title: Python shape
-blocking: true
+name: py
 description: Simplify Python control flow and preserve fallback semantics.
 ---
 
 # Python shape
 
-## Core rule
+## Summary
 
 Prefer comprehensions, guard clauses, unpacking, and direct returns when they keep behavior readable. Do not compress regex bodies, SQL, prompts, long error messages, or branching that needs operator context.
+
+## Compact logical shape
+
+Prefer compact idiomatic code as the starting point: comprehensions/collection operations, ternaries, unpacking, direct returns, and guard clauses. Accept a small readability tradeoff for a materially shorter obvious operation, but do not compress complex branching, error context, SQL, regexes, or prompts into opaque expressions. Indentation should reflect logical dependence: parallel branches stay at the same level. Guard invalid cases first, then keep the ordinary branches parallel. See [errors](error.md) and [clean](clean.md).
+
+## Principle
 
 For tiny helper functions that only hide a one-line transform, also apply [clean](clean.md).
 

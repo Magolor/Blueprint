@@ -37,10 +37,6 @@ def read_skill_version(skill_root: Path) -> str:
     match = VERSION_RE.search(text)
     if match:
         return match.group(1)
-    for line in text.splitlines():
-        stripped = line.strip()
-        if stripped.startswith("version:"):
-            return stripped.split(":", 1)[1].strip()
     raise ValueError(f"missing metadata.version in {skill_file}")
 
 
@@ -197,25 +193,6 @@ def require_replaceable_skill(path: Path, label: str) -> None:
         raise RuntimeError(f"refusing to replace {label} at {path}; it is not a verified {SKILL_NAME} skill")
 
 
-def remove_legacy_global_installs() -> list[Path]:
-    """Remove verified legacy versioned heaven-style installs."""
-    root = agents_root()
-    if not root.is_dir():
-        return []
-
-    removed: list[Path] = []
-    prefix = f"{SKILL_NAME}-"
-    for path in sorted(root.iterdir(), key=lambda item: item.name.lower()):
-        if not path.name.startswith(prefix):
-            continue
-        if is_heaven_style_skill(path):
-            _delete_path(path)
-            removed.append(path)
-        else:
-            print(f"[heaven-style] skipped unverified legacy install {path}", file=sys.stderr)
-    return removed
-
-
 def index_skill(skill_root: Path) -> None:
     """Regenerate index.yaml for a skill checkout."""
     run([sys.executable, str(skill_root / "scripts" / "index.py")], cwd=skill_root)
@@ -236,8 +213,6 @@ def install_global() -> Path:
         if staged.exists() or staged.is_symlink():
             _delete_path(staged)
 
-    for path in remove_legacy_global_installs():
-        print(f"[heaven-style] removed stale install {path}")
     print(f"[heaven-style] installed global copy at {target}")
     return target
 

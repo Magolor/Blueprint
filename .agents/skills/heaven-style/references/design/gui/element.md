@@ -1,10 +1,13 @@
 ---
-id: gui-element
-title: Elements and states
-description: Read for elements and states.
+name: gui-element
+description: Read before adding GUI controls, variants, or interactive states.
 ---
 
 # Elements and states
+
+## Summary
+
+Reuse component families by meaning and keep their states consistent across views.
 
 ## Elements And Unity
 
@@ -39,3 +42,10 @@ Every interactive family defines the relevant default, hover, active, focus, sel
 - Feedback appears beside the object or action it belongs to. Temporary feedback does not become a competing permanent panel.
 - Empty, offline, local, loading, running, interrupted, failed, and completed states are honest and visually proportionate.
 - Focus, names, reading order, and state remain perceivable through keyboard and assistive access without changing the visual hierarchy.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** All search fields use the shared field family and named compact variant.
+- **Anti-pattern:** Each view invents another search-field shape and focus state.
+
+The same meaning keeps the same component and state contract.

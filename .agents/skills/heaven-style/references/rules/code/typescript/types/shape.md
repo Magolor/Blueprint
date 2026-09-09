@@ -1,11 +1,13 @@
 ---
-id: ts-types-shape
-title: TypeScript data shapes
-description: Read for TypeScript data shapes.
-blocking: true
+name: ts-types-shape
+description: Read before modeling TypeScript optionality, unions, or identifiers.
 ---
 
 # TypeScript data shapes
+
+## Summary
+
+Represent presence, variants, and identifiers deliberately so types preserve domain distinctions.
 
 ## Optionality is a contract
 
@@ -42,7 +44,7 @@ Resolve and validate once in the layer that owns the defaults. Do not scatter `?
 
 ## Discriminated unions
 
-- Use a stable literal tag such as `kind`, `type`, or `status` for domain alternatives and state machines.
+- Use a stable literal tag that names its domain: `status` for outcomes, `operation` for operations, `provider` for providers. Avoid generic `kind`/`type` when the concept has a precise name; preserve external protocol fields.
 - Keep variant-specific fields on their variants rather than making every field optional on one broad interface.
 - Switch on the tag. Closed unions end in an `assertNever` path and enable exhaustive-switch linting.
 - An intentionally open/declaration-merge union cannot be exhaustive; handle known variants and document the unknown/fallback behavior.
@@ -63,9 +65,9 @@ interface Outcome {
 
 ```ts
 type Outcome =
-  | { kind: 'success'; value: Value }
-  | { kind: 'aborted'; reason: string }
-  | { kind: 'failure'; error: AppError }
+  | { status: 'success'; value: Value }
+  | { status: 'aborted'; reason: string }
+  | { status: 'failure'; error: AppError }
 ```
 
 Do not force independent facts into a false union. A process may be timed out and still report an exit code after trapping the signal. Model independent facts independently.

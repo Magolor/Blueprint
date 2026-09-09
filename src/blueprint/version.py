@@ -1,6 +1,3 @@
-"""Blueprint package version.
+"""Blueprint package version in PEP 440 prerelease form."""
 
-Schema: ``MAJOR.MINOR.PATCH.N[devK]`` — same Heaven-lineage scheme as HeavenBase.
-"""
-
-__version__ = "0.1.2.3"
+__version__ = "0.2.0a1"

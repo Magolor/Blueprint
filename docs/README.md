@@ -23,6 +23,8 @@ The queue supports these live states:
 
 Record completed and canceled work in the development log. Remove the terminal row in the same closeout change.
 
+English root pages are canonical; authored `.zh.md` counterparts preserve meaning, line structure, and code. `README.md` remains a generated English copy. Root pairs use sibling locale links when available. LICENSE and CITATION.cff retain native formats.
+
 ## Engineering areas
 
 | Area | Purpose |
@@ -42,6 +44,12 @@ Record completed and canceled work in the development log. Remove the terminal r
 6. Reports, the development log, and scratch notes.
 
 Label architecture claims as current, target, gap, or non-goal. A plan does not prove shipped behavior.
+
+## Maintenance
+
+At release preparation or repeated documentation/code drift, use the skill’s [maintenance review](../.agents/skills/heaven-style/references/rules/project/docs/sync.md#maintenance-review) and [quality review](../.agents/skills/heaven-style/references/tasks/design/review.md). Keep this entry and user guidance concise; decisions stay at architectural scope. Merge duplicate current claims and move useful execution evidence to the existing development log. Review code simplification and test compression with preserved behavior, not size quotas. Record actionable follow-up only in the task queue.
+
+Keep `docs/DEVLOG.md` as the current newest-first log. When navigation becomes costly, partition history by year/month with dated entries behind this same entry point; migrate its checker and links together. Do not add a parallel chronology.
 
 ## Work loop
 

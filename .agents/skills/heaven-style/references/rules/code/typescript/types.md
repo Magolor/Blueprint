@@ -1,13 +1,11 @@
 ---
-id: ts-types
-title: TypeScript types and language shape
-blocking: true
+name: ts-types
 description: Define strict TypeScript contracts, validated input, and ownership.
 ---
 
 # TypeScript Types and Language Shape
 
-## Core rule
+## Summary
 
 Make invalid states difficult to represent and external states impossible to trust accidentally. Compile all owned TypeScript under a strict project. Keep untrusted values `unknown` until runtime validation succeeds. Use assertions only at small boundaries whose invariant is explained and tested.
 

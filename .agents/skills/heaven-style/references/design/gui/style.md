@@ -1,11 +1,16 @@
 ---
-id: gui-style
-title: GUI style
+name: gui-style
+description: Read before designing, maintaining, or reviewing a GUI.
 default_exposed: false
-description: Design or maintain GUI hierarchy, interaction, and visual consistency.
 ---
 
 # GUI style
+
+## Summary
+
+Build a quiet, compact workbench that preserves task context and makes consequential state visible.
+
+## Quick Read
 
 Use this contract for new interfaces, maintenance, refactors, transfers, demos, temporary HTML, and reviews. Repository policy and tested product behavior come first. Unless redesign is authorized, preserve task flow, meaning, keyboard semantics, user state, and honest runtime behavior.
 
@@ -20,7 +25,7 @@ Build a quiet, compact workbench for prolonged use. Give the task more weight th
 
 ## Required GUI reading
 
-Read every page below and all six palette files before GUI work. This table organizes the material; it does not make the rules optional. Code and architecture tasks also complete [their required reading](../../workflows/read.md).
+Read every page below and all six palette files before GUI work. This table organizes the material; it does not make the rules optional. Code and architecture tasks also complete [their required reading](../../rules/project/read.md).
 
 | Decision | Read |
 | --- | --- |

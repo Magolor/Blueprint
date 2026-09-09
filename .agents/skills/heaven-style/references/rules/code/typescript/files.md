@@ -1,13 +1,11 @@
 ---
-id: ts-modules
-title: TypeScript modules and packages
-blocking: true
+name: ts-modules
 description: Organize TypeScript files, ESM entries, workspaces, and published packages.
 ---
 
 # TypeScript Modules and Packages
 
-## Core rule
+## Summary
 
 Organize by feature ownership. Make runtime boundaries explicit. A package entry point declares the supported surface; it does not expose the source tree, trigger hidden registration, or make optional integrations eager.
 
@@ -17,7 +15,7 @@ Organize by feature ownership. Make runtime boundaries explicit. A package entry
 - Split by reason to change, not one file per function and not generic top-level buckets.
 - Multiple implementations of one contract live as siblings under the owning family, such as `storage/sqlite.ts` and `storage/postgres.ts`.
 - A shared helper package exists only for demonstrated cross-feature reuse. A package named `utils` is not a dumping ground.
-- Keep pure, stateless helpers as functions/modules. Add a service/class/plugin only when it owns mutable state, lifecycle, registration, or replaceable behavior. Use [TypeScript API design](api.md) for helper extraction and public vocabulary, and [utilities](util.md) before creating a shared platform-helper module.
+- Keep independent stateless utilities as functions/modules. Domain objects own their member operations, including pure construction and conversion; do not move those methods into helper modules merely because they are stateless. Add a class for a real domain concept, behavior, invariants, state, or lifecycle. Use [TypeScript API design](api.md) for helper extraction and public vocabulary, and [utilities](util.md) before creating a shared platform-helper module.
 
 ```text
 src/search/

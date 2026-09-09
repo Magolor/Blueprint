@@ -1,10 +1,15 @@
 ---
-id: gui-techstack
-title: GUI tech stack
-description: Read for GUI tech stack.
+name: gui-techstack
+description: Read before choosing a GUI framework, host, or package boundary.
 ---
 
 # GUI tech stack
+
+## Summary
+
+Keep the repository’s coherent GUI stack and expose domain behavior through thin interface adapters.
+
+## Stack and boundaries
 
 Use the repository's existing framework, runtime, component system, and package manager. This visual guide is framework-neutral and does not require a new framework or workspace.
 

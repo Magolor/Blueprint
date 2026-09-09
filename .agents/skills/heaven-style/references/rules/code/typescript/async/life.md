@@ -1,11 +1,13 @@
 ---
-id: ts-async-life
-title: TypeScript resource lifecycle
-description: Read for TypeScript resource lifecycle.
-blocking: true
+name: ts-async-life
+description: Read before implementing TypeScript startup, observers, or teardown.
 ---
 
 # TypeScript resource lifecycle
+
+## Summary
+
+Observe actual async transitions and complete owned teardown before reporting disposal.
 
 ## Observe real state
 
@@ -79,7 +81,7 @@ for (const listener of listeners) {
   try {
     await listener(event)
   } catch (cause: unknown) {
-    this.log.error('event listener failed', { cause, event: event.kind })
+    this.log.error('event listener failed', { cause, event: event.eventType })
   }
 }
 ```

@@ -1,4 +1,15 @@
+---
+name: asset-default-glossary
+description: Read when translating English–Chinese docs without a project glossary.
+---
+
 # Default Glossary
+
+## Summary
+
+Use these English–Chinese terms only when the repository has no applicable glossary.
+
+## Terms
 
 Use this bundled English–Chinese terminology fallback for doc-sync and doc-trans when the target documentation repository has no `_docs-guide/terminology.md` or `reference/glossary.mdx`.
 

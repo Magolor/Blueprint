@@ -1,12 +1,15 @@
 ---
-id: gui-theme-warm
-title: Warm palette
-description: Read for warm palette.
+name: gui-theme-warm
+description: Read before applying or verifying the Warm palette.
 ---
 
 # Warm palette
 
-### Warm
+## Summary
+
+Use the exact Warm token values below with the shared theme application rules.
+
+## Warm
 
 ```css
 .theme-anthropic {

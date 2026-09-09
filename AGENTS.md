@@ -2,7 +2,7 @@
 
 ## Purpose and authority
 
-The `python` branch is the maintained Python compatibility starter. It contains one small SDK and one CLI package.
+The `python` branch is the maintained Python starter. It contains one small SDK and one CLI package.
 
 Use this authority order:
 
@@ -48,9 +48,11 @@ rtk bash scripts/check.bash full
 rtk uv build
 ```
 
+Follow the [version freeze](BLUEPRINT.md#version-identity). Maintenance does not automatically bump Blueprint or Heaven Style.
+
 ## Branch and skill contract
 
-`python` is the compatibility line. `typescript` is active and is the hosted default. These are the only long-lived branches.
+`python` is the Python line. `typescript` is active and is the hosted default. These are the only long-lived branches.
 
 Product files can differ. The `.agents/skills/heaven-style/` tree must be byte-identical on every configured product branch. The default branch set is `python typescript`.
 

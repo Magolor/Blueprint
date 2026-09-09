@@ -1,15 +1,15 @@
 ---
-id: extension
-title: Extension points
-blocking: false
+name: extension
 description: Design open extension registration, discovery, trust, and lifecycle.
 ---
 
 # Extension Points
 
-## Core rule
+## Summary
 
 First decide whether variation is closed, internally composed, package-extensible, or installation-managed. Do not build an extension platform for a closed protocol or a handful of implementations controlled by one composition root.
+
+## Principle
 
 When a product promises independent third-party extensions, bundled and external implementations should use the same public family contract and consumer path. Origin may affect trust or installation policy, but should not silently create a second dispatch or validation model.
 
@@ -98,3 +98,10 @@ Choose checks that match the advertised promise:
 - **Inspectable catalogs:** list descriptors without importing implementations and prove aliases/version/scope conflicts resolve deterministically.
 - **Managed artifacts:** verify integrity, failed acquisition/publication rollback, restart recovery, and stale-owner safety.
 - **Capability routing:** report the implementation and fallback actually used rather than repeating metadata claims.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** An application wires its fixed adapters at one composition root.
+- **Anti-pattern:** The same fixed adapters require a remote catalog and installer without a discovery promise.
+
+Choose machinery from the extension promise, not the presence of several implementations.

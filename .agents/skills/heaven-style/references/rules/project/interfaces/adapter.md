@@ -1,10 +1,13 @@
 ---
-id: project-interfaces-adapter
-title: Interface adapters
-description: Read for interface adapters.
+name: project-interfaces-adapter
+description: Read before adding CLI, GUI, MCP, TUI, or HTTP adapters.
 ---
 
 # Interface adapters
+
+## Summary
+
+Keep CLI, GUI, protocol, and automation adapters thin while owning their interface lifecycle and presentation.
 
 ## CLI contract
 

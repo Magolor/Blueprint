@@ -1,11 +1,13 @@
 ---
-id: project-docs-sync
-title: Synchronize and retire documentation
-description: Read for synchronize and retire documentation.
-blocking: true
+name: project-docs-sync
+description: Read before synchronizing or retiring documentation.
 ---
 
 # Synchronize and retire documentation
+
+## Summary
+
+Keep current documentation small, coherent, and useful to its reader. Promote durable facts into one owner and move useful execution evidence out of the main reading path.
 
 ## Update triggers
 
@@ -20,6 +22,8 @@ blocking: true
 | Canonical source changes while translations exist | Mark translation staleness and route translation separately; do not mix incidental translation into ordinary source sync. |
 
 Small internal edits do not require ceremonial documents. They still update existing docs when their claims become false.
+
+For corrections, follow [whole-document integration](edit.md). Current guidance explains accepted behavior; the development log records the changed decision.
 
 ## Cleanup triggers
 
@@ -43,3 +47,15 @@ Cleanup means:
 5. Refresh navigation, local links, generated projections, and translations state.
 
 Use Git history for old execution chatter. Keep historical reports only when the repository explicitly needs an audit trail; label status and staleness so they cannot masquerade as current truth.
+
+## Maintenance review
+
+Review at the repository’s chosen cadence, release preparation, or signs of drift: repeated instructions, slow onboarding, a growing decision list, stale plans, or conflicting claims. No fixed word, file, or decision-count limit is required.
+
+- Check each user-facing page and engineering entry for one audience, purpose, and level of detail. Replace duplicate claims with links. Split by reader need only when navigation improves; many tiny pages can increase reading cost.
+- Keep decision records at the [declared high-level scope](../docs.md#authority-maps-decisions-and-external-evidence). Consolidate refinements under their owner without erasing rationale, accepted constraints, or stable references. A larger decision count is not evidence of progress.
+- Move useful per-commit, slice, experiment, and review evidence to the existing development-log lane. As it grows, use year/month folders and dated entries behind one short index, or the repository’s equivalent chronological scheme. Keep full logs and annotations in linked evidence; discard unneeded chatter under retention policy. Do not copy each entry into the index.
+- Retire finished plans and actioned reports after promoting surviving conclusions. Keep an audit trail only where needed, clearly historical. Preserve active requirements and unresolved risks.
+- Pair this pass with the [quality review](../../../tasks/design/review.md): simplify code and compress redundant tests while preserving supported behavior and meaningful coverage.
+
+Record a concise closeout in the existing log and put actionable follow-up in the canonical queue. Reuse an existing review owner; do not create a permanent report series for routine cleanup. Review success means readers can find current guidance with fewer competing claims, and checks still protect the supported contracts.

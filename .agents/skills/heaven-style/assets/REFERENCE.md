@@ -1,7 +1,27 @@
+---
+name: assets
+description: Read when selecting skill assets for the current task.
+---
+
 # Assets
 
-Load these assets only when the task needs them. Keep target-project evidence
-outside the distributed skill.
+## Summary
+
+Load only resources needed for the current task. Assets can be textual or
+nontextual resources, including configuration and local reference material;
+their folder does not determine sensitivity or redistribution rights.
+
+## Distribution boundary
+
+This Heaven Style distribution ships reviewed portable resources. Its installer
+copies ordinary assets, so keep secrets and unapproved private material outside
+that distributed tree. Local reference caches use the exclusions documented below.
+This is Heaven Style packaging policy, not a universal restriction on what another
+skill may keep in its local assets directory.
+
+## Artifact templates
+
+[templates/index.md](templates/index.md) selects reusable document, PR, issue, evidence, and devlog templates. Load only the template for the requested artifact.
 
 ## Translation terminology
 

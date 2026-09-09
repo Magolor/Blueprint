@@ -1,15 +1,15 @@
 ---
-id: ts-environment
-title: TypeScript environment and toolchain
-blocking: true
+name: ts-environment
 description: Choose TypeScript package managers, runtime profiles, and verification tools.
 ---
 
 # TypeScript Environment and Toolchain
 
-## Core rule
+## Summary
 
 Repository metadata wins. Preserve a coherent existing package manager, lockfile, runtime, workspace, and release policy.
+
+## Principle
 
 For greenfield work with no contrary evidence, use this priority:
 
