@@ -2,6 +2,13 @@
 
 This log records current alpha preparation. Earlier development history remains in the preserved baseline and local history backup.
 
+## 2026-09-18 — Add repository-native and least-surprise rules
+
+- Task: STYLE-004.
+- Changed: Made clear repository rules authoritative over Heaven Style defaults and defined confirmed local evidence for repository-native implementation. Added a least-surprise interface test covering ownership, verbs, arguments, results, effects, errors, and lifecycle; routed it through both TypeScript and Python API and naming guidance. Preserved the version freeze.
+- Verified: TypeScript full gate passed with 16 tests and packed consumer verification. Python full gate passed with 44 tests. Skill indexing, dependency scanning, script compilation, documentation, formatting, lint, types, and package checks passed. Both product branches contain the same skill tree, and every tracked file matches the refreshed global installation.
+- Next: none
+
 ## 2026-09-09 — Consolidate corrected alpha release
 
 - Task: RELEASE-002.
