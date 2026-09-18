@@ -2,6 +2,13 @@
 
 This log records current alpha preparation. Earlier development history remains in the preserved baseline and local history backup.
 
+## 2026-09-18 — Keep prose corrections proportional
+
+- Task: STYLE-005.
+- Changed: Current documentation and comments now state accepted behavior and maintained invariants without correction-history narration. Minor documentation and PR edits remain local unless they materially change the artifact's purpose, reader outcome, review risk, or evidence. Preserved the version freeze.
+- Verified: TypeScript full gate passed with 16 tests and packed consumer verification. Python full gate passed with 44 tests. Both product branches contain the same skill tree, and every tracked file matches the refreshed global installation.
+- Next: none
+
 ## 2026-09-18 — Add repository-native and least-surprise rules
 
 - Task: STYLE-004.
