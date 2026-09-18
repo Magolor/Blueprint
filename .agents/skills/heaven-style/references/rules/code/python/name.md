@@ -11,6 +11,7 @@ Names should be short enough to keep frequently read code readable and precise e
 
 ## Do
 
+- Start with the repository's confirmed conventions and the shared [least-surprise interface test](../../../design/philosophy/surface.md#least-surprise-interfaces). Choose the name a user would naturally try for the complete behavior; do not apply this vocabulary mechanically when that name would imply the wrong arguments, result, effects, errors, or lifecycle.
 - Keep frequently used symbols short. Leaf helpers may have longer names.
 - `snake_case` functions/modules/vars; `PascalCase` classes; `SCREAMING_SNAKE_CASE` for module constants and established config-manager singletons such as `CM_*`. Keep that existing Python convention without imposing it on new TypeScript config services.
 - Verb-first: `load_json`, `parse_spec`; registration helpers may read like `# pseudocode: register_handler(...)`.

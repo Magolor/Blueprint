@@ -11,6 +11,7 @@ Use native TypeScript casing and short domain names with one term per concept.
 
 ## Names
 
+- Start with the repository's confirmed conventions and the shared [least-surprise interface test](../../../design/philosophy/surface.md#least-surprise-interfaces). Choose the name a user would naturally try for the complete behavior; do not apply this vocabulary mechanically when that name would imply the wrong arguments, result, effects, errors, or lifecycle.
 - `camelCase` for variables, functions, and methods. Treat acronyms as words in owned names: `fromJson` / `toJson`. Preserve required runtime hooks through the aliases defined in [vocabulary](vocab/verbs.md).
 - `PascalCase` for classes, interfaces, type aliases, and components.
 - `SCREAMING_SNAKE_CASE` only for true process/module constants, not ordinary immutable locals.

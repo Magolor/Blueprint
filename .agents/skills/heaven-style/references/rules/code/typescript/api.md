@@ -11,7 +11,7 @@ Keep the public mental model and class count small. Expose the shortest TypeScri
 
 ## Principle
 
-An API should be easy to describe in one sentence and easy to discover through imports, types, and autocomplete. New classes, helpers, flags, factories, overloads, aliases, and fluent steps must remove more caller complexity than they add.
+An API should be easy to describe in one sentence and easy to discover through imports, types, and autocomplete. Before finalizing a signature, apply the shared [least-surprise test](../../../design/philosophy/surface.md#least-surprise-interfaces) to its owner, verb, arguments, result, effects, errors, and lifecycle. New classes, helpers, flags, factories, overloads, aliases, and fluent steps must remove more caller complexity than they add.
 
 ## Public front door
 
