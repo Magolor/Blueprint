@@ -11,7 +11,15 @@ A correction updates the current explanation; it does not become the page’s su
 
 ## Current documentation
 
-Current user guides, overviews, and demos describe the supported behavior in context. Remove the obsolete claim and incidental references to it. Do not add correction warnings, user-instruction reminders, rejected alternatives, or “previously/now” narration. Introduce the replacement only where it helps the reader’s task; do not insert an isolated explanation simply because it was the latest request.
+Current user guides, overviews, demos, API documentation, docstrings, and comments describe the supported behavior in context. Remove the obsolete claim and incidental references to it. Write the accepted behavior as the current design, even when it resulted from a correction, a missed requirement, or a changed decision. Do not add apologies, correction warnings, user-instruction reminders, defenses of the new choice, rejected alternatives, or “previously/now” narration.
+
+Explain rationale only when readers need the current constraint to use, maintain, or review the system. State that constraint directly instead of retelling the conversation that revealed it. A historical comparison belongs only in an artifact whose purpose is migration, decision rationale, investigation, or change history.
+
+## Preserve purpose and emphasis
+
+Scale an edit to its importance in the artifact. When a minor change affects one claim, example, or review detail, update that location and any directly dependent text. Do not rewrite the summary, add a prominent section, reorganize the page, or substantially expand a PR body unless the change alters the artifact's primary outcome, reader path, review risk, or acceptance evidence.
+
+Introduce the replacement only where it helps the reader's task. Reread the artifact without the latest request in mind: its title, opening, section order, and amount of detail should still emphasize its main subject. A complete diff does not require every small implementation correction to receive equal narrative weight.
 
 ## History and support
 
@@ -27,5 +35,7 @@ A small implementation detail should not take over a user-facing demonstration.
 - **Pattern:** In a configuration guide, describe the accepted default where readers choose configuration.
 - **Anti-pattern:** Open the guide with “Important: we used A before; always use B instead.”
 
-After editing, reread the whole page without the correction request. Its summary, order, and emphasis should still serve the overall subject. Keep general Pattern/Anti-pattern teaching only when the contrast independently helps readers, not to memorialize a correction.
+- **Pattern:** A small validation fix in a larger PR gets one accurate line under Changes and its test under Evidence.
+- **Anti-pattern:** Rewrite the PR summary and add a rationale section that makes the validation detail appear to be the PR's main outcome.
 
+After editing, reread the whole artifact without the correction request. Its summary, order, and emphasis should still serve the overall subject. Keep general Pattern/Anti-pattern teaching only when the contrast independently helps readers, not to memorialize a correction.

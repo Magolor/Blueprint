@@ -100,6 +100,8 @@ only when their stated trigger holds. Add relevant subsections; remove prompts
 and empty optional sections. Keep a short artifact short: avoid repeating its
 summary under each heading. Translate headings without changing their jobs.
 
+When revising an existing document, comment, or PR body, integrate accepted behavior without preserving the correction conversation. Keep a minor change local and proportionate; do not recenter, restructure, or substantially expand the artifact unless that change materially alters its purpose, reader outcome, review risk, or evidence. Follow [correction integration](../../rules/project/docs/edit.md).
+
 For abstract rules, use concise [Pattern/Anti-pattern cases](../../rules/project/docs/write.md#make-abstract-rules-concrete) when they clarify application.
 
 Use the shared [language rules](../../rules/project/language.md) and [claim verification](../../rules/project/docs/prose.md).
@@ -113,7 +115,9 @@ keep citations beside claims and prefer maintained same-language links. Omit an
 empty References section rather than inventing sources.
 
 Comments need no template: lead with the finding, answer, or question, then
-provide enough context, evidence, and next action. Separate blockers from
-suggestions. Use the existing task, log, and scratch owners; do not append an
-unrestricted log or parallel queue. Preparing an artifact does not authorize
-publishing it. Add no word-count or template validators.
+provide enough context, evidence, and next action. Describe the accepted state or
+current invariant without retelling rejected suggestions or the correction that
+produced it. Separate blockers from suggestions. Use the existing task, log, and
+scratch owners; do not append an unrestricted log or parallel queue. Preparing
+an artifact does not authorize publishing it. Add no word-count or template
+validators.

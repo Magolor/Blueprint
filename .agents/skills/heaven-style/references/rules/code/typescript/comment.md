@@ -17,6 +17,8 @@ Reserve `/** ... */` for the caller-facing contract on a public declaration. Do 
 
 Keep public facts on the [API documentation](doc.md) owner. Comments must add meaning beyond names and types. Private helpers need comments only when their constraints are non-obvious.
 
+Describe the current invariant, not the correction conversation. Do not mention the rejected implementation, the user's instruction, or why the code was changed unless historical compatibility is itself part of the maintained contract. Apply [correction integration](../../project/docs/edit.md).
+
 ## Pattern and Anti-pattern
 
 - **Pattern:** `// Publish only after persistence succeeds.`
