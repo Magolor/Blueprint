@@ -16,6 +16,18 @@ Follow repository policy and the user's existing authorization. Discussion compa
 
 For persistent work, use one canonical task and one linked plan when ordered detail is needed. Define acceptance before edits. Verify the authoritative change, update affected docs and closeout evidence, then remove terminal task state according to repository policy.
 
+## Repository-native implementation
+
+Treat every clear repository rule as authoritative over a Heaven Style default. Match the repository's established language, structure, names, API shapes, error behavior, types, comments, tests, and tooling closely enough that the change is indistinguishable from confirmed high-quality local work.
+
+Establish that local style from declared policy, formatter and linter configuration, shipped public code, tests, and nearby maintained implementations. Prefer an explicitly canonical example over frequency alone. Do not copy generated, vendored, deprecated, experimental, or known-poor code merely because it exists. Do not import conventions from another repository or use a Heaven Style preference to restyle unrelated code.
+
+When local evidence conflicts, apply the repository's authority order and prefer the nearest maintained precedent that owns the same responsibility. State a material unresolved conflict instead of silently choosing an arbitrary pattern. Use Heaven Style only where the repository leaves the choice open.
+
+**Pattern:** A repository consistently exposes fallible construction through `open` and returns a project-specific result type. A new peer interface uses that same verb and result contract even when a generic Heaven Style example uses `load` and exceptions.
+
+**Anti-pattern:** Add `load`, a new exception family, and different argument casing because those choices match this skill while the repository has a clear, supported convention.
+
 ## Interpret intent and exercise judgment
 
 Separate the objective, constraints, proposed approach, examples, and deferred concerns. A detailed sketch can remain a proposal. Interpret “can you” and “maybe” through the whole request and existing authority, not the phrase alone.

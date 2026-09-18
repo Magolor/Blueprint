@@ -9,6 +9,8 @@ description: Minimize Python public APIs and choose owning objects or functions.
 
 Keep the public OOP interface as small as possible. For each feature, expose the shortest flow through its owning object. Classmethods create or load objects. Instance methods perform lifecycle actions. Common code reads as `obj = Class(...); obj.verb()` or `Class.from_dict(...).verb()`. Do not introduce public classes, free functions, constructor flags, or DSL syntax unless they remove real complexity for users.
 
+Before finalizing a signature, apply the shared [least-surprise test](../../../design/philosophy/surface.md#least-surprise-interfaces) to its owner, verb, arguments, result, effects, errors, and lifecycle. Repository-native Python conventions take precedence over the defaults below.
+
 ## Do
 
 - Prefer object member functions as much as the domain permits. Put domain operations on existing methods or classmethods, including pure construction and conversion, instead of parallel free functions. Statelessness alone does not remove domain ownership.

@@ -9,7 +9,7 @@ metadata:
 
 ## Summary
 
-Use shared code, design, GUI, and authoring conventions. Apply repository policy, runtime contracts, and compatibility promises first. Preserve the repository's language and toolchain. Default an undecided new project to TypeScript.
+Use shared code, design, GUI, and authoring conventions. Apply clear repository rules first and make changes look native to confirmed high-quality local code. Design interfaces that an unfamiliar user can predict with minimal surprise. Preserve the repository's language, toolchain, runtime contracts, and compatibility promises. Default an undecided new project to TypeScript.
 
 ## Quick Read
 
@@ -30,6 +30,7 @@ For prose and chat responses, read [language and responses](references/rules/pro
 
 These summaries name the contracts. Read their complete owners through the [paired language rule map](references/rules/overview.md).
 
+- **Repository-native / least surprise:** Clear repository rules override Heaven Style defaults. Infer local style from declared policy and canonical, maintained code rather than incidental examples, then match its structure, vocabulary, behavior, and verification patterns. Design new interfaces from the user's expected call: the owner, verb, arguments, return value, effects, errors, and lifecycle should follow naturally from repository, language, and domain conventions. Read [work boundaries](references/rules/project/work.md#repository-native-implementation) and the [public-surface philosophy](references/design/philosophy/surface.md#least-surprise-interfaces).
 - **SOLID:** Separate reasons to change; extend open families through stable contracts; preserve substitutable behavior; separate optional capabilities; depend inward on abstractions. Read the five dedicated principle pages for the applicable language, including their patterns and anti-patterns. Keep public object use simple while separating internal responsibilities.
 - **OOP / APIs / Names / Vocabulary:** Minimize public concepts and classes. Put domain operations on their owning object; prefer methods and classmethods over parallel helper APIs. Keep names short, precise, and native. Use aligned conversion verbs (`fromJson`/`toJson` in TypeScript, with equivalent JSON hook aliases); use paired verbs, explicit domain nouns, and common aliases consistently across SDK and CLI; prefer single/multiple input on the same operation. Prefer member methods as much as possible, including pure domain construction/conversion; reserve direct functions for independent utilities and algorithms. Constructors must not hide I/O or activation.
 - **Imports / Format:** Maximize stable dependency prefixes and show first-party relationships early. Preserve TypeScript import/runtime controls. Python must pass Black + Flake8 through repository commands; TypeScript retains its declared toolchain.
