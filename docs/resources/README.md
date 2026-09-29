@@ -9,3 +9,5 @@ Do not put task state, active checklists, or temporary notes here. Use the queue
 Promote only accepted and reusable conclusions into this folder. Link to an authority instead of copying its content.
 
 [Heaven Style maintenance](heaven-style.md) identifies skill documentation and environment authorities.
+
+Use [release preparation](release.md) for verified template archives and publication order.

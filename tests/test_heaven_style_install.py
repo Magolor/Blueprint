@@ -83,7 +83,7 @@ def test_global_install_replaces_previous_skill_after_staging(tmp_path: Path, mo
 
     assert installed == target
     assert installer.is_heaven_style_skill(target)
-    assert installer.read_skill_version(target) == "0.1.2.23"
+    assert installer.read_skill_version(target) == "0.2.0-alpha.1"
     assert not sentinel.exists()
     assert local_machine.read_text(encoding="utf-8") == "keep local machine facts\n"
     assert not list(agents_root.glob(".heaven-style.stage-*"))

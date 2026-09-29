@@ -1,11 +1,13 @@
 ---
-id: docs
-title: Documentation and task lifecycle
-blocking: true
+name: docs
 description: Define documentation authority, lifecycle, synchronization, or validation.
 ---
 
 # Documentation and task lifecycle
+
+## Summary
+
+Keep one owner for each durable fact and separate current guidance from execution history. Control reading cost by scope and relevance, not document or word quotas.
 
 ## Core rule
 
@@ -32,10 +34,13 @@ Make the engineering entry point an authority map. It names the canonical user d
 
 When a repository records architecture or project decisions, its policy owns the paths, states, metadata, and templates. Keep effective decisions navigable separately from pending, rejected, postponed, or superseded history when those states exist. Reserve prerequisite relationships for normative dependencies. Keep refinement, supersession, coordination, and historical evidence semantically distinct so a later clarification does not create a false build or approval order. Update a record and its routing index together when the repository declares that projection.
 
+Reserve accepted decisions for durable, high-level choices: public concepts, responsibility boundaries, dependency direction, or consequential tradeoffs. Keep entries at comparable scope. A helper change, test case, implementation slice, or commit does not earn a decision ID by itself. Refine the existing owner for the same choice; record a new decision only for a distinct consequential choice. Preserve stable IDs and supersession links. Put implementation contracts in their technical owner and execution evidence in the log.
+
 When an external repository, package, document, or mutable page materially guides a decision or review, record a stable locator, the exact consumed snapshot, its valid use, and its authority limit in repository-owned evidence. Use a commit, release, inspected URL and date, or content digest as appropriate. A reference checkout or mutable label such as `latest` does not prove a durable claim. The checkout itself must not become a build, test, or runtime dependency; product adoption uses a supported artifact or protocol through normal dependency policy.
 
 ## Choose the affected surface
 
+- Create a PR, issue, comment, or structured artifact: [authoring](../../tasks/docs/write.md) and [templates](../../../assets/templates/index.md).
 - Author a page: [writing](docs/write.md) and [controlled prose](docs/prose.md).
 - Create, resume, or close work: [task ownership](docs/tasks.md).
 - Change claims, projections, or stale pages: [sync and cleanup](docs/sync.md).

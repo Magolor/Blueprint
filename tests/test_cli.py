@@ -16,6 +16,8 @@ def test_info_writes_text_and_json() -> None:
 
     assert run(["info"], environment=environment, write=output.append) == 0
     assert run(["info", "--json"], environment=environment, write=output.append) == 0
+    assert run(["info"], environment={**environment, "BLUEPRINT_OUTPUT": "json"}, write=output.append) == 0
+    assert json.loads(output[2])["output"] == "json"
     assert output[0] == f"Example {__version__}"
     assert json.loads(output[1]) == {"name": "Example", "version": __version__, "output": "text"}
 

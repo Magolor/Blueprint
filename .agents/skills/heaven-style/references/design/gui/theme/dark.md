@@ -1,12 +1,15 @@
 ---
-id: gui-theme-dark
-title: Dark palette
-description: Read for dark palette.
+name: gui-theme-dark
+description: Read before applying or verifying the Dark palette.
 ---
 
 # Dark palette
 
-### Dark
+## Summary
+
+Use the exact Dark token values below with the shared theme application rules.
+
+## Dark
 
 ```css
 .theme-dark {
@@ -47,6 +50,7 @@ description: Read for dark palette.
   --cm-token-string: #a5d6ff;
   --cm-token-number: #79c0ff;
   --cm-token-variable: #ff7b72;
+  --cm-token-comment: #8b949e;
   --option-accent-0: #58a6ff;
   --option-accent-1: #d29922;
   --option-accent-2: #d2a8ff;
@@ -57,5 +61,7 @@ description: Read for dark palette.
   --option-accent-7: #8b949e;
   --option-accent-8: #b083f0;
   --option-accent-9: #56d4dd;
+  --progress-fill: #3294e8;
+  --progress-sheen: #ffffff;
 }
 ```

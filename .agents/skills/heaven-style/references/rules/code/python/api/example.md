@@ -1,12 +1,15 @@
 ---
-id: py-api-example
-title: Python API examples
-description: Compare owning-object flows, registration, fluent fields, and plain data.
+name: py-api-example
+description: Read when choosing Python construction, registration, or fluent APIs.
 ---
 
 # Python API examples
 
-### Constructor side effects
+## Summary
+
+Compare owning-object APIs with extra factories, lifecycle flags, and wrapper classes.
+
+## Constructor side effects
 
 **Anti-pattern:**
 
@@ -112,3 +115,55 @@ value = data.metadata["attr"]
 ```
 
 Use a dedicated class only when it carries behavior, invariants, lifecycle, or a widely recognized domain concept. If the class only names one field, keep it as a field.
+
+## Domain construction and conversion
+
+The entity owns its representation contract, validation, and construction. Callers discover one canonical conversion family on that entity.
+
+**Anti-pattern:**
+
+```python
+entity = construct_entity_from_json(data)
+data_out = entity_to_json(entity)
+```
+
+**Recommended pattern:**
+
+```python
+entity = Entity.from_json(data)
+data_out = entity.to_json()
+```
+
+Pure conversion still belongs to the domain object. Keep construction and export aligned; do not add a free-function synonym alongside the recommended method.
+
+## Workspace mutation
+
+The workspace owns its mutation scope, configuration, transaction policy, and backend. Express the operation as a member method.
+
+**Anti-pattern:**
+
+```python
+upsert(ws, product)
+```
+
+**Recommended pattern:**
+
+```python
+ws.upsert(product)
+```
+
+Here `product` is an instance. If the domain also supports an entity class or descriptor such as `Product`, use `ws.upsert(Product)` with a documented schema/definition contract. Do not confuse class registration with row mutation or add an overload unless both operations are real product requirements. `Workspace` is the class; `ws` is the scope-owning instance, rather than an implicit global workspace.
+
+## Small mental model, cohesive internals
+
+**Pattern:** `product = Product.fromJson(data); await ws.upsert(product)` in TypeScript, or `product = Product.from_json(data); ws.upsert(product)` in Python. The caller learns the entity and workspace. The workspace may delegate privately to a store, validator, or transaction object, each with its own responsibility.
+
+**Anti-pattern:** require the caller to construct an entity factory, mutation context, backend selector, and upsert manager to save one product. Also avoid placing every backend implementation inside Workspace merely to reduce the public class count. Apply [SOLID](../solid.md) to internal boundaries while keeping the public flow cohesive.
+
+## Independent utilities
+
+**Pattern:** use the package-owned `pj(root, name)` for path construction, or a shared domain-independent normalization function.
+
+**Anti-pattern:** invent `PathJoinManager.create().join(root, name)`, or use the utility exception to move `Entity.fromJson` into `construct_entity_from_json`.
+
+These examples illustrate API ownership; they do not prescribe storage semantics, framework dependencies, or hidden constructor I/O.

@@ -1,12 +1,15 @@
 ---
-id: gui-theme-dystopia
-title: Dystopia palette
-description: Read for dystopia palette.
+name: gui-theme-dystopia
+description: Read before applying or verifying the Dystopia palette.
 ---
 
 # Dystopia palette
 
-### Dystopia
+## Summary
+
+Use the exact Dystopia token values below with the shared theme application rules.
+
+## Dystopia
 
 ```css
 .theme-dystopia {
@@ -41,12 +44,13 @@ description: Read for dystopia palette.
   --cm-selection: rgba(86, 134, 254, 0.28);
   --cm-search-match: rgba(245, 158, 11, 0.34);
   --cm-search-selected: rgba(245, 158, 11, 0.48);
-  --cm-token-class: #b7c8fe;
-  --cm-token-property: #679efe;
-  --cm-token-enum: #f7ad31;
-  --cm-token-string: #4ed17e;
-  --cm-token-number: #679efe;
-  --cm-token-variable: #f25a5a;
+  --cm-token-class: #c9b9ff;
+  --cm-token-property: #9abbff;
+  --cm-token-enum: #f4bc73;
+  --cm-token-string: #85dfa9;
+  --cm-token-number: #f4bc73;
+  --cm-token-variable: #f3a0a0;
+  --cm-token-comment: #adb2b8;
   --option-accent-0: #5686fe;
   --option-accent-1: #4d6bfe;
   --option-accent-2: #679efe;
@@ -57,5 +61,7 @@ description: Read for dystopia palette.
   --option-accent-7: #f25a5a;
   --option-accent-8: #cfd3d6;
   --option-accent-9: #adb2b8;
+  --progress-fill: #4c83f4;
+  --progress-sheen: #ffffff;
 }
 ```

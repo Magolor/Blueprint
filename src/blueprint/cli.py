@@ -47,7 +47,7 @@ def run(
         return 0
 
     info = get_project_info(load_config(environment))
-    write(json.dumps(asdict(info)) if parsed.json else f"{info.name} {info.version}")
+    write(json.dumps(asdict(info)) if parsed.json or info.output == "json" else f"{info.name} {info.version}")
     return 0
 
 

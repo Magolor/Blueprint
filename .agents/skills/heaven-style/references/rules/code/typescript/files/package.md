@@ -1,11 +1,13 @@
 ---
-id: ts-files-package
-title: TypeScript packages
-description: Read for TypeScript packages.
-blocking: true
+name: ts-files-package
+description: Read before creating TypeScript workspaces or publishing packages.
 ---
 
 # TypeScript packages
+
+## Summary
+
+Create packages for real boundaries and verify their supported exports through packed consumers.
 
 ## Workspaces and dependency boundaries
 

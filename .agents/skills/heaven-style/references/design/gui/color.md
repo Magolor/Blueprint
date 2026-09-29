@@ -1,10 +1,13 @@
 ---
-id: gui-color
-title: Color application
-description: Read for color application.
+name: gui-color
+description: Read before applying theme tokens or building theme controls.
 ---
 
 # Color application
+
+## Summary
+
+Apply semantic colors to their intended roles and verify contrast in the rendered interface. Keep theme controls consistent and accessible.
 
 ## Theme Application
 
@@ -25,20 +28,9 @@ Token names define attention roles. They do not guarantee that every possible pa
 
 ### Theme Controls
 
-The default standard GUI control is a compact three-position slide switch: Light, Warm, and Dystopia (the Dark position), in that order. Use the `.theme-dystopia` DeepSeek Dark atmosphere for the third position rather than the separate GitHub Soft Dark theme. Use the Tabler sun, flame, and moon icons for these positions. Dystopia borrows Dark's moon only in this compact control because it occupies the dark-mode position. Give every icon a visible or programmatic label. The control must expose the selected state through text, shape, or position as well as color. It must support keyboard focus and arrow/Home/End navigation. It must avoid layout shifts or decorative motion when the mode changes.
+The workbench baseline separates operating-system mode from palette choice. Offer `System`, `Light`, and `Dark` as mode choices. Let users choose the matching light or dark preset from all six named palettes: Light, Colorful, Warm, Dark, Utopia, and Dystopia. The initial mode follows the operating system; Light and Dystopia are the initial light and dark presets. Show the current choice in text and selected state, not color alone. Keep keyboard focus visible and avoid layout shifts when the mode changes.
 
-An optional icon-labeled dropdown may expose the full six-mode palette: Light (Ollama White Grayscale), Colorful (Ollama White), Warm (Anthropic), Dark (GitHub Soft Dark), Utopia (DeepSeek Light), and Dystopia (DeepSeek Dark). Use this canonical mapping:
-
-| Theme | Tabler icon | Bundled SVG |
-| --- | --- | --- |
-| Light | Sun | [`light.svg`](../../../assets/gui/theme-icons/light.svg) |
-| Colorful | Palette | [`colorful.svg`](../../../assets/gui/theme-icons/colorful.svg) |
-| Warm | Flame | [`warm.svg`](../../../assets/gui/theme-icons/warm.svg) |
-| Dark | Moon | [`dark.svg`](../../../assets/gui/theme-icons/dark.svg) |
-| Utopia | Atom | [`utopia.svg`](../../../assets/gui/theme-icons/utopia.svg) |
-| Dystopia | Eye | [`dystopia.svg`](../../../assets/gui/theme-icons/dystopia.svg) |
-
-Use these assets or the matching icons from the Tabler library. Keep the `24×24` view box, `2px` stroke, round line caps, round line joins, and equal optical size across the set. Reuse the same labels and icon family in both controls, subject to the compact-control Dystopia exception above. Keep the current mode visible after selection. Place the advanced menu near the common three-mode switch, with less visual prominence. A theme change is a user preference, not a new layout or component vocabulary. Preserve the same task state, density, and attention order in every mode.
+Allow code colors to follow the GUI preset by default or use a separate code-theme choice. Selecting a new GUI preset restores its matching code colors. Advanced token overrides are scoped, validated, previewable, exportable, and reversible; missing keys inherit from the selected preset. Do not make every ordinary user edit tokens to reach a built-in palette. Use one consistent icon family when icons aid recognition; the supplied [theme icons](../../../assets/gui/theme-icons/) are optional references rather than a required library.
 
 ### Color Attention Rules
 
@@ -58,3 +50,10 @@ Use these assets or the matching icons from the Tabler library. Keep the `24×24
 - Soft fills and borders may group content, but they are not the only boundary for focus, selection, or a control. Add structure, spacing, text, or a solid edge.
 - Meet WCAG AA in the rendered composition: at least `4.5:1` for normal text, `3:1` for large text, and `3:1` for necessary control and focus boundaries. Preserve meaning at high zoom, reduced motion, and without color.
 - Add a narrowly scoped accessibility role token when necessary rather than changing the canonical palette. Document its single role and keep it visually subordinate to the principal accent.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** A failed row shows an error label and icon with the danger role.
+- **Anti-pattern:** An unlabeled red row is the only indication of failure.
+
+Color reinforces meaning; it does not carry the only signal.

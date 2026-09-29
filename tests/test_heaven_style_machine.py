@@ -51,6 +51,8 @@ def test_missing_environment_does_not_invent_a_setup(tmp_path: Path, monkeypatch
 
     report = machine.build_markdown()
 
+    assert report.startswith("---\nname: asset-machine\n")
+    assert report.index("## Summary") < report.index("## Identity")
     assert "Homebrew prefix: `unknown`" in report
     assert "Docker context: `unknown`" in report
     assert "Setup checkout: `not found; ask for the setup owner`" in report

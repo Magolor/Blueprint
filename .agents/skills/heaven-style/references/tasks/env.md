@@ -1,11 +1,15 @@
 ---
-id: env
+name: env
+description: Read before machine maintenance or environment handoffs.
 task_kind: env
 status: active
-description: Maintain machine setup plans and operational handoffs.
 ---
 
 # Env Task
+
+## Summary
+
+Maintain the requested machine environment through its setup owner without turning local choices into universal rules.
 
 ## Goal
 

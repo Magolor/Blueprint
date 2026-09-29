@@ -1,15 +1,19 @@
 ---
-id: doc-trans
+name: doc-trans
+description: Read before translating or synchronizing English–Chinese document pairs.
 task_kind: doc-trans
 status: active
-description: Translate aligned English–Chinese Markdown or MDX pairs.
 ---
 
 # Bilingual Documentation Translation Task
 
+## Summary
+
+Translate authorized document pairs faithfully while preserving their declared line, code, and metadata alignment.
+
 ## Goal
 
-Produce faithful, line-aligned English and Simplified Chinese Markdown/MDX pairs with YAML frontmatter. The repository owns the canonical-language policy, pairing layout, metadata schema, link rules, and documentation platform. Translation remains separate from [documentation writing and sync](docs.md). Canonical source changes happen there. Counterparts refresh here when explicitly requested or when repository policy requires atomic pair updates.
+Produce faithful, line-aligned English and Simplified Chinese Markdown/MDX pairs with YAML frontmatter. The repository owns the canonical-language policy, pairing layout, metadata schema, link rules, and documentation platform. Translation remains separate from [documentation writing and sync](docs/README.md). Canonical source changes happen there. Counterparts refresh here when explicitly requested or when repository policy requires atomic pair updates.
 
 ## When to use
 

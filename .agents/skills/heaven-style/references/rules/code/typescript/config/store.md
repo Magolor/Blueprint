@@ -1,11 +1,13 @@
 ---
-id: ts-config-store
-title: TypeScript configuration persistence
-description: Read for TypeScript configuration persistence.
-blocking: true
+name: ts-config-store
+description: Read before implementing configuration persistence or bootstrap.
 ---
 
 # TypeScript configuration persistence
+
+## Summary
+
+Separate configuration edits, persistence, and runtime publication with explicit revision and ownership semantics.
 
 ## Paths and edits
 
@@ -17,8 +19,8 @@ blocking: true
 
 ```ts
 type ConfigOp =
-  | { readonly kind: 'set'; readonly path: readonly string[]; readonly value: JsonValue }
-  | { readonly kind: 'unset'; readonly path: readonly string[] }
+  | { readonly operation: 'set'; readonly path: readonly string[]; readonly value: JsonValue }
+  | { readonly operation: 'unset'; readonly path: readonly string[] }
 ```
 
 ## Backend and consistency contract

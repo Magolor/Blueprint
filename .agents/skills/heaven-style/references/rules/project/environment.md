@@ -1,15 +1,15 @@
 ---
-id: environment
-title: Agent environment and commands
-blocking: true
+name: environment
 description: Run agent shell commands or select the repository environment.
 ---
 
 # Agent Environment and Commands
 
-## Core rule
+## Summary
 
 Read repository policy, runtime/package metadata, lockfiles, wrappers, and CI first. Preserve the coherent environment already declared. When the session provides `rtk`, prefix the entire agent shell command with `rtk`.
+
+## Principle
 
 TypeScript repositories are metadata-first: use the checked manager, one lockfile, project-local tools, and declared scripts. For greenfield selection, Bun and pnpm are co-preferred; apply the detailed [TypeScript environment rule](../code/typescript/env.md).
 

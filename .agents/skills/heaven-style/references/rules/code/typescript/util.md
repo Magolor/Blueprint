@@ -1,15 +1,19 @@
 ---
-id: ts-util
-title: TypeScript utilities and platform APIs
-blocking: true
+name: ts-util
 description: Choose TypeScript utilities and explicit host/runtime I/O boundaries.
 ---
 
 # TypeScript Utilities and Platform APIs
 
-## Core rule
+## Summary
 
-Use the target runtime's established APIs or the repository's declared platform owner directly. Add a shared utility only when it owns real policy, validation, observability, portability, or repeated behavior. A wrapper that merely renames `node:fs/promises`, `node:path`, `Bun.file`, `JSON`, `crypto`, `fetch`, or another direct API increases indirection without creating ownership.
+Prefer the package's own utilities and code style, including convenience contracts such as `pj`, over equivalent platform calls. When no suitable owner exists, use the target runtime or established dependency directly. Put a currently needed generic helper in package-wide or subgroup shared utils; keep specialized one-use expressions inline.
+
+## Helper and import ownership
+
+Read [clean](clean.md) for inline code versus shared utility placement. Prefer the package's established utility re-exports as well as its wrapped operations, even for convenience symbols, rather than scattering equivalent imports. Do not add a foreign platform dependency or invent a giant facade merely to obtain them. Keep modern language types and the repository's runtime/import constraints.
+
+## Principle
 
 Runtime portability requires an explicit boundary. Do not assume portability. Browser, worker, Bun, and Node code may share domain contracts while using separate small adapters for host-specific I/O. Do not hide an unresolved runtime decision behind a catch-all `utils.ts` layer.
 
@@ -18,7 +22,7 @@ Runtime portability requires an explicit boundary. Do not assume portability. Br
 1. Use an existing repository platform/utility owner when it clearly defines the policy.
 2. Otherwise use the target runtime or Web-standard API directly.
 3. Keep one-off domain transforms local and explicit.
-4. Introduce a shared helper or adapter only for repeated policy, validation, portability, observability, or lifecycle.
+4. Put a needed generic helper in the package-wide or narrowest subgroup shared utility owner, even for its first consumer. Do not create small helpers in a single feature module or add utilities for hypothetical needs.
 
 ## Do
 
@@ -36,7 +40,7 @@ Runtime portability requires an explicit boundary. Do not assume portability. Br
 ## Avoid
 
 - Generic `common.ts`, `helpers.ts`, or `utils.ts` modules with unrelated owners.
-- Thin wrappers around a single platform call when they add no policy or portability.
+- Small wrappers confined to one feature module, or duplicates of an existing package-owned utility.
 - Sync filesystem or subprocess APIs in request/event-loop paths without a measured reason.
 - Shell command strings built from caller-controlled values.
 - `JSON.parse(text) as T`, implicit default encodings, or lossy serialization hidden behind a broad helper.
@@ -56,16 +60,16 @@ export async function readJsonFile<T>(path: string): Promise<T> {
 
 The generic assertion manufactures trust and the wrapper owns no schema or policy.
 
-**Recommended pattern:**
+**Recommended pattern:** use an existing internal utility owner and the entity's validation contract.
 
 ```ts
-import { readFile } from 'node:fs/promises'
+import { loadJson, pj } from './utils.js'
+import { Profile } from './profile.js'
 
-export async function loadProfile(path: string): Promise<Profile> {
-  const text = await readFile(path, 'utf8')
-  const raw: unknown = JSON.parse(text)
-  return ProfileSchema.parse(raw)
-}
+const path = pj(root, 'data', `${name}.json`)
+const profile = Profile.fromJson(await loadJson(path))
 ```
 
-Keep this behavior local while only one feature owns it. Promote a repository helper later only if several consumers need the same schema-independent read, error, telemetry, or runtime-portability contract.
+The imports are illustrative package-owned APIs. loadJson returns untrusted data; Profile.fromJson validates it. If no package utility exists, use explicit runtime APIs and validate unknown at the same boundary. Prefer package utilities over adding readJsonFile, joinDataPath, or another small module-local wrapper.
+
+A larger feature-specific loader may remain with its domain owner. A needed small generic helper belongs directly in shared utils, not in the consuming feature module.

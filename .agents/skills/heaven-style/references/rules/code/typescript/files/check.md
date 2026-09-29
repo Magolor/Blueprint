@@ -1,11 +1,13 @@
 ---
-id: ts-files-check
-title: TypeScript module checks
-description: Read for TypeScript module checks.
-blocking: true
+name: ts-files-check
+description: Read before checking TypeScript generated code or module cycles.
 ---
 
 # TypeScript module checks
+
+## Summary
+
+Keep generated and vendored ownership explicit and verify consequential dependency cycles.
 
 ## Generated and vendored code
 

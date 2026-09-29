@@ -1,10 +1,13 @@
 ---
-id: failure-git-auth
-title: GitHub repository and token access failures
-description: Diagnose GitHub repository access failures despite a valid login.
+name: failure-git-auth
+description: Read when GitHub API access fails despite a valid login.
 ---
 
 # GitHub Access Failures
+
+## Summary
+
+Check credential precedence and repository scope separately from successful browser or SSH access.
 
 ## Pattern
 

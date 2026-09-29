@@ -1,11 +1,13 @@
 ---
-id: py-files-layout
-title: Python package layout
-description: Read for Python package layout.
-blocking: true
+name: py-files-layout
+description: Read when laying out a Python package or feature folder.
 ---
 
 # Python package layout
+
+## Summary
+
+Start with the smallest owning package and add files only when their roles exist.
 
 ## Standard Package Shape
 

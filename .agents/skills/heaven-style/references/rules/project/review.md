@@ -1,17 +1,17 @@
 ---
-id: review
-title: Review checklist
-blocking: true
+name: review
 description: Apply evidence-based review criteria, severity, and finding format.
 ---
 
 # Review checklist
 
-## Core rule
+## Summary
 
 Use this rule for reviews of code changes, recent changes, branches, modules, PRs, or Linear issues. The task playbook is [review](../../tasks/review.md).
 
-Lead reviews with findings. Mark their severity. Support them with file/line evidence whenever possible.
+## Principle
+
+Open reviews with a Summary stating the finding conclusion. Put detailed findings next and mark their severity. Support them with file/line evidence whenever possible.
 
 Apply this checklist to every code review. Treat each criterion as an applicability question. Do not create a finding only because the change does not touch a listed surface.
 
@@ -22,14 +22,14 @@ Apply this checklist to every code review. Treat each criterion as an applicabil
 
 ## Do
 
-- Lead with findings ordered by severity.
+- Put detailed findings immediately after the opening Summary, ordered by severity.
 - Include file/line references whenever available.
 - Re-check the diff before fixing findings because the working tree may change.
 - State verification commands and residual risk.
 
 ## Avoid
 
-- Leading with a summary before findings.
+- Opening with generic reassurance or background that delays the finding conclusion.
 - Reverting unrelated changes.
 - Treating style preferences as bugs without concrete impact.
 
@@ -49,24 +49,42 @@ Apply this checklist to every code review. Treat each criterion as an applicabil
 
 ## Severity
 
-- `P0`: blocking correctness, security, data loss, or deployability issue.
-- `P1`: likely bug, broken public contract, missing critical validation, or serious test/doc mismatch.
-- `P2`: maintainability, modularity, coverage, API-documentation, or sync issue that should be addressed before declaring done.
-- `P3`: polish, naming nuance, optional cleanup, or future improvement.
+Use the repository’s severity scale when declared. Otherwise use this five-tier scale. Classify by demonstrated impact, affected users, likelihood, and recovery cost—not the effort to fix it or the number of review rounds. State uncertainty separately from severity.
+
+| Severity | Meaning | Disposition |
+| --- | --- | --- |
+| P1 — Critical | Credible severe security exposure, data loss, widespread outage, or inability to deploy or use the core system. | Immediate blocker; resolve before acceptance. |
+| P2 — Major | A supported feature or public contract fails under realistic conditions, with substantial user impact or no reasonable workaround. | Resolve before acceptance. |
+| P3 — Material | A bounded defect, misleading documentation, meaningful coverage gap, or maintainability problem with concrete recurring cost. | Fix in scope or obtain an explicit owner-approved waiver. |
+| P4 — Minor | Local clarity, consistency, or usability improvement with low impact; current behavior remains usable and understandable. | Optional; does not block completion. |
+| P5 — Negligible | Cosmetic preference or speculative refinement with no demonstrated practical impact. | Normally omit; almost always ignorable. |
+
+An unclear name alone is P4/P5; a misleading name that causes callers to misuse a consequential operation can be P3 or higher. A critical fact omitted from docs is not minor merely because the fix is prose. When reporting into a different host scale, declare the mapping rather than silently reusing a label with another meaning.
 
 ## Finding Template
 
+Keep a triage checkbox and an explicit Severity on each issue. Include category, location, problem, impact, and fix direction. Add user annotation space for durable reviews.
+
 ```text
-- [ ] P1 `configuration` `test` path/to/file:42
-  Problem: A deployable default is hard-coded outside the repository's configuration owner and has no failure-path test.
-  Impact: Downstream deployments cannot override it consistently and regressions are hard to catch.
-  Fix: Route the default through the repository configuration owner and add happy/edge/failure coverage.
+- [ ] Configuration cannot be overridden through its declared owner
+  Severity: P2 — Major
+  Category: configuration, test
+  Location: path/to/file:42
+  Problem: Execution reads a fixed deployable default outside the configuration owner.
+  Impact: Supported deployments cannot select their required configuration.
+  Fix: Consume the validated setting from its owner and verify the override path.
   User annotation:
 ```
 
+## Repeated-review completion
+
+Review against the agreed scope and current revision. Resolve confirmed P1–P3 findings, or record an explicit waiver from the authorized owner under repository policy. Verify affected fixes and required gates. Do not downgrade a finding to end the loop or classify an unverified risk as cosmetic.
+
+Finish when the agreed review coverage and checks are complete and all remaining findings are P4/P5. Report “Complete; only non-blocking suggestions remain” with any verification limits or waivers. Stop generating cleanup work merely to reach zero suggestions. Reopen the review only for material changes, new evidence, or an expanded scope. Missing required evidence remains a gap, not a P4/P5 pass.
+
 ## Output Rules
 
-- Lead with findings, ordered by severity.
+- State the finding conclusion in Summary, then list findings ordered by severity.
 - Include file/line references whenever available.
 - Assume the working tree may change while you review. Re-check the diff before fixing findings. Preserve unrelated external edits. State when parallel work may have already addressed a finding.
 - Save review reports with checkboxes and user annotation fields when the task asks for a durable review.

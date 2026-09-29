@@ -1,10 +1,13 @@
 ---
-id: gui-element
-title: Elements and states
-description: Read for elements and states.
+name: gui-element
+description: Read before adding GUI controls, variants, or interactive states.
 ---
 
 # Elements and states
+
+## Summary
+
+Reuse component families by meaning and keep their states consistent across views.
 
 ## Elements And Unity
 
@@ -39,3 +42,14 @@ Every interactive family defines the relevant default, hover, active, focus, sel
 - Feedback appears beside the object or action it belongs to. Temporary feedback does not become a competing permanent panel.
 - Empty, offline, local, loading, running, interrupted, failed, and completed states are honest and visually proportionate.
 - Focus, names, reading order, and state remain perceivable through keyboard and assistive access without changing the visual hierarchy.
+
+### Localization
+
+Keep built-in visible copy, tooltips, and accessible names in one typed message catalog. A complete locale must cover every key; a partial locale declares its coverage and falls back through a documented order without pretending that untranslated copy is translated. Application modules own their domain copy and locale-sensitive titles. Review long labels, narrow layouts, 200% zoom, keyboard flow, and right-to-left direction before claiming a locale is complete. Do not apply English capitalization with CSS to translated or user-provided text.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** All search fields use the shared field family and named compact variant.
+- **Anti-pattern:** Each view invents another search-field shape and focus state.
+
+The same meaning keeps the same component and state contract.

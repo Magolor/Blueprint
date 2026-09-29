@@ -1,4 +1,15 @@
+---
+name: asset-docker
+description: Read before operating or recovering services in the selected Docker setup.
+---
+
 # Docker Operations Owner
+
+## Summary
+
+Use the selected setup controller for service lifecycle work and verify actual service health after changes.
+
+## Service operations
 
 For the setup located in [setup.md](setup.md), use the installed `setup-docker`
 controller for normal service lifecycle work. Read `assets/docker/control.bash`
@@ -34,8 +45,4 @@ Keep these checks when diagnosing optional services:
   behavior belong to their stack guides. Do not treat a container-only note as
   authority for a native installation.
 
-The previous `ds` examples, fixed service inventory, `--all-profiles`,
-`--include-heavy`, `--include-amd64`, and `--restart` recipes are superseded by the
-current controller. Do not replay those historical commands on a new setup.
-Stateful upgrades follow [macOS service guidance](../MacOS-env.md#stateful-service-changes)
-and Setup's maintenance guide.
+Stateful upgrades follow [macOS service guidance](../MacOS-env.md#stateful-service-changes) and the setup owner’s maintenance guide.

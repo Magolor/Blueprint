@@ -1,12 +1,15 @@
 ---
-id: gui-theme-warm
-title: Warm palette
-description: Read for warm palette.
+name: gui-theme-warm
+description: Read before applying or verifying the Warm palette.
 ---
 
 # Warm palette
 
-### Warm
+## Summary
+
+Use the exact Warm token values below with the shared theme application rules.
+
+## Warm
 
 ```css
 .theme-anthropic {
@@ -41,12 +44,13 @@ description: Read for warm palette.
   --cm-selection: rgba(198, 97, 63, 0.22);
   --cm-search-match: rgba(217, 133, 59, 0.28);
   --cm-search-selected: rgba(217, 133, 59, 0.4);
-  --cm-token-class: #c6613f;
-  --cm-token-property: #5563c1;
-  --cm-token-enum: #d97757;
-  --cm-token-string: #059669;
-  --cm-token-number: #d9853b;
-  --cm-token-variable: #c25b4e;
+  --cm-token-class: #9d452b;
+  --cm-token-property: #394a9c;
+  --cm-token-enum: #8b4b12;
+  --cm-token-string: #116947;
+  --cm-token-number: #8b4b12;
+  --cm-token-variable: #a9343b;
+  --cm-token-comment: #5e5d59;
   --option-accent-0: #c6613f;
   --option-accent-1: #d97757;
   --option-accent-2: #5563c1;
@@ -57,5 +61,7 @@ description: Read for warm palette.
   --option-accent-7: #5e5d59;
   --option-accent-8: #9561a8;
   --option-accent-9: #4d8372;
+  --progress-fill: #a84930;
+  --progress-sheen: #ffffff;
 }
 ```

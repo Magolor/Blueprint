@@ -10,23 +10,26 @@ export UV_OFFLINE=1
 
 usage() {
     cat <<'EOF'
-Usage: bash scripts/check.bash [fast|full]
+Usage: bash scripts/check.bash [local|fast|full]
 
 Run Blueprint's repository-owned validation inventory.
 
-  fast  Deterministic PR and pre-commit gates.
+  local Commit checks; compare branch parity after both commits.
+  fast  Deterministic PR gates including committed branch parity.
   full  Fast gates plus the complete test suite.
 EOF
 }
 
-if [[ $# -gt 1 || "${MODE}" != "fast" && "${MODE}" != "full" ]]; then
+if [[ $# -gt 1 || "${MODE}" != "local" && "${MODE}" != "fast" && "${MODE}" != "full" ]]; then
     usage >&2
     exit 2
 fi
 
 run_python scripts/docs.py check
 run_python .agents/skills/heaven-style/scripts/index.py --check
-bash scripts/check-skill-sync.bash
+if [[ "${MODE}" != "local" ]]; then
+    bash scripts/check-skill-sync.bash
+fi
 resolve_uv
 "${UV_BIN}" lock --check
 bash scripts/flake.bash --ci

@@ -1,11 +1,13 @@
 ---
-id: project-docs-tasks
-title: Task ownership
-description: Read for task ownership.
-blocking: true
+name: project-docs-tasks
+description: Read before creating, resuming, handing off, or closing tasks.
 ---
 
 # Task ownership
+
+## Summary
+
+Keep live work in one canonical queue with explicit ownership and observable completion or resumption conditions.
 
 ## One task authority
 
@@ -19,3 +21,10 @@ blocking: true
 ## States
 
 Use the repository schema. Common live states are `draft` (needs review), `ready` (clear and unblocked), `active` (named owner), `blocked` (external blocker and observable unblock condition), and `postponed` (intentional deferral and resume condition). Queue items include stable ID, outcome, priority, state, acceptance, dependencies, and links. Select the highest-priority ready task whose dependencies are complete. Record completion or cancellation and its reason in closeout history, then remove the live row when policy requires it.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** The plan links task status to the canonical queue.
+- **Anti-pattern:** Chat, a plan, and a separate TODO each maintain a different status.
+
+One writable owner prevents contradictory resume state.

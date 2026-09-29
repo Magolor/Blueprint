@@ -1,13 +1,15 @@
 ---
-id: ts-solid-extend
-title: TypeScript extension boundaries
-description: Read for TypeScript extension boundaries.
-blocking: true
+name: ts-solid-extend
+description: Read before designing TypeScript variation and capability contracts.
 ---
 
 # TypeScript extension boundaries
 
-### Separate open and closed variation
+## Summary
+
+Extend open families through shared contracts, exhaust closed variants, and separate optional capabilities.
+
+## Separate open and closed variation
 
 - A **closed** set known to the compiler—an AST, protocol state, or result union—uses a discriminated union and an exhaustive `switch`.
 - An **open** set expected to gain providers, backends, serializers, tools, or strategies uses a registry, injected map, or strategy object.
@@ -62,16 +64,16 @@ For a closed union:
 
 ```ts
 type Expr =
-  | { kind: 'value'; value: boolean }
-  | { kind: 'not'; value: Expr }
-  | { kind: 'and'; values: readonly Expr[] }
+  | { operation: 'value'; value: boolean }
+  | { operation: 'not'; value: Expr }
+  | { operation: 'and'; values: readonly Expr[] }
 
 function assertNever(value: never): never {
   throw new Error(`unhandled expression: ${JSON.stringify(value)}`)
 }
 
 function evaluate(expr: Expr): boolean {
-  switch (expr.kind) {
+  switch (expr.operation) {
     case 'value': return expr.value
     case 'not': return !evaluate(expr.value)
     case 'and': return expr.values.every(evaluate)
