@@ -1,11 +1,13 @@
 ---
-id: ts-doc-check
-title: TypeScript API documentation checks
-description: Read for TypeScript api documentation checks.
-blocking: true
+name: ts-doc-check
+description: Read before checking generated TypeScript API docs or examples.
 ---
 
 # TypeScript API documentation checks
+
+## Summary
+
+Verify documentation through its source owner, checked examples, and relevant package artifacts.
 
 ## One authoritative home
 

@@ -7,9 +7,9 @@ This page owns decisions for the upstream template. Downstream projects must rep
 Blueprint has two long-lived branches:
 
 - `typescript` is the active TypeScript starter and hosted default.
-- `python` is the maintained Python compatibility starter.
+- `python` is the maintained Python starter.
 
-Each branch contains one clean root snapshot. Product files can differ. The embedded Heaven Style tree must remain byte-identical across both branches.
+Each release branch preserves its existing remote root and adds one consolidated commit for the current alpha. Product files can differ. The embedded Heaven Style tree must remain byte-identical across both branches.
 
 ## TypeScript package boundary
 
@@ -23,9 +23,9 @@ External configuration enters as `unknown`. One boundary validates and detaches 
 
 ## Version identity
 
-Blueprint uses `MAJOR.MINOR.PATCH.N[devK]`. npm does not accept four numeric SemVer components.
+Blueprint and Heaven Style are frozen at **0.2.0 alpha 1**. npm, the TypeScript SDK/CLI, and skill metadata use `0.2.0-alpha.1`; the Python package and SDK/CLI use the equivalent PEP 440 spelling `0.2.0a1`.
 
-Blueprint `0.1.2.3` therefore maps to npm package version `0.1.2-3`. The SDK and CLI still report `0.1.2.3`.
+Keep these versions unchanged during maintenance. Resume version advancement only after HeavenBase 2 publishes a release strictly newer than this alpha, or the user explicitly changes this policy. A local version edit, planned release, or unrelated repository tag does not lift the freeze. Before advancing, record the qualifying HeavenBase 2 release URL and version here and update the policy explicitly. This condition does not authorize publication or ongoing monitoring.
 
 ## Artifact contract
 
@@ -52,4 +52,4 @@ Claude Code uses the generated plugin bridge. Do not create another plain skill 
 
 A local commit is not publication. In this repository, publication means a push, package registry release, deployment, or other external state change.
 
-The owning branch dispatches its release workflow. Blueprint does not use a third release branch.
+The owning branch dispatches its verification workflow. Template archives are prepared locally or uploaded as workflow artifacts. A GitHub prerelease is published separately after both branches pass verification. See [release preparation](docs/resources/release.md).

@@ -1,10 +1,13 @@
 ---
-id: gui-layout
-title: Layout and disclosure
-description: Read for layout and disclosure.
+name: gui-layout
+description: Read before arranging panes, disclosure, or responsive layouts.
 ---
 
 # Layout and disclosure
+
+## Summary
+
+Keep the task visible while revealing supporting detail without losing selection, edits, or orientation.
 
 ## Composition And Disclosure
 
@@ -48,3 +51,10 @@ Breakpoints follow task failure, not device labels. Define how the interface cha
 - Narrow or touch: show one hierarchy level at a time, using a drawer, sheet, or route for navigation and inspection. Preserve selection and edits across transitions.
 - Horizontal scrolling is acceptable only for intrinsically wide content such as data grids, timelines, or code. Ordinary forms and navigation must reflow.
 - Verify the sizes the product claims to support. Also verify at `200%` zoom. Dense desktop controls may use a `24px` minimum target when spacing is limited. Touch-oriented surfaces should approach `40px` to `44px` without making the surrounding controls visually heavy.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** Open selected-row details in an inspector; keep edits and selection.
+- **Anti-pattern:** Open a blocking modal for every row selection and discard draft edits.
+
+Supporting detail preserves the ongoing task.

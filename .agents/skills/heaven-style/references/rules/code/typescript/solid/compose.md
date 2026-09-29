@@ -1,13 +1,15 @@
 ---
-id: ts-solid-compose
-title: TypeScript composition boundaries
-description: Read for TypeScript composition boundaries.
-blocking: true
+name: ts-solid-compose
+description: Read before wiring TypeScript execution or registry ownership.
 ---
 
 # TypeScript composition boundaries
 
-### Split policy, compilation, and execution
+## Summary
+
+Separate declarative policy, execution, scoped registries, and durable authority from live composition.
+
+## Split policy, compilation, and execution
 
 - Declarative specs/strategies describe intent and remain readonly; they do not own clients, I/O, mutable caches, or provider dispatch.
 - Pure compilers/handlers translate a logical request into a typed execution fragment.
@@ -50,3 +52,10 @@ Each implementation supplies a concrete operation literal and payload schema. If
 - When the product persists descriptors or configuration, keep them serializable and inspectable without constructing services or executing modules.
 - Let one explicit composition root read validated resolved specs. That root creates runtime instances, publishes them after successful startup, and awaits their disposal.
 - Do not persist constructors, callbacks, service instances, or framework context identity. Persist stable data that a resolver can interpret through an explicit contract.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** A persisted descriptor identifies the adapter; startup resolves and constructs it.
+- **Anti-pattern:** Configuration persists callbacks or live service instances.
+
+Durable data remains inspectable without activating runtime composition.

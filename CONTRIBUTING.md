@@ -1,25 +1,31 @@
-# Contributing to Blueprint
+---
+name: blueprint-contributing
+description: Read before changing Blueprint code or documentation.
+---
 
-Read [`docs/README.md`](docs/README.md), then inspect ready work:
+# Contributing
+
+English | [简体中文](CONTRIBUTING.zh.md)
+
+## Summary
+
+Start with [repository policy](AGENTS.md) and the [engineering guide](docs/README.md). Keep one outcome per change and inspect the canonical task queue before starting resumable work.
+
+## Check the change
+
+Use the declared runtime and package manager. Run focused checks during implementation and the full gate before review.
 
 ```bash
-pnpm tasks --ready
-```
-
-Use the Node and pnpm versions declared by the repository. Change dependencies through pnpm. Commit `package.json` and `pnpm-lock.yaml` together.
-
-Run this gate before a pull request:
-
-```bash
+pnpm install --frozen-lockfile
 pnpm check
 ```
 
-Keep the existing package boundary until a concrete runtime, consumer, or release need justifies another package. Put public SDK behavior behind `src/index.ts`. Keep `src/cli.ts` as an adapter.
+Keep one native package and one public SDK entry. Validate external input, preserve meaningful failure coverage, and migrate owned callers when interfaces change. Do not add compatibility aliases for retired alpha interfaces.
 
-Validate external data at its boundary. Preserve strict internal types and owned immutable values.
+## Documentation and shared skill
 
-The maintained branches are `typescript` and `python`. Apply each Heaven Style edit byte-for-byte to both branches. Confirm parity with `pnpm skill:check`.
+English pages are canonical. Keep `.zh.md` counterparts aligned in meaning, line structure, and code. `README.md` is generated from `README.en.md`.
 
-Do not commit secrets, dependencies, build output, or machine-specific configuration.
+Edit Heaven Style only in Blueprint and synchronize its exact tree to both product branches. Local commit hooks check the candidate; full gates additionally check committed branch parity.
 
-Use the pull request template. State whether the change affects downstream repositories.
+Use the pull-request template and state the behavior, verification, and material limitations. Contributions use the [MIT License](LICENSE).

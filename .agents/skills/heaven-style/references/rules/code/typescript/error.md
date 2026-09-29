@@ -1,11 +1,13 @@
 ---
-id: ts-error
-title: TypeScript errors and recovery
-description: Read for TypeScript errors and recovery.
-blocking: true
+name: ts-error
+description: Read before implementing TypeScript errors, retries, or subprocesses.
 ---
 
 # TypeScript errors and recovery
+
+## Summary
+
+Preserve contextual failures, retry only safe transient work, and limit authority at external boundaries.
 
 ## Error contracts
 
@@ -71,3 +73,39 @@ spawn(executable, args, {
 ```
 
 The exact environment/path helpers are repository-owned. The rule is minimal ambient authority and exclusive private resources, not one mandatory utility package.
+
+## Guard errors; preserve logical indentation
+
+Guard invalid states with early raise/throw or return before normal work. Indentation expresses logical dependence, not whether a line might throw. Parallel alternatives should stay parallel; do not bury one alternative under a catch solely because it can fail. Native exceptions can propagate. When translation/recovery is necessary, keep the try block to the smallest operation that needs it, then resume ordinary flow outside it.
+
+**Anti-pattern:**
+
+```ts
+if (format === 'json') {
+  try {
+    if (typeof input !== 'string') throw new TypeError('JSON input must be text')
+    entity = Entity.fromJson(JSON.parse(input))
+  } catch {
+    throw new Error('bad entity')
+  }
+} else {
+  entity = Entity.fromDict(input)
+}
+```
+
+**Recommended pattern:** illustrative factories accept unknown and validate their representation.
+
+```ts
+if (format !== 'json' && format !== 'dict') {
+  throw new Error(`unknown entity format: ${format}`)
+}
+if (format === 'json' && typeof input !== 'string') {
+  throw new TypeError('JSON input must be text')
+}
+
+const entity = format === 'json'
+  ? Entity.fromJson(decodeJson(input))
+  : Entity.fromDict(input)
+```
+
+Here decodeJson is an existing package utility accepting unknown and guarding/decoding text; do not create a module-local one-liner just for this example. If no utility exists, keep decoding and its type guard together in the JSON branch so TypeScript narrowing remains sound. Do not assert `input as string` to bypass it. Both alternatives construct the entity at the same logical level; malformed JSON still fails. A necessary catch narrows unknown, preserves cause, and wraps only the operation it can translate.

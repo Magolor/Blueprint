@@ -1,4 +1,15 @@
+---
+name: asset-macos-env
+description: Read before maintaining macOS setup or recovering missing environment facts.
+---
+
 # macOS Environment Maintenance
+
+## Summary
+
+Follow the machine’s setup owner for provisioning and maintenance. Verify missing environment facts before dependent work.
+
+## Setup authority
 
 Use the machine's setup repository as the owner of provisioning, tool versions,
 package lists, shell configuration, and maintenance commands. The selected

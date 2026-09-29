@@ -1,11 +1,13 @@
 ---
-id: py-doc-example
-title: Python docstring examples
-description: Read for Python docstring examples.
-blocking: true
+name: py-doc-example
+description: Read when writing Python function or generator docstrings.
 ---
 
 # Python docstring examples
+
+## Summary
+
+Use these forms to document ordinary functions, no-value operations, and generators.
 
 ## Examples
 

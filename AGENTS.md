@@ -51,9 +51,15 @@ rtk pnpm package:check
 
 `pnpm check` is the complete code, documentation, and package gate.
 
+## Authoring
+
+Before creating PRs, issues, comments, docs, or reports, read [authoring rules](.agents/skills/heaven-style/references/tasks/docs/write.md) and the matching [template](.agents/skills/heaven-style/assets/templates/index.md). Use English for Blueprint. Start with the reader-visible summary and explain system context before internal identifiers.
+
+Follow the [version freeze](BLUEPRINT.md#version-identity). Maintenance does not automatically bump Blueprint or Heaven Style.
+
 ## Branch and skill contract
 
-`typescript` is active and is the hosted default. `python` is the compatibility line. These are the only long-lived branches.
+`typescript` is active and is the hosted default. `python` is the Python line. These are the only long-lived branches.
 
 Product files can differ. The `.agents/skills/heaven-style/` tree must be byte-identical on every configured product branch. The default branch set is `python typescript`.
 

@@ -1,12 +1,15 @@
 ---
-id: gui-brief
-title: GUI brief
-description: Read for GUI brief.
+name: gui-brief
+description: Read before framing a GUI change or design review.
 ---
 
 # GUI brief
 
-### Design Brief
+## Summary
+
+Define the task, attention order, disclosure, system fit, and continuity before substantial UI work.
+
+## Design Brief
 
 Before substantial UI work, define six compact decisions. Keep them proportional to the change:
 

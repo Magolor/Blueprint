@@ -1,10 +1,13 @@
 ---
-id: failure-linear-pressure
-title: Linear issue and comment pressure failures
-description: Resolve Linear issue limits and repetitive status comments.
+name: failure-linear-pressure
+description: Read when Linear limits or repetitive status comments block work.
 ---
 
 # Linear Issue and Comment Pressure Failures
+
+## Summary
+
+Reduce issue or comment pressure through authorized cleanup while preserving history and active work.
 
 ## Pattern
 

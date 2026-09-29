@@ -1,15 +1,15 @@
 ---
-id: files
-title: File organization
-blocking: true
+name: files
 description: Organize Python modules, facades, lazy exports, and package boundaries.
 ---
 
 # File Organization
 
-## Core rule
+## Summary
 
 Organize files by ownership and feature locality. A reader should find the code for one feature or extension by opening one cohesive folder or distribution. Do not scatter files for the same feature across top-level categories, export helpers, and generic registries. Folder placement owns code. It must not become discovery truth for an open extension family.
+
+## Principle
 
 Prefer short one-word file and folder names. Use a two-word name only for an established domain phrase such as `user_auth`, `text_index`, or `jsonl`. Re-examine any file name with three or more words, any obscure abbreviation, and any file name that repeats parent-folder context.
 

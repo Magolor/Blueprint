@@ -1,4 +1,15 @@
+---
+name: asset-setup
+description: Read when locating provisioning, profiles, or maintenance commands.
+---
+
 # Personal Machine Setup Owner
+
+## Summary
+
+The selected setup repository owns provisioning, profiles, and maintenance. Its personal locator is not a universal dependency.
+
+## Setup owner
 
 The user-selected setup checkout is `~/Developer/Setup`. This is a personal
 locator, not a required path or provisioning dependency for other users.
@@ -30,8 +41,3 @@ If the checkout or required facts are missing, follow
 Do not assume the current machine matches the source snapshot. Bind only its own
 profile and credential namespace when provisioning is authorized. Restore secrets
 through Setup's documented secure procedure; never copy values into this skill.
-
-The old skill assets added a hardware/path observation and copied maintenance
-and Docker instructions. They did not define a separate required settings layer.
-Setup is now the owner of those commands and inventories. The skill retains
-cross-project guardrails and the procedure for missing or different environments.

@@ -1,12 +1,15 @@
 ---
-id: gui-theme-light
-title: Light palette
-description: Read for light palette.
+name: gui-theme-light
+description: Read before applying or verifying the Light palette.
 ---
 
 # Light palette
 
-### Light
+## Summary
+
+Use the exact Light token values below with the shared theme application rules.
+
+## Light
 
 ```css
 .theme-light {
@@ -22,7 +25,7 @@ description: Read for light palette.
   --border-strong: #d4d4d4;
   --accent: #000000;
   --accent-contrast: #ffffff;
-  --accent-2: #16a34a;
+  --accent-2: #333333;
   --accent-soft: #f5f5f5;
   --danger: #b54545;
   --danger-soft: #f6e3e1;
@@ -34,28 +37,31 @@ description: Read for light palette.
   --code-bg: #fafafa;
   --code-text: #171717;
   --cm-bg: #ffffff;
-  --cm-text: #24292f;
-  --cm-gutter-bg: #f6f8fa;
-  --cm-gutter-text: #6e7781;
-  --cm-active-line: #f6f8fa;
-  --cm-selection: rgba(9, 105, 218, 0.18);
-  --cm-search-match: rgba(191, 135, 0, 0.24);
-  --cm-search-selected: rgba(191, 135, 0, 0.36);
-  --cm-token-class: #8250df;
-  --cm-token-property: #0969da;
-  --cm-token-enum: #953800;
-  --cm-token-string: #0a7f47;
-  --cm-token-number: #0550ae;
-  --cm-token-variable: #cf222e;
+  --cm-text: #242424;
+  --cm-gutter-bg: #f5f5f5;
+  --cm-gutter-text: #666666;
+  --cm-active-line: #f5f5f5;
+  --cm-selection: rgba(80, 80, 80, 0.18);
+  --cm-search-match: rgba(96, 96, 96, 0.22);
+  --cm-search-selected: rgba(64, 64, 64, 0.34);
+  --cm-token-class: #7545ad;
+  --cm-token-property: #126963;
+  --cm-token-enum: #875024;
+  --cm-token-string: #14744e;
+  --cm-token-number: #985226;
+  --cm-token-variable: #a43b57;
+  --cm-token-comment: #666666;
   --option-accent-0: #000000;
-  --option-accent-1: #8f5d20;
-  --option-accent-2: #6f64bf;
-  --option-accent-3: #b65772;
-  --option-accent-4: #4279b8;
-  --option-accent-5: #16a34a;
-  --option-accent-6: #aa5b3f;
+  --option-accent-1: #404040;
+  --option-accent-2: #525252;
+  --option-accent-3: #595959;
+  --option-accent-4: #666666;
+  --option-accent-5: #383838;
+  --option-accent-6: #4a4a4a;
   --option-accent-7: #737373;
-  --option-accent-8: #9458a7;
-  --option-accent-9: #4d7f91;
+  --option-accent-8: #555555;
+  --option-accent-9: #616161;
+  --progress-fill: #111111;
+  --progress-sheen: #ffffff;
 }
 ```

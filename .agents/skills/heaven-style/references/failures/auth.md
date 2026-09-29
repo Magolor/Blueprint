@@ -1,10 +1,13 @@
 ---
-id: failure-auth-secrets
-title: Auth, MCP, and secret lookup failures
-description: Recover missing or expired connector, CLI, or provider credentials.
+name: failure-auth-secrets
+description: Read when connector, CLI, or provider authentication repeatedly fails.
 ---
 
 # Auth, MCP, and Secret Lookup Failures
+
+## Summary
+
+Classify credential failures and recover through a scoped, verified access path without exposing secrets.
 
 ## Pattern
 

@@ -14,42 +14,11 @@ docs/plans/YYYY-MM-DD-<topic>.md
 
 ## Required shape
 
-```markdown
-# <Topic> Plan
-
-- Status: Planned | In progress | Blocked | Done | Superseded
-- Created: YYYY-MM-DD
-- Scope: one or two sentences
-- Task: one live task ID
-- Links: relevant issues, reports, or resources
-
-## Problem
-
-## Success criteria
-
-- [ ] Observable outcome.
-
-## Non-goals
-
-## Slices
-
-### Slice 1: <short title>
-
-- Goal:
-- Touch:
-- Acceptance:
-- Verification:
-- Docs:
-
-## Checkpoints
-
-## Closeout
-
-- Verification:
-- Follow-up:
-```
+Use the [detailed plan template](../../.agents/skills/heaven-style/assets/templates/plan.md) with Blueprint's existing fields: Status, Created, Scope, Task, and Links. Keep one live task owner. Start with a summary, then state the problem, success criteria, non-goals, slices, checkpoints, and closeout evidence; the template's equivalent headings may group these facts. For an architectural idea, use the [design template](../../.agents/skills/heaven-style/assets/templates/design.md) and link it from the execution plan.
 
 ## Rules
+
+Use `Planned`, `In progress`, `Blocked`, `Done`, or `Superseded` for Status.
 
 - Keep status and acceptance checks current.
 - Add exact verification commands.

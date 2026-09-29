@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If Blueprint supports your work, cite this software."
+type: software
+title: Blueprint
+version: 0.2.0-alpha.1
+abstract: "Strict TypeScript and Python starter templates with Heaven Style agent guidance."
+license: MIT
+repository-code: https://github.com/Magolor/Blueprint
+authors:
+  - family-names: Magolor
+keywords:
+  - template
+  - TypeScript
+  - Python
+  - agent skills

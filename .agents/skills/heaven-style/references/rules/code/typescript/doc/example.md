@@ -1,11 +1,15 @@
 ---
-id: ts-doc-example
-title: TypeScript TSDoc example
-description: Read for TypeScript tsdoc example.
-blocking: true
+name: ts-doc-example
+description: Read when drafting caller-facing TSDoc examples.
 ---
 
 # TypeScript TSDoc example
+
+## Summary
+
+Document absence, failures, and cancellation instead of merely restating a function name.
+
+## Pattern and Anti-pattern
 
 **Anti-pattern:**
 

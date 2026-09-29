@@ -1,17 +1,33 @@
 ---
-id: ts-architecture
-title: TypeScript architecture
-blocking: true
-description: Review TypeScript SOLID, dependency direction, extension, and composition boundaries.
+name: ts-architecture
+description: Read before designing or reviewing TypeScript SOLID boundaries.
 ---
 
 # TypeScript SOLID boundaries
+
+## Summary
+
+Use SOLID to check real boundaries with structural interfaces and composition, without adding unnecessary layers.
+
+## Required principle pages
+
+Read all five pages when designing or reviewing object boundaries. Each principle has its own AgentHeaven-style member-method patterns and anti-patterns:
+
+- [SRP: single responsibility](solid/srp.md)
+- [OCP: open/closed](solid/ocp.md)
+- [LSP: Liskov substitution](solid/lsp.md)
+- [ISP: interface segregation](solid/isp.md)
+- [DIP: dependency inversion](solid/dip.md)
+
+Keep the user's mental model small through domain objects and their methods. Use SOLID to separate internal responsibilities without making users assemble them.
+
+## Principles
 
 Use structural interfaces and composition to test actual boundaries. Repository policy and compatibility contracts win. Choose the smallest testable design for verified change pressure; do not port Python mechanics or add layers to claim compliance.
 
 | Principle | TypeScript contract |
 | --- | --- |
-| SRP | Group modules/classes by reason to change. Objects own state, identity, or lifecycle; stateless transforms use typed functions. |
+| SRP | Group modules/classes by reason to change. Domain objects own their operations, including pure construction/conversion; independent stateless transforms use typed functions. |
 | OCP | Register genuinely open implementations. Exhaust closed unions. Use one public contract for bundled and independent extensions when promised. |
 | LSP | Implementations preserve construction, lifecycle, errors, return shapes, and caller ownership. No hidden preconditions or ignored guarantees. |
 | ISP | Keep required interfaces minimal. Separate optional capabilities and prove them before use; no no-op or always-unsupported methods. |

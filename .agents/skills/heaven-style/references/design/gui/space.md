@@ -1,20 +1,23 @@
 ---
-id: gui-space
-title: Typography and spacing
-description: Read for typography and spacing.
+name: gui-space
+description: Read before setting GUI typography, spacing, or density.
 ---
 
 # Typography and spacing
 
+## Summary
+
+Use typography and shared spacing to make groups and task regions clear without artificial emptiness.
+
 ## Typography, Spacing, And Density
 
-Typography and space establish hierarchy before color does. Use the platform's system sans-serif family or a product-approved equivalent. Reserve monospace for paths, identifiers, code, protocol values, and compact technical status.
+Typography and space establish hierarchy before color does. The workbench baseline uses a script-aware monospaced interface family and a separate code-font token. Bundle its core faces when consistent offline rendering matters; use a joined script face for Arabic rather than forcing disconnected monospaced glyphs. A repository may choose another product-approved family. Keep component fonts on semantic type tokens.
 
 | Role | Size | Weight | Line height |
 | --- | ---: | ---: | ---: |
 | App title | `14px` | `650` | `20px` |
 | Panel heading | `12px` | `650` | `16px` |
-| Body | `13px` | `450` | `19px` |
+| Body | `13px` | `500` | `19px` |
 | Label | `11px` | `600` | `14px` |
 | Mono/status | `11px` | `500` | `15px` |
 
@@ -42,3 +45,10 @@ Keep spacing tightest within a semantic group, larger between groups, and larges
 - Use `12px` to `16px` panel insets by default. A dense table may reach the panel edge when its header and row geometry provide the structure.
 - Target a `32px` default desktop control family. A named compact variant may be smaller for repeated data operations; touch surfaces enlarge the hit region toward `40px` to `44px` without making every visible control heavy.
 - Keep density consistent inside a task region. Do not mix airy cards, tiny table controls, and oversized marketing headings in one operational view.
+
+## Pattern and Anti-pattern
+
+- **Pattern:** Related fields share a tight gap; the next task group has a larger gap.
+- **Anti-pattern:** Every field and unrelated task region has the same large gap.
+
+Spacing communicates relationships rather than decoration.

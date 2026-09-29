@@ -1,11 +1,13 @@
 ---
-id: py-doc-format
-title: Python docstring format
-description: Read for Python docstring format.
-blocking: true
+name: py-doc-format
+description: Read when formatting Python docstrings or documenting argument modes.
 ---
 
 # Python docstring format
+
+## Summary
+
+State argument semantics and use consistent Google-style sections with renderer-compatible markup.
 
 ## Argument descriptions
 

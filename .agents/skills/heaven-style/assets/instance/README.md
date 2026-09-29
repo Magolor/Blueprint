@@ -1,4 +1,15 @@
+---
+name: asset-readme
+description: Read when locating setup authority or machine observations.
+---
+
 # Environment Instance Notes
+
+## Summary
+
+Use scoped setup references and reviewed observations without treating them as current machine state.
+
+## Owner references
 
 Track reviewed non-secret environment references and observations when they help
 future work. A machine name, home path, hardware capacity, or tool path is not a
@@ -21,5 +32,5 @@ content before committing; a filename is not a security boundary.
 `scripts/machine.py` writes to `~/.config/heaven-style/machine.md` by default.
 Use `--output` to select a reviewed repository note deliberately. This keeps a
 probe on a new machine from overwriting the distributed source-machine snapshot.
-The installer preserves legacy `*.local.md` notes for compatibility, but those
-notes are not current authority. Read these owner references first.
+The installer preserves user-owned `*.local.md` notes. Verify their scope and
+freshness before use; they do not override the setup owner.

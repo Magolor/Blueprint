@@ -1,11 +1,13 @@
 ---
-id: ts-doc-format
-title: TypeScript TSDoc semantics and tags
-description: Read for TypeScript tsdoc semantics and tags.
-blocking: true
+name: ts-doc-format
+description: Read when selecting TSDoc tags and contract details.
 ---
 
 # TypeScript TSDoc semantics and tags
+
+## Summary
+
+Document consequential semantics with supported TSDoc tags without repeating types or implementation steps.
 
 ## What types do not explain
 

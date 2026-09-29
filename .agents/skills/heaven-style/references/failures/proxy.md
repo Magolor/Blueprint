@@ -1,10 +1,13 @@
 ---
-id: failure-network-proxy
-title: Network and proxy failures
-description: Diagnose network failures involving VPN or proxy settings.
+name: failure-network-proxy
+description: Read when network failures may involve VPN or proxy configuration.
 ---
 
 # Network and Proxy Failures
+
+## Summary
+
+Diagnose connectivity with scoped proxy checks before changing code or global network settings.
 
 ## Pattern
 

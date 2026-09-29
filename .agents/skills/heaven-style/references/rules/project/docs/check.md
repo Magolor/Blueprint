@@ -1,11 +1,13 @@
 ---
-id: project-docs-check
-title: Documentation checks
-description: Read for documentation checks.
-blocking: true
+name: project-docs-check
+description: Read before checking documentation consistency or lifecycle.
 ---
 
 # Documentation checks
+
+## Summary
+
+Verify authoritative claims, generated projections, links, and lifecycle state through their existing owners.
 
 ## Enforcement owners
 

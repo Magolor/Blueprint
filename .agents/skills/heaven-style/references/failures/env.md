@@ -1,10 +1,15 @@
 ---
-id: failure-env
-title: Environment and PATH failures
-description: Recover wrong-runtime, dependency, shell, or PATH failures.
+name: failure-env
+description: Read when commands fail from PATH, runtime, or dependency drift.
 ---
 
 # Environment and PATH Failures
+
+## Summary
+
+Verify the declared runtime and command owner before treating an environment failure as a code defect.
+
+## Prerequisites
 
 Load [environment](../rules/project/environment.md) first for the normal `rtk` plus repository-owned runtime/package-manager/wrapper command ladder.
 

@@ -1,12 +1,15 @@
 ---
-id: gui-theme-utopia
-title: Utopia palette
-description: Read for utopia palette.
+name: gui-theme-utopia
+description: Read before applying or verifying the Utopia palette.
 ---
 
 # Utopia palette
 
-### Utopia
+## Summary
+
+Use the exact Utopia token values below with the shared theme application rules.
+
+## Utopia
 
 ```css
 .theme-utopia {
@@ -41,12 +44,13 @@ description: Read for utopia palette.
   --cm-selection: rgba(65, 118, 230, 0.18);
   --cm-search-match: rgba(245, 158, 11, 0.24);
   --cm-search-selected: rgba(245, 158, 11, 0.36);
-  --cm-token-class: #4868b2;
-  --cm-token-property: #4176e6;
-  --cm-token-enum: #dd8629;
-  --cm-token-string: #22c55e;
-  --cm-token-number: #5686fe;
-  --cm-token-variable: #ec1313;
+  --cm-token-class: #6548a0;
+  --cm-token-property: #315dac;
+  --cm-token-enum: #955016;
+  --cm-token-string: #147a3a;
+  --cm-token-number: #315dac;
+  --cm-token-variable: #b82020;
+  --cm-token-comment: #61666b;
   --option-accent-0: #4176e6;
   --option-accent-1: #4d6bfe;
   --option-accent-2: #5686fe;
@@ -57,5 +61,7 @@ description: Read for utopia palette.
   --option-accent-7: #ec1313;
   --option-accent-8: #61666b;
   --option-accent-9: #adb2b8;
+  --progress-fill: #376bd6;
+  --progress-sheen: #ffffff;
 }
 ```

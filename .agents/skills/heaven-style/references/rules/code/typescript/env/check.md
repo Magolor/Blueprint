@@ -1,11 +1,13 @@
 ---
-id: ts-env-check
-title: TypeScript dependency and artifact checks
-description: Read for TypeScript dependency and artifact checks.
-blocking: true
+name: ts-env-check
+description: Read before changing TypeScript dependencies, CI, or release artifacts.
 ---
 
 # TypeScript dependency and artifact checks
+
+## Summary
+
+Check declared dependencies and actual artifacts separately from workspace source behavior.
 
 ## Package boundaries and artifacts
 
