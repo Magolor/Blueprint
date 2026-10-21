@@ -2,6 +2,13 @@
 
 This log records current alpha preparation. Earlier development history remains in the preserved baseline and local history backup.
 
+## 2026-10-21 — Restore the pre-revision-2 GUI palettes
+
+- Task: none — direct.
+- Changed: Heaven Style returns to the pre-revision-2 Colorful palette and four audited token values. Colorful keeps the white Ollama canvas with its teal accent, colorful option accents, and GitHub-like syntax colors; Light returns to `--muted: #6f6f6f`, while Dark, Utopia, and Dystopia return their code-gutter text colors. The theme guide now names design-system revision 3. Dashboard deliberately keeps its revision-2 beige Colorful palette and documents that difference. Preserved the version freeze.
+- Verified: Palette pages match the HeavenBase-2 resource token-for-token; TypeScript and Python full gates, skill indexing, documentation, and branch parity are checked after the shared skill tree is synchronized.
+- Next: none
+
 ## 2026-09-29 — Consolidate current alpha history
 
 - Task: RELEASE-003.

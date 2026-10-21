@@ -39,7 +39,7 @@ Use the exact Dystopia token values below with the shared theme application rule
   --cm-bg: #1b1b1c;
   --cm-text: #e9ecf2;
   --cm-gutter-bg: #151517;
-  --cm-gutter-text: #81858c;
+  --cm-gutter-text: #a0a4ab;
   --cm-active-line: rgba(86, 134, 254, 0.1);
   --cm-selection: rgba(86, 134, 254, 0.28);
   --cm-search-match: rgba(245, 158, 11, 0.34);

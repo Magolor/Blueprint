@@ -39,7 +39,7 @@ Use the exact Utopia token values below with the shared theme application rules.
   --cm-bg: #ffffff;
   --cm-text: #0f1115;
   --cm-gutter-bg: #f5f6f7;
-  --cm-gutter-text: #81858c;
+  --cm-gutter-text: #686c72;
   --cm-active-line: #f1f3f5;
   --cm-selection: rgba(65, 118, 230, 0.18);
   --cm-search-match: rgba(245, 158, 11, 0.24);

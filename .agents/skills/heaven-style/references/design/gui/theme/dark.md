@@ -39,7 +39,7 @@ Use the exact Dark token values below with the shared theme application rules.
   --cm-bg: #161b22;
   --cm-text: #c9d1d9;
   --cm-gutter-bg: #0d1117;
-  --cm-gutter-text: #6e7681;
+  --cm-gutter-text: #8b949e;
   --cm-active-line: rgba(88, 166, 255, 0.08);
   --cm-selection: rgba(56, 139, 253, 0.28);
   --cm-search-match: rgba(187, 128, 9, 0.34);
