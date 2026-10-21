@@ -2,6 +2,13 @@
 
 This log records current alpha preparation. Earlier development history remains in the preserved baseline and local history backup.
 
+## 2026-10-21 — Keep Colorful on the Light neutral frame
+
+- Task: none — direct.
+- Changed: Design-system revision 5 supersedes the revision-4 Cloud Dancer surface. Colorful now keeps Light's complete Ollama white frame — canvas, surfaces, borders, text, labels, muted text, and code surfaces — and changes only the MUI interaction and status accents plus the Material Design 2 chart colors. Cloud Dancer is removed. Dashboard, HeavenBase-2, and Heaven Style share the revision-5 palette resource. Preserved the version freeze.
+- Verified: Skill palette pages match the Dashboard and HeavenBase-2 resources token-for-token; TypeScript and Python full gates, skill indexing, documentation, and branch parity are checked after the shared skill tree is synchronized.
+- Next: none
+
 ## 2026-10-21 — Unify the six palettes on Material Colorful
 
 - Task: none — direct.
