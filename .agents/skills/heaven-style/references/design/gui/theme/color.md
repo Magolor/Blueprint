@@ -14,11 +14,11 @@ Use the exact Colorful token values below with the shared theme application rule
 ```css
 .theme-color {
   --bg: #ffffff;
-  --surface: #f0eee9;
-  --surface-2: #eae7e0;
-  --surface-3: #dcd8cf;
+  --surface: #fafafa;
+  --surface-2: #f5f5f5;
+  --surface-3: #e5e5e5;
   --text: #171717;
-  --muted: #666666;
+  --muted: #6f6f6f;
   --subtle: #a3a3a3;
   --label: #525252;
   --border: #e5e5e5;
@@ -34,13 +34,13 @@ Use the exact Colorful token values below with the shared theme application rule
   --success: #2e7d32;
   --success-soft: #edf7ed;
   --shadow: 0 12px 34px rgba(22, 22, 19, 0.08);
-  --code-bg: #f0eee9;
+  --code-bg: #fafafa;
   --code-text: #171717;
   --cm-bg: #ffffff;
   --cm-text: #242424;
-  --cm-gutter-bg: #f0eee9;
+  --cm-gutter-bg: #f5f5f5;
   --cm-gutter-text: #666666;
-  --cm-active-line: #f0eee9;
+  --cm-active-line: #f5f5f5;
   --cm-selection: rgba(25, 118, 210, 0.18);
   --cm-search-match: rgba(255, 193, 7, 0.34);
   --cm-search-selected: rgba(255, 152, 0, 0.44);
