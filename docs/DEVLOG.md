@@ -2,6 +2,13 @@
 
 This log records current alpha preparation. Earlier development history remains in the preserved baseline and local history backup.
 
+## 2026-10-21 — Unify the six palettes on Material Colorful
+
+- Task: none — direct.
+- Changed: The six presets are one shared 50-token contract for Dashboard, HeavenBase-2, and Heaven Style. Colorful copies Light's Ollama white theme, replaces its secondary white surfaces with Pantone Cloud Dancer `#F0EEE9`, and then takes the Material interaction and status accents and the Material Design 2 chart colors; text, labels, borders, and syntax remain the Light values, with `--muted` darkened one step for 4.5:1 on Cloud Dancer. The theme guide now names design-system revision 4. Preserved the version freeze.
+- Verified: Skill palette pages match the Dashboard and HeavenBase-2 resources token-for-token; TypeScript and Python full gates, skill indexing, documentation, and branch parity are checked after the shared skill tree is synchronized.
+- Next: none
+
 ## 2026-10-21 — Restore the pre-revision-2 GUI palettes
 
 - Task: none — direct.
