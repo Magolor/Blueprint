@@ -13,14 +13,14 @@ Use six exact palettes for one consistent interface. Theme changes preserve layo
 
 The six themes are alternate atmospheres for one interface, not separate designs. Layout, hierarchy, component meaning, spacing, and relative salience remain stable when the theme changes.
 
-The palette below is design-system revision 2. Durable Heaven Style interfaces support all six themes and keep every listed value exact unless an explicit design-system revision changes the contract. A disposable static artifact may choose one canonical theme. It must not invent a seventh theme or partially recolor only the background and accent. The CSS classes in the palette pages are reference selectors; a host may apply the same tokens through scoped style variables.
+The palette below is design-system revision 3, which restores the pre-revision-2 Colorful palette and four audited token values. Durable Heaven Style interfaces support all six themes and keep every listed value exact unless a later explicit design-system revision changes the contract. A disposable static artifact may choose one canonical theme. It must not invent a seventh theme or partially recolor only the background and accent. The CSS classes in the palette pages are reference selectors; a host may apply the same tokens through scoped style variables.
 
-Light uses a white canvas, black primary actions, neutral supporting surfaces, and colored code syntax confined to code content. Green is reserved for semantic controls. Colorful uses a `#F0EEE9` canvas with restrained accent colors. Utopia and Dystopia use cool neutral layers and blue interaction accents. The declarations below own the exact values.
+Light uses a white canvas, black primary actions, neutral supporting surfaces, and colored code syntax confined to code content. Green is reserved for semantic controls. Colorful keeps the same white Ollama canvas while permitting the established colorful accent, option, and syntax sets for buttons, status, charts, and information. Utopia and Dystopia use cool neutral layers and blue interaction accents. The declarations below own the exact values.
 
 | Short name | Theme name | CSS class | Intent |
 | --- | --- | --- | --- |
 | Light | Ollama White Grayscale | `.theme-light` | Default white, black, and neutral-gray workbench with scoped green semantic controls. |
-| Colorful | Ollama White | `.theme-color` | Warm neutral canvas with the established colorful accent set. |
+| Colorful | Ollama White | `.theme-color` | White workbench with the established colorful accent set. |
 | Warm | Anthropic | `.theme-anthropic` | Warm paper surfaces with slate, ivory, and clay tones.  |
 | Dark | GitHub Soft Dark | `.theme-dark` | Soft developer-dark surfaces with low glare and clear editor syntax. |
 | Utopia | Cool light | `.theme-utopia` | Cool light surfaces with neutral-bluish layers and blue business state. |
