@@ -13,14 +13,14 @@ Use six exact palettes for one consistent interface. Theme changes preserve layo
 
 The six themes are alternate atmospheres for one interface, not separate designs. Layout, hierarchy, component meaning, spacing, and relative salience remain stable when the theme changes.
 
-The palette below is design-system revision 4, which unifies the six presets across Dashboard, HeavenBase-2, and Heaven Style. Durable Heaven Style interfaces support all six themes and keep every listed value exact unless a later explicit design-system revision changes the contract. A disposable static artifact may choose one canonical theme. It must not invent a seventh theme or partially recolor only the background and accent. The CSS classes in the palette pages are reference selectors; a host may apply the same tokens through scoped style variables.
+The palette below is design-system revision 5, which unifies the six presets across Dashboard, HeavenBase-2, and Heaven Style. Durable Heaven Style interfaces support all six themes and keep every listed value exact unless a later explicit design-system revision changes the contract. A disposable static artifact may choose one canonical theme. It must not invent a seventh theme or partially recolor only the background and accent. The CSS classes in the palette pages are reference selectors; a host may apply the same tokens through scoped style variables.
 
-Light uses a white canvas, black primary actions, neutral supporting surfaces, and colored code syntax confined to code content. Green is reserved for semantic controls. Colorful starts from that same Ollama white theme, replaces its secondary white surfaces with Pantone Cloud Dancer `#F0EEE9`, and then takes Material interaction and status accents plus Material Design 2 chart colors; text, labels, borders, and syntax stay the Light values. Utopia and Dystopia use cool neutral layers and blue interaction accents. The declarations below own the exact values.
+Light uses a white canvas, black primary actions, neutral supporting surfaces, and colored code syntax confined to code content. Green is reserved for semantic controls. Colorful keeps that complete Ollama white frame—canvas, surfaces, borders, text, labels, muted text, and code surfaces—and changes only the interaction and semantic colors: the Material interaction and status accents and the Material Design 2 chart colors. Utopia and Dystopia use cool neutral layers and blue interaction accents. The declarations below own the exact values.
 
 | Short name | Theme name | CSS class | Intent |
 | --- | --- | --- | --- |
 | Light | Ollama White Grayscale | `.theme-light` | Default white, black, and neutral-gray workbench with scoped green semantic controls. |
-| Colorful | Ollama White | `.theme-color` | Ollama White frame with Pantone Cloud Dancer secondary surfaces and Material interaction, semantic, and chart accents. |
+| Colorful | Ollama White | `.theme-color` | Ollama White frame with only Material interaction, semantic, and chart accents changed. |
 | Warm | Anthropic | `.theme-anthropic` | Warm paper surfaces with slate, ivory, and clay tones.  |
 | Dark | GitHub Soft Dark | `.theme-dark` | Soft developer-dark surfaces with low glare and clear editor syntax. |
 | Utopia | Cool light | `.theme-utopia` | Cool light surfaces with neutral-bluish layers and blue business state. |
