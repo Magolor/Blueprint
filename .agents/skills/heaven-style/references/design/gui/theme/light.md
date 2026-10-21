@@ -18,7 +18,7 @@ Use the exact Light token values below with the shared theme application rules.
   --surface-2: #f5f5f5;
   --surface-3: #e5e5e5;
   --text: #171717;
-  --muted: #737373;
+  --muted: #6f6f6f;
   --subtle: #a3a3a3;
   --label: #525252;
   --border: #e5e5e5;
