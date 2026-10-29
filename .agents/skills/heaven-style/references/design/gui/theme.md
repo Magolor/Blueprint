@@ -13,18 +13,18 @@ Use six exact palettes for one consistent interface. Theme changes preserve layo
 
 The six themes are alternate atmospheres for one interface, not separate designs. Layout, hierarchy, component meaning, spacing, and relative salience remain stable when the theme changes.
 
-The palette below is design-system revision 6, which unifies the six presets across Dashboard, HeavenBase-2, and Heaven Style. Durable Heaven Style interfaces support all six themes and keep every listed value exact unless a later explicit design-system revision changes the contract. A disposable static artifact may choose one canonical theme. It must not invent a seventh theme or partially recolor only the background and accent. The CSS classes in the palette pages are reference selectors; a host may apply the same tokens through scoped style variables.
+The palette below is design-system revision 7, which unifies the six presets across Dashboard, HeavenBase-2, and Heaven Style. Durable Heaven Style interfaces support all six themes and keep every listed value exact unless a later explicit design-system revision changes the contract. A disposable static artifact may choose one canonical theme. It must not invent a seventh theme or partially recolor only the background and accent. The CSS classes in the palette pages are reference selectors; a host may apply the same tokens through scoped style variables.
 
-Light uses a pure-white (`#ffffff`) canvas, pure-black (`#000000`) borders, black primary actions, neutral supporting surfaces, and colored code syntax confined to code content. Green is reserved for semantic controls. Colorful keeps that complete Ollama white frame—canvas, borders, text, labels, muted text, and code surfaces—and changes only the interaction and semantic colors: the Material interaction and status accents and the Material Design 2 chart colors. Utopia and Dystopia use cool neutral layers and blue interaction accents. The declarations below own the exact values.
+Light uses a pure-white (`#ffffff`) canvas, pure-black (`#000000`) borders, black primary actions, neutral supporting surfaces, and colored code syntax confined to code content. Green is reserved for semantic controls. Colorful returns to the Cloud Dancer frame of design-system revision 4: a white canvas, `#f0eee9` primary surfaces, `#eae7e0` and `#dcd8cf` supporting surfaces, Light's text, label, and subtle values, gray borders, and the Material interaction, status, and chart accents; muted text moves one step darker for contrast on Cloud Dancer. Utopia and Dystopia copy the DeepSeek Harness light and dark palettes; Warm follows Anthropic's paper and clay tones, and Dark follows GitHub Soft Dark. The declarations below own the exact values.
 
 | Short name | Theme name | CSS class | Intent |
 | --- | --- | --- | --- |
-| Light | Ollama White Grayscale | `.theme-light` | Pure-white canvas with pure-black borders, black actions, and neutral-gray supporting surfaces, plus scoped green semantic controls. |
-| Colorful | Ollama White | `.theme-color` | Ollama White frame with pure-black borders and only Material interaction, semantic, and chart accents changed. |
-| Warm | Anthropic | `.theme-anthropic` | Warm paper surfaces with slate, ivory, and clay tones.  |
+| Light | Ollama White Grayscale | `.theme-light` | Pure-white canvas with pure-black borders, black actions, and neutral-gray supporting surfaces; scoped green semantic controls. |
+| Colorful | Cloud Dancer White | `.theme-color` | White canvas with Cloud Dancer surfaces, gray borders, and the Material interaction, semantic, and chart accents. |
+| Warm | Anthropic | `.theme-anthropic` | Anthropic paper surfaces with slate, ivory, and clay tones.  |
 | Dark | GitHub Soft Dark | `.theme-dark` | Soft developer-dark surfaces with low glare and clear editor syntax. |
-| Utopia | Cool light | `.theme-utopia` | Cool light surfaces with neutral-bluish layers and blue business state. |
-| Dystopia | Cool dark | `.theme-dystopia` | Cool dark surfaces with neutral-bluish layers and blue business state. |
+| Utopia | DeepSeek Harness light | `.theme-utopia` | DeepSeek Harness light palette: a white canvas, cool neutral-bluish layers, and deepseek-blue business state. |
+| Dystopia | DeepSeek Harness dark | `.theme-dystopia` | DeepSeek Harness dark palette: low-glare neutral-bluish layers and deepseek-blue business state. |
 
 Every theme maintains parity across:
 
