@@ -21,8 +21,8 @@ Use the exact Light token values below with the shared theme application rules.
   --muted: #6f6f6f;
   --subtle: #a3a3a3;
   --label: #525252;
-  --border: #000000;
-  --border-strong: #000000;
+  --border: #e5e5e5;
+  --border-strong: #d4d4d4;
   --accent: #000000;
   --accent-contrast: #ffffff;
   --accent-2: #333333;
