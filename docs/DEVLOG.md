@@ -5,15 +5,29 @@ This log records current alpha preparation. Earlier development history remains 
 ## 2026-09-29 — Consolidate current alpha history
 
 - Task: RELEASE-003.
-- Changed: Preserved each branch's original root and consolidated the current alpha into one commit per branch. Saved the earlier Git history and release files in a verified backup outside the product trees. Aligned the Chinese installer text with the Python README. Kept the frozen versions and the unrelated `v0.1.2.0` tag.
+- Changed: Preserved each branch's original root and consolidated the current alpha into one commit per branch. Saved the earlier Git history and release files in a verified backup outside the product trees. Kept the frozen versions and the unrelated `v0.1.2.0` tag.
 - Verified: Both branch release gates, two-commit ancestry, shared Heaven Style parity, and source archive checksums passed.
 - Next: none
 
 ## 2026-09-29 — Align Heaven Style GUI guidance
 
 - Task: BP-001.
-- Changed: Matched all six GUI palette maps to Dashboard's accepted preset resource; aligned theme controls, geometry, typography, localization, and browser/desktop composition guidance. Kept the frozen version and shared skill tree.
-- Verified: Palette comparison, skill index/scan/compile checks, both branch gates, branch parity, and byte comparison of the 207 installed skill files passed.
+- Changed: Matched all six GUI palette maps to Dashboard's accepted preset resource; aligned theme controls, geometry, typography, localization, and browser/desktop composition guidance. Kept the frozen version. Synchronized the skill tree to both branches and refreshed the global installation.
+- Verified: Palette comparison, skill index/scan/compile checks, TypeScript `pnpm check` (16 tests and packed consumer), Python full gate (44 tests), branch parity, and byte comparison of all 207 installed skill files passed.
+- Next: none
+
+## 2026-09-18 — Keep prose corrections proportional
+
+- Task: STYLE-005.
+- Changed: Current documentation and comments now state accepted behavior and maintained invariants without correction-history narration. Minor documentation and PR edits remain local unless they materially change the artifact's purpose, reader outcome, review risk, or evidence. Preserved the version freeze.
+- Verified: TypeScript full gate passed with 16 tests and packed consumer verification. Python full gate passed with 44 tests. Both product branches contain the same skill tree, and every tracked file matches the refreshed global installation.
+- Next: none
+
+## 2026-09-18 — Add repository-native and least-surprise rules
+
+- Task: STYLE-004.
+- Changed: Made clear repository rules authoritative over Heaven Style defaults and defined confirmed local evidence for repository-native implementation. Added a least-surprise interface test covering ownership, verbs, arguments, results, effects, errors, and lifecycle; routed it through both TypeScript and Python API and naming guidance. Preserved the version freeze.
+- Verified: TypeScript full gate passed with 16 tests and packed consumer verification. Python full gate passed with 44 tests. Skill indexing, dependency scanning, script compilation, documentation, formatting, lint, types, and package checks passed. Both product branches contain the same skill tree, and every tracked file matches the refreshed global installation.
 - Next: none
 
 ## 2026-09-09 — Consolidate corrected alpha release

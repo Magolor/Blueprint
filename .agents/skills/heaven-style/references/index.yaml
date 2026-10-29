@@ -4,7 +4,7 @@ skill:
   name: heaven-style
   version: 0.2.0-alpha.1
   description: Use when coding, designing, reviewing, or writing documentation in TypeScript or Python projects.
-  source_digest: sha256:2bc3bdcf7a82ab9ca725ad2b7aef31492b4408771a8d2138adc4e76f652d8b26
+  source_digest: sha256:a506aa589ffdf5cd2341acdc7b6e1bea811288793c7d13e82fbe5d8fc91f50e3
 entrypoints:
   default: SKILL.md
   start: references/roles/README.md
