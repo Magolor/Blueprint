@@ -51,16 +51,16 @@ Use the exact Light token values below with the shared theme application rules.
   --cm-token-number: #985226;
   --cm-token-variable: #a43b57;
   --cm-token-comment: #666666;
-  --option-accent-0: #000000;
-  --option-accent-1: #404040;
-  --option-accent-2: #525252;
-  --option-accent-3: #595959;
-  --option-accent-4: #666666;
-  --option-accent-5: #383838;
-  --option-accent-6: #4a4a4a;
-  --option-accent-7: #737373;
-  --option-accent-8: #555555;
-  --option-accent-9: #616161;
+  --option-accent-0: #818cf8;
+  --option-accent-1: #60a5fa;
+  --option-accent-2: #22d3ee;
+  --option-accent-3: #2dd4bf;
+  --option-accent-4: #34d399;
+  --option-accent-5: #a3e635;
+  --option-accent-6: #fbbf24;
+  --option-accent-7: #fb923c;
+  --option-accent-8: #fb7185;
+  --option-accent-9: #c084fc;
   --progress-fill: #111111;
   --progress-sheen: #ffffff;
 }
