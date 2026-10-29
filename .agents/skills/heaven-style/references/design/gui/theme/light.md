@@ -27,12 +27,12 @@ Use the exact Light token values below with the shared theme application rules.
   --accent-contrast: #ffffff;
   --accent-2: #333333;
   --accent-soft: #f5f5f5;
-  --danger: #b54545;
-  --danger-soft: #f6e3e1;
-  --warning: #a06419;
-  --warning-soft: #f4eadc;
-  --success: #16a34a;
-  --success-soft: #dcfce7;
+  --danger: #d32f2f;
+  --danger-soft: #fdecea;
+  --warning: #ed6c02;
+  --warning-soft: #fff4e5;
+  --success: #2e7d32;
+  --success-soft: #edf7ed;
   --shadow: 0 12px 34px rgba(22, 22, 19, 0.08);
   --code-bg: #fafafa;
   --code-text: #171717;

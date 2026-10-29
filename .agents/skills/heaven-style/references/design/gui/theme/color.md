@@ -13,20 +13,20 @@ Use the exact Colorful token values below with the shared theme application rule
 
 ```css
 .theme-color {
-  --bg: #ffffff;
-  --surface: #fafafa;
-  --surface-2: #f5f5f5;
-  --surface-3: #e5e5e5;
-  --text: #171717;
-  --muted: #6f6f6f;
-  --subtle: #a3a3a3;
-  --label: #525252;
-  --border: #e5e5e5;
-  --border-strong: #d4d4d4;
-  --accent: #1976d2;
+  --bg: #f0eee9;
+  --surface: #fbfaf7;
+  --surface-2: #eae7e0;
+  --surface-3: #dcd8cf;
+  --text: #242320;
+  --muted: #66635d;
+  --subtle: #8b877f;
+  --label: #56534d;
+  --border: #dcd8cf;
+  --border-strong: #b9b4a9;
+  --accent: #3e69a6;
   --accent-contrast: #ffffff;
-  --accent-2: #7b1fa2;
-  --accent-soft: #e3f2fd;
+  --accent-2: #2e5489;
+  --accent-soft: #dce6f2;
   --danger: #d32f2f;
   --danger-soft: #fdecea;
   --warning: #ed6c02;
@@ -34,16 +34,16 @@ Use the exact Colorful token values below with the shared theme application rule
   --success: #2e7d32;
   --success-soft: #edf7ed;
   --shadow: 0 12px 34px rgba(22, 22, 19, 0.08);
-  --code-bg: #fafafa;
-  --code-text: #171717;
-  --cm-bg: #ffffff;
-  --cm-text: #242424;
-  --cm-gutter-bg: #f5f5f5;
-  --cm-gutter-text: #666666;
-  --cm-active-line: #f5f5f5;
-  --cm-selection: rgba(25, 118, 210, 0.18);
-  --cm-search-match: rgba(255, 193, 7, 0.34);
-  --cm-search-selected: rgba(255, 152, 0, 0.44);
+  --code-bg: #f7f5f0;
+  --code-text: #242320;
+  --cm-bg: #fbfaf7;
+  --cm-text: #242320;
+  --cm-gutter-bg: #f0eee9;
+  --cm-gutter-text: #68645d;
+  --cm-active-line: #f0eee9;
+  --cm-selection: rgba(62, 105, 166, 0.2);
+  --cm-search-match: rgba(191, 135, 0, 0.24);
+  --cm-search-selected: rgba(191, 135, 0, 0.36);
   --cm-token-class: #7545ad;
   --cm-token-property: #126963;
   --cm-token-enum: #875024;
@@ -61,7 +61,7 @@ Use the exact Colorful token values below with the shared theme application rule
   --option-accent-7: #0097a7;
   --option-accent-8: #00796b;
   --option-accent-9: #388e3c;
-  --progress-fill: #1976d2;
+  --progress-fill: #2f63a8;
   --progress-sheen: #ffffff;
 }
 ```
